@@ -70,20 +70,20 @@ const Profile: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-netflix-black flex items-center justify-center">
+      <div className="min-h-screen bg-bridge-navy flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-netflix-white mb-4">Please log in to view your profile</h1>
-          <p className="text-gray-400">You need to be authenticated to access this page.</p>
+          <h1 className="text-2xl font-bold text-bridge-white mb-4">Please log in to view your profile</h1>
+          <p className="text-bridge-gray">You need to be authenticated to access this page.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-netflix-black">
+    <div className="min-h-screen bg-bridge-navy">
       <div className="container mx-auto px-4 py-8">
         {/* Profile Header */}
-        <div className="bg-netflix-dark-gray rounded-lg p-8 mb-8">
+        <div className="bg-bridge-dark rounded-lg p-8 mb-8">
           <div className="flex items-center space-x-6">
             <img
               src={user?.profileUrl || `https://placehold.co/120x120/333333/ffffff?text=${user?.username?.charAt(0).toUpperCase() || 'U'}`}
@@ -94,10 +94,10 @@ const Profile: React.FC = () => {
               }}
             />
             <div>
-              <h1 className="text-3xl font-bold text-netflix-white mb-2">{user?.username}</h1>
-              <p className="text-gray-300 mb-1">{user?.email}</p>
-              <p className="text-gray-400 text-sm capitalize">Role: {user?.role}</p>
-              {(user as any)?.bio && <p className="text-gray-300 mt-2">{(user as any).bio}</p>}
+              <h1 className="text-3xl font-bold text-bridge-white mb-2">{user?.username}</h1>
+              <p className="text-bridge-white mb-1">{user?.email}</p>
+              <p className="text-bridge-gray text-sm capitalize">Role: {user?.role}</p>
+              {(user as any)?.bio && <p className="text-bridge-white mt-2">{(user as any).bio}</p>}
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@ const Profile: React.FC = () => {
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === tab.key
                   ? 'text-netflix-red border-b-2 border-netflix-red'
-                  : 'text-gray-300 hover:text-white'
+                  : 'text-bridge-white hover:text-white'
               }`}
             >
               {tab.label}
@@ -127,9 +127,9 @@ const Profile: React.FC = () => {
         {/* Tab Content */}
         <div className="min-h-96">
           {activeTab === 'profile' && (
-            <div className="bg-netflix-dark-gray rounded-lg p-8">
+            <div className="bg-bridge-dark rounded-lg p-8">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-netflix-white">Profile Information</h2>
+                <h2 className="text-2xl font-bold text-bridge-white">Profile Information</h2>
                 <button
                   onClick={() => setIsEditing(!isEditing)}
                   className="bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded transition-colors duration-200"
@@ -141,7 +141,7 @@ const Profile: React.FC = () => {
               {isEditing ? (
                 <form onSubmit={handleEditSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-gray-300 mb-2">Username</label>
+                    <label className="block text-bridge-white mb-2">Username</label>
                     <input
                       type="text"
                       name="username"
@@ -151,7 +151,7 @@ const Profile: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-300 mb-2">Email</label>
+                    <label className="block text-bridge-white mb-2">Email</label>
                     <input
                       type="email"
                       name="email"
@@ -161,7 +161,7 @@ const Profile: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-gray-300 mb-2">Bio</label>
+                    <label className="block text-bridge-white mb-2">Bio</label>
                     <textarea
                       name="bio"
                       value={editForm.bio}
@@ -189,24 +189,24 @@ const Profile: React.FC = () => {
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <span className="text-gray-400">Username:</span>
+                    <span className="text-bridge-gray">Username:</span>
                     <p className="text-white">{user?.username}</p>
                   </div>
                   <div>
-                    <span className="text-gray-400">Email:</span>
+                    <span className="text-bridge-gray">Email:</span>
                     <p className="text-white">{user?.email}</p>
                   </div>
                   <div>
-                    <span className="text-gray-400">Role:</span>
+                    <span className="text-bridge-gray">Role:</span>
                     <p className="text-white capitalize">{user?.role}</p>
                   </div>
                   <div>
-                    <span className="text-gray-400">Member since:</span>
+                    <span className="text-bridge-gray">Member since:</span>
                     <p className="text-white">{new Date((user as any)?.createdAt || '').toLocaleDateString()}</p>
                   </div>
                   {(user as any)?.bio && (
                     <div>
-                      <span className="text-gray-400">Bio:</span>
+                      <span className="text-bridge-gray">Bio:</span>
                       <p className="text-white">{(user as any).bio}</p>
                     </div>
                   )}
@@ -217,7 +217,7 @@ const Profile: React.FC = () => {
 
           {activeTab === 'favorites' && (
             <div>
-              <h2 className="text-2xl font-bold text-netflix-white mb-6">My List</h2>
+              <h2 className="text-2xl font-bold text-bridge-white mb-6">My List</h2>
               {favoritesLoading ? (
                 <div className="flex justify-center py-12">
                   <motion.div
@@ -238,7 +238,7 @@ const Profile: React.FC = () => {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <div className="text-gray-400 text-xl mb-4">No favorites yet</div>
+                  <div className="text-bridge-gray text-xl mb-4">No favorites yet</div>
                   <p className="text-gray-500">Start adding movies and TV shows to your list</p>
                 </div>
               )}
@@ -247,7 +247,7 @@ const Profile: React.FC = () => {
 
           {activeTab === 'history' && (
             <div>
-              <h2 className="text-2xl font-bold text-netflix-white mb-6">Watch History</h2>
+              <h2 className="text-2xl font-bold text-bridge-white mb-6">Watch History</h2>
               {historyLoading ? (
                 <div className="flex justify-center py-12">
                   <motion.div
@@ -259,7 +259,7 @@ const Profile: React.FC = () => {
               ) : watchHistory && watchHistory.length > 0 ? (
                 <div className="space-y-4">
                   {watchHistory.map((item) => (
-                    <div key={item._id} className="bg-netflix-dark-gray rounded-lg p-4 flex items-center space-x-4">
+                    <div key={item._id} className="bg-bridge-dark rounded-lg p-4 flex items-center space-x-4">
                       <img
                         src={item.posterFileUrl || item.thumbnail_url_s3 || `https://placehold.co/80x120/141414/ffffff?text=${item.title}`}
                         alt={item.title}
@@ -267,8 +267,8 @@ const Profile: React.FC = () => {
                       />
                       <div className="flex-1">
                         <h3 className="text-white font-semibold">{item.title}</h3>
-                        <p className="text-gray-400 text-sm capitalize">{item.contentType}</p>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-bridge-gray text-sm capitalize">{item.contentType}</p>
+                        <p className="text-bridge-gray text-sm">
                           Watched {new Date(item.watchedAt).toLocaleDateString()}
                         </p>
                         <div className="w-full bg-netflix-gray rounded-full h-2 mt-2">
@@ -277,14 +277,14 @@ const Profile: React.FC = () => {
                             style={{ width: `${item.progress}%` }}
                           />
                         </div>
-                        <span className="text-gray-400 text-xs">{item.progress}% watched</span>
+                        <span className="text-bridge-gray text-xs">{item.progress}% watched</span>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
                 <div className="text-center py-12">
-                  <div className="text-gray-400 text-xl mb-4">No watch history</div>
+                  <div className="text-bridge-gray text-xl mb-4">No watch history</div>
                   <p className="text-gray-500">Start watching content to see your history here</p>
                 </div>
               )}
@@ -292,22 +292,22 @@ const Profile: React.FC = () => {
           )}
 
           {activeTab === 'settings' && (
-            <div className="bg-netflix-dark-gray rounded-lg p-8">
-              <h2 className="text-2xl font-bold text-netflix-white mb-6">Account Settings</h2>
+            <div className="bg-bridge-dark rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-bridge-white mb-6">Account Settings</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-netflix-white mb-4">Notifications</h3>
+                  <h3 className="text-lg font-semibold text-bridge-white mb-4">Notifications</h3>
                   <div className="space-y-3">
-                    <label className="flex items-center gap-3 text-gray-300">
+                    <label className="flex items-center gap-3 text-bridge-white">
                       <input type="checkbox" defaultChecked className="rounded focus:ring-2 focus:ring-netflix-red" />
                       Email notifications
                     </label>
-                    <label className="flex items-center gap-3 text-gray-300">
+                    <label className="flex items-center gap-3 text-bridge-white">
                       <input type="checkbox" defaultChecked className="rounded focus:ring-2 focus:ring-netflix-red" />
                       Push notifications
                     </label>
-                    <label className="flex items-center gap-3 text-gray-300">
+                    <label className="flex items-center gap-3 text-bridge-white">
                       <input type="checkbox" className="rounded focus:ring-2 focus:ring-netflix-red" />
                       Marketing emails
                     </label>
@@ -315,9 +315,9 @@ const Profile: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-netflix-white mb-4">Privacy</h3>
+                  <h3 className="text-lg font-semibold text-bridge-white mb-4">Privacy</h3>
                   <div className="space-y-3">
-                    <label className="flex items-center gap-3 text-gray-300">
+                    <label className="flex items-center gap-3 text-bridge-white">
                       <select className="bg-netflix-gray text-white px-3 py-1 rounded focus:outline-none focus:ring-2 focus:ring-netflix-red">
                         <option value="public">Public Profile</option>
                         <option value="private">Private Profile</option>
@@ -328,7 +328,7 @@ const Profile: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-netflix-white mb-4">Security</h3>
+                  <h3 className="text-lg font-semibold text-bridge-white mb-4">Security</h3>
                   <div className="space-y-3">
                     <button className="bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded transition-colors duration-200">
                       Change Password
