@@ -56,9 +56,9 @@ const Admin: React.FC = () => {
   // Check if user is admin
   if (!isAuthenticated || user?.role !== 'admin') {
     return (
-      <div className="min-h-screen bg-netflix-black flex items-center justify-center">
+      <div className="min-h-screen bg-bridge-navy flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-netflix-white mb-4">Access Denied</h1>
+          <h1 className="text-2xl font-bold text-bridge-white mb-4">Access Denied</h1>
           <p className="text-gray-400">You need admin privileges to access this page.</p>
         </div>
       </div>
@@ -66,11 +66,11 @@ const Admin: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-netflix-black">
+    <div className="min-h-screen bg-bridge-navy">
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-netflix-white mb-4">Admin Dashboard</h1>
+          <h1 className="text-4xl font-bold text-bridge-white mb-4">Admin Dashboard</h1>
           <p className="text-gray-400">Manage your platform and monitor system performance</p>
         </div>
 
@@ -88,7 +88,7 @@ const Admin: React.FC = () => {
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === tab.key
                   ? 'text-netflix-red border-b-2 border-netflix-red'
-                  : 'text-gray-300 hover:text-white'
+                  : 'text-bridge-white hover:text-white'
               }`}
             >
               {tab.label}
@@ -110,7 +110,7 @@ const Admin: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-400 text-sm">Total Users</p>
-                      <p className="text-2xl font-bold text-netflix-white">{stats?.totalUsers || 0}</p>
+                      <p className="text-2xl font-bold text-bridge-white">{stats?.totalUsers || 0}</p>
                     </div>
                     <div className="bg-blue-500 p-3 rounded-full">
                       <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -129,7 +129,7 @@ const Admin: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-400 text-sm">Total Content</p>
-                      <p className="text-2xl font-bold text-netflix-white">{stats?.totalContent || 0}</p>
+                      <p className="text-2xl font-bold text-bridge-white">{stats?.totalContent || 0}</p>
                     </div>
                     <div className="bg-green-500 p-3 rounded-full">
                       <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -148,7 +148,7 @@ const Admin: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-400 text-sm">Total Revenue</p>
-                      <p className="text-2xl font-bold text-netflix-white">${stats?.totalRevenue || 0}</p>
+                      <p className="text-2xl font-bold text-bridge-white">${stats?.totalRevenue || 0}</p>
                     </div>
                     <div className="bg-yellow-500 p-3 rounded-full">
                       <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -168,7 +168,7 @@ const Admin: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-gray-400 text-sm">Active Subscriptions</p>
-                      <p className="text-2xl font-bold text-netflix-white">{stats?.activeSubscriptions || 0}</p>
+                      <p className="text-2xl font-bold text-bridge-white">{stats?.activeSubscriptions || 0}</p>
                     </div>
                     <div className="bg-purple-500 p-3 rounded-full">
                       <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -181,7 +181,7 @@ const Admin: React.FC = () => {
 
               {/* Recent Activity */}
               <div className="bg-netflix-dark-gray rounded-lg p-6">
-                <h2 className="text-xl font-bold text-netflix-white mb-4">Recent Activity</h2>
+                <h2 className="text-xl font-bold text-bridge-white mb-4">Recent Activity</h2>
                 <div className="space-y-4">
                   <div className="flex items-center space-x-4 p-3 bg-netflix-gray rounded">
                     <div className="bg-green-500 p-2 rounded-full">
@@ -213,7 +213,7 @@ const Admin: React.FC = () => {
           {activeTab === 'users' && (
             <div className="bg-netflix-dark-gray rounded-lg p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-netflix-white">User Management</h2>
+                <h2 className="text-xl font-bold text-bridge-white">User Management</h2>
                 <button className="bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded transition-colors duration-200">
                   Add User
                 </button>
@@ -244,7 +244,7 @@ const Admin: React.FC = () => {
                       {users?.users?.map((user) => (
                         <tr key={user._id} className="border-b border-netflix-gray">
                           <td className="py-3 px-4 text-white">{user.username}</td>
-                          <td className="py-3 px-4 text-gray-300">{user.email}</td>
+                          <td className="py-3 px-4 text-bridge-white">{user.email}</td>
                           <td className="py-3 px-4">
                             <span className={`px-2 py-1 rounded text-xs ${
                               user.role === 'admin' ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'
@@ -259,7 +259,7 @@ const Admin: React.FC = () => {
                               {user.isActive ? 'Active' : 'Inactive'}
                             </span>
                           </td>
-                          <td className="py-3 px-4 text-gray-300">
+                          <td className="py-3 px-4 text-bridge-white">
                             {new Date(user.createdAt).toLocaleDateString()}
                           </td>
                           <td className="py-3 px-4">
@@ -280,7 +280,7 @@ const Admin: React.FC = () => {
           {activeTab === 'content' && (
             <div className="bg-netflix-dark-gray rounded-lg p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-netflix-white">Content Management</h2>
+                <h2 className="text-xl font-bold text-bridge-white">Content Management</h2>
                 <div className="flex space-x-2">
                   <button className="bg-netflix-gray hover:bg-gray-600 text-white px-4 py-2 rounded transition-colors duration-200">
                     Pending
@@ -333,8 +333,8 @@ const Admin: React.FC = () => {
                               {item.status}
                             </span>
                           </td>
-                          <td className="py-3 px-4 text-gray-300">{item.creator}</td>
-                          <td className="py-3 px-4 text-gray-300">
+                          <td className="py-3 px-4 text-bridge-white">{item.creator}</td>
+                          <td className="py-3 px-4 text-bridge-white">
                             {new Date(item.createdAt).toLocaleDateString()}
                           </td>
                           <td className="py-3 px-4">
@@ -355,14 +355,14 @@ const Admin: React.FC = () => {
 
           {activeTab === 'settings' && (
             <div className="bg-netflix-dark-gray rounded-lg p-6">
-              <h2 className="text-xl font-bold text-netflix-white mb-6">System Settings</h2>
+              <h2 className="text-xl font-bold text-bridge-white mb-6">System Settings</h2>
               
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-lg font-semibold text-netflix-white mb-4">General Settings</h3>
+                  <h3 className="text-lg font-semibold text-bridge-white mb-4">General Settings</h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-300">Maintenance Mode</span>
+                      <span className="text-bridge-white">Maintenance Mode</span>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" className="sr-only peer" />
                         <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-netflix-red"></div>
@@ -370,7 +370,7 @@ const Admin: React.FC = () => {
                     </div>
                     
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-300">User Registration</span>
+                      <span className="text-bridge-white">User Registration</span>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" defaultChecked className="sr-only peer" />
                         <div className="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-netflix-red"></div>
@@ -380,10 +380,10 @@ const Admin: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold text-netflix-white mb-4">Content Settings</h3>
+                  <h3 className="text-lg font-semibold text-bridge-white mb-4">Content Settings</h3>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-gray-300 mb-2">Max Upload Size (MB)</label>
+                      <label className="block text-bridge-white mb-2">Max Upload Size (MB)</label>
                       <input
                         type="number"
                         defaultValue="1024"
@@ -392,7 +392,7 @@ const Admin: React.FC = () => {
                     </div>
                     
                     <div>
-                      <label className="block text-gray-300 mb-2">Allowed File Types</label>
+                      <label className="block text-bridge-white mb-2">Allowed File Types</label>
                       <input
                         type="text"
                         defaultValue="mp4, avi, mov, mkv"
