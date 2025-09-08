@@ -10,8 +10,6 @@ const Changed: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [featuredVerseData] = useState<any>(null);
-  const [selectedDonationAmount, setSelectedDonationAmount] = useState<number | null>(null);
-  const [customAmount, setCustomAmount] = useState<string>('');
   
   // Extract query parameters
   const lang = searchParams.get('lang');
@@ -82,23 +80,6 @@ const Changed: React.FC = () => {
   };
 
 
-  const handleCustomDonation = () => {
-    const amount = parseFloat(customAmount);
-    if (amount > 0) {
-      setSelectedDonationAmount(amount);
-      // Here you would integrate with your payment processor
-      console.log(`Processing donation of $${amount}`);
-      // For now, just show an alert
-      alert(`Thank you for your donation of $${amount}! This will help support our translation work.`);
-    }
-  };
-
-  const handlePresetDonation = (amount: number) => {
-    // Here you would integrate with your payment processor
-    console.log(`Processing donation of $${amount}`);
-    // For now, just show an alert
-    alert(`Thank you for your donation of $${amount}! This will help support our translation work.`);
-  };
   
   return (
     <div className="min-h-screen bg-netflix-black">
@@ -223,103 +204,18 @@ const Changed: React.FC = () => {
               
               {/* CTA */}
               <div className="text-center mt-12">
-                <div className="mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    Support Translation Work
-                  </h3>
-                  <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-                    Help us bring accurate Bible translations to more languages. Your support enables us to research, 
-                    analyze, and provide faithful translations that preserve doctrinal truth.
-                  </p>
-                  
-                  {/* Donation Amounts */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 max-w-2xl mx-auto">
-                    {[25, 50, 100, 250].map((amount) => (
-                      <motion.button
-                        key={amount}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handlePresetDonation(amount)}
-                        className={`px-4 py-3 rounded-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl ${
-                          selectedDonationAmount === amount
-                            ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white ring-2 ring-green-400'
-                            : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white'
-                        }`}
-                      >
-                        ${amount}
-                      </motion.button>
-                    ))}
-                  </div>
-                  
-                  {/* Custom Amount */}
-                  <div className="mb-6">
-                    <input
-                      type="number"
-                      placeholder="Custom amount"
-                      value={customAmount}
-                      onChange={(e) => {
-                        setCustomAmount(e.target.value);
-                        setSelectedDonationAmount(null); // Clear preset selection
-                      }}
-                      className="bg-netflix-dark-gray border border-gray-600 text-white px-4 py-2 rounded-lg mr-2 focus:outline-none focus:border-netflix-red"
-                    />
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleCustomDonation}
-                      disabled={!customAmount || parseFloat(customAmount) <= 0}
-                      className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                        !customAmount || parseFloat(customAmount) <= 0
-                          ? 'bg-gray-500 text-gray-300 cursor-not-allowed'
-                          : 'bg-blue-600 hover:bg-blue-700 text-white'
-                      }`}
-                    >
-                      Donate
-                    </motion.button>
-                  </div>
-                  
-                  {/* Translation Impact */}
-                  <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-2xl p-6 mb-6">
-                    <h4 className="text-lg font-semibold text-white mb-3">Your Impact</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-400">$25</div>
-                        <div className="text-gray-300">Supports 1 verse analysis</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-blue-400">$100</div>
-                        <div className="text-gray-300">Funds 1 chapter research</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-purple-400">$500</div>
-                        <div className="text-gray-300">Enables 1 book translation</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Live Example Button */}
+                {/* Back to Bible Reader Button */}
                 <div className="border-t border-gray-700 pt-6">
                   <h4 className="text-lg font-semibold text-white mb-4">
-                    See Translation Changes in Action
+                    Continue Reading the Bible
                   </h4>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => {
-                      if (featuredVerseData) {
-                        // Use the current featured verse data
-                        const [book, chapter, verse] = featuredVerseData.reference.split(':').map(Number);
-                        // Use English and KJV as the base for comparison since the featured verse shows KJV baseline
-                        navigate(`/changed?lang=eng&source=kjv&book=${book}&chapter=${chapter}&verse=${verse}`);
-                      } else {
-                        // Fallback to a known changed verse (John 1:18)
-                        navigate('/changed?lang=eng&source=kjv&book=43&chapter=1&verse=18');
-                      }
-                    }}
+                    onClick={() => navigate('/bible')}
                     className="bg-gradient-to-r from-netflix-red to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
-                    {featuredVerseData ? `Analyze ${featuredVerseData.bookName}` : 'See a Live Example'}
+                    Go Back to Read
                   </motion.button>
                 </div>
               </div>
