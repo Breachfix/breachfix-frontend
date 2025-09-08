@@ -241,7 +241,7 @@ const Media: React.FC = () => {
     return (
       <div className="bg-gray-800 p-4 rounded-lg mb-4 text-xs">
         <h3 className="text-white font-bold mb-2">Debug Info:</h3>
-        <div className="text-gray-300 space-y-1">
+        <div className="text-bridge-white space-y-1">
           <div>Backend Health: {healthError ? '❌ Failed' : healthStatus ? '✅ OK' : '⏳ Checking...'}</div>
           <div>Genres Loading: {genresLoading ? 'Yes' : 'No'}</div>
           <div>Genres Error: {genresError ? genresError.message : 'None'}</div>
@@ -324,23 +324,23 @@ const Media: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-netflix-black">
+    <div className="min-h-screen bg-bridge-navy">
       <div className="w-full px-4 py-8">
         {/* Debug Info (Development Only) */}
         <DebugInfo />
         
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-netflix-white mb-4">Media</h1>
+          <h1 className="text-4xl font-bold text-bridge-white mb-4">Media</h1>
           
           {/* Tab Navigation */}
-          <div className="flex space-x-1 bg-netflix-dark-gray rounded-lg p-1 mb-6">
+          <div className="flex space-x-1 bg-bridge-dark rounded-lg p-1 mb-6">
             <button
               onClick={() => handleTabChange('movies')}
               className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                 activeTab === 'movies'
-                  ? 'bg-netflix-red text-white'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-bridge-gold text-bridge-navy'
+                  : 'text-bridge-white hover:text-bridge-white'
               }`}
             >
               Movies
@@ -349,8 +349,8 @@ const Media: React.FC = () => {
               onClick={() => handleTabChange('tvshows')}
               className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                 activeTab === 'tvshows'
-                  ? 'bg-netflix-red text-white'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-bridge-gold text-bridge-navy'
+                  : 'text-bridge-white hover:text-bridge-white'
               }`}
             >
               TV Shows
@@ -359,8 +359,8 @@ const Media: React.FC = () => {
               onClick={() => handleTabChange('episodes')}
               className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                 activeTab === 'episodes'
-                  ? 'bg-netflix-red text-white'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-bridge-gold text-bridge-navy'
+                  : 'text-bridge-white hover:text-bridge-white'
               }`}
             >
               Episodes
@@ -370,8 +370,8 @@ const Media: React.FC = () => {
                 onClick={() => handleTabChange('upload')}
                 className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                   activeTab === 'upload'
-                    ? 'bg-netflix-red text-white'
-                    : 'text-gray-300 hover:text-white'
+                    ? 'bg-bridge-gold text-bridge-navy'
+                    : 'text-bridge-white hover:text-bridge-white'
                 }`}
               >
                 Upload
@@ -381,7 +381,7 @@ const Media: React.FC = () => {
 
           {/* Search and Filters */}
           {activeTab !== 'upload' && (
-            <div className="bg-netflix-dark-gray rounded-lg p-6 mb-6">
+            <div className="bg-bridge-dark rounded-lg p-6 mb-6">
               <form onSubmit={handleSearch} className="mb-4">
                 <div className="flex gap-4">
                   <input
@@ -404,7 +404,7 @@ const Media: React.FC = () => {
               <div className="flex flex-wrap gap-4 items-center">
                 {/* Genre Filter */}
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-gray-300">Genres:</span>
+                  <span className="text-bridge-white">Genres:</span>
                   {genresLoading ? (
                     <span className="text-gray-500 text-sm">Loading genres...</span>
                   ) : genres && Array.isArray(genres) && genres.length > 0 ? (
@@ -414,8 +414,8 @@ const Media: React.FC = () => {
                         onClick={() => handleGenreChange(genre.slug)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                           selectedGenre === genre.slug
-                            ? 'bg-netflix-red text-white'
-                            : 'bg-netflix-gray text-gray-300 hover:bg-gray-600'
+                            ? 'bg-bridge-gold text-bridge-navy'
+                            : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
                         }`}
                       >
                         {genre.name}
@@ -431,15 +431,15 @@ const Media: React.FC = () => {
                 {/* Status Filter (TV Shows only) */}
                 {activeTab === 'tvshows' && (
                   <div className="flex flex-wrap gap-2">
-                    <span className="text-gray-300">Status:</span>
+                    <span className="text-bridge-white">Status:</span>
                     {['ongoing', 'completed', 'cancelled'].map((status) => (
                       <button
                         key={status}
                         onClick={() => handleStatusChange(status)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                           statusFilter === status
-                            ? 'bg-netflix-red text-white'
-                            : 'bg-netflix-gray text-gray-300 hover:bg-gray-600'
+                            ? 'bg-bridge-gold text-bridge-navy'
+                            : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
                         }`}
                       >
                         {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -450,7 +450,7 @@ const Media: React.FC = () => {
 
                 {/* Sort Options */}
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-300">Sort by:</span>
+                  <span className="text-bridge-white">Sort by:</span>
                   <select
                     value={`${sortBy}-${order}`}
                     onChange={(e) => {
@@ -471,7 +471,7 @@ const Media: React.FC = () => {
                 </div>
 
                 {/* Free Only Toggle */}
-                <label className="flex items-center gap-2 text-gray-300">
+                <label className="flex items-center gap-2 text-bridge-white">
                   <input
                     type="checkbox"
                     checked={isFreeOnly}
@@ -565,7 +565,7 @@ const Media: React.FC = () => {
                   Previous
                 </button>
                 
-                <span className="text-gray-300 px-4">
+                <span className="text-bridge-white px-4">
                   Page {currentPage} of {moviesData.pages}
                 </span>
                 
@@ -679,7 +679,7 @@ const Media: React.FC = () => {
                 <p className="text-gray-500">Featured and trending TV shows will appear here once content is available.</p>
                 {String(import.meta.env.DEV) === 'true' && (
                   <div className="mt-4 p-4 bg-gray-800 rounded-lg text-left">
-                    <div className="text-gray-300 text-sm font-semibold mb-2">Debug Info:</div>
+                    <div className="text-bridge-white text-sm font-semibold mb-2">Debug Info:</div>
                     <div className="text-gray-400 text-xs space-y-1">
                       <div>Featured TV Shows: {featuredTVShows ? 'Loaded' : 'Not loaded'}</div>
                       <div>Trending TV Shows: {trendingTVShows ? 'Loaded' : 'Not loaded'}</div>
@@ -702,7 +702,7 @@ const Media: React.FC = () => {
                   Previous
                 </button>
                 
-                <span className="text-gray-300 px-4">
+                <span className="text-bridge-white px-4">
                   Page {currentPage} of {tvShowsData.pages}
                 </span>
                 
@@ -815,7 +815,7 @@ const Media: React.FC = () => {
                   Previous
                 </button>
                 
-                <span className="text-gray-300 px-4">
+                <span className="text-bridge-white px-4">
                   Page {currentPage} of {episodesData.pages}
                 </span>
                 
