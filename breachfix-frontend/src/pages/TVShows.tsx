@@ -40,7 +40,9 @@ const TVShows: React.FC = () => {
     staleTime: 1000 * 60 * 5
   });
 
-  const { data: featuredTVShows, error: featuredError } = useMediaApi.tvshows.useFeatured(10, undefined, undefined, {
+  const { data: featuredTVShows, error: featuredError } = useMediaApi.tvshows.useFeatured({
+    limit: 10
+  }, {
     staleTime: 1000 * 60 * 5,
     retry: 1
   });
@@ -87,7 +89,7 @@ const TVShows: React.FC = () => {
           <div>Genres Error: {genresError ? genresError.message : 'None'}</div>
           <div>Genres Count: {genres?.length || 0}</div>
           <div>Featured Error: {featuredError ? featuredError.message : 'None'}</div>
-          <div>Featured Count: {featuredTVShows?.length || 0}</div>
+          <div>Featured Count: {(featuredTVShows as any)?.length || 0}</div>
           <div>API Base URL: {String(import.meta.env.VITE_API_BASE_URL || 'Not set')}</div>
         </div>
       </div>
@@ -247,11 +249,11 @@ const TVShows: React.FC = () => {
         </div>
 
         {/* Featured Section - Use trending as fallback if featured fails */}
-        {(!featuredError && featuredTVShows && featuredTVShows.length > 0) ? (
+        {(!featuredError && featuredTVShows && (featuredTVShows as any).length > 0) ? (
           <div className="mb-8">
             <MovieCarousel 
               title="Featured TV Shows"
-              movies={featuredTVShows} 
+              movies={featuredTVShows as any} 
               baseUrl="/tvshows" 
             />
           </div>

@@ -4,15 +4,6 @@ import { useApi } from '../hooks/useApi';
 import { motion } from 'framer-motion';
 import MovieCard from '../components/media/MovieCard';
 
-interface User {
-  _id: string;
-  username: string;
-  email: string;
-  role: string;
-  profileUrl: string;
-  bio?: string;
-  createdAt: string;
-}
 
 interface Favorite {
   _id: string;
@@ -48,7 +39,7 @@ const Profile: React.FC = () => {
   const [editForm, setEditForm] = useState({
     username: user?.username || '',
     email: user?.email || '',
-    bio: user?.bio || ''
+    bio: (user as any)?.bio || ''
   });
 
   // Fetch user favorites
@@ -65,12 +56,6 @@ const Profile: React.FC = () => {
     { enabled: isAuthenticated, staleTime: 1000 * 60 * 5 }
   );
 
-  // Fetch user account details
-  const { data: accountDetails } = useApi(
-    ['user-account'],
-    '/account/accounts',
-    { enabled: isAuthenticated, staleTime: 1000 * 60 * 10 }
-  );
 
   const handleEditSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,7 +97,7 @@ const Profile: React.FC = () => {
               <h1 className="text-3xl font-bold text-netflix-white mb-2">{user?.username}</h1>
               <p className="text-gray-300 mb-1">{user?.email}</p>
               <p className="text-gray-400 text-sm capitalize">Role: {user?.role}</p>
-              {user?.bio && <p className="text-gray-300 mt-2">{user.bio}</p>}
+              {(user as any)?.bio && <p className="text-gray-300 mt-2">{(user as any).bio}</p>}
             </div>
           </div>
         </div>
@@ -217,12 +202,12 @@ const Profile: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-gray-400">Member since:</span>
-                    <p className="text-white">{new Date(user?.createdAt || '').toLocaleDateString()}</p>
+                    <p className="text-white">{new Date((user as any)?.createdAt || '').toLocaleDateString()}</p>
                   </div>
-                  {user?.bio && (
+                  {(user as any)?.bio && (
                     <div>
                       <span className="text-gray-400">Bio:</span>
-                      <p className="text-white">{user.bio}</p>
+                      <p className="text-white">{(user as any).bio}</p>
                     </div>
                   )}
                 </div>
@@ -246,7 +231,7 @@ const Profile: React.FC = () => {
                   {favorites.map((favorite) => (
                     <MovieCard
                       key={favorite._id}
-                      movie={favorite}
+                      movie={{...favorite, language: 'English'}}
                       baseUrl={favorite.contentType === 'movie' ? '/movies' : '/tvshows'}
                     />
                   ))}

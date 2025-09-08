@@ -4,7 +4,7 @@ import { useAuthStore } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 
 const Accounts: React.FC = () => {
-  const { user, isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
@@ -24,16 +24,11 @@ const Accounts: React.FC = () => {
   const reactivateAccount = useMediaApi.accounts.useReactivate();
   const validatePin = useMediaApi.accounts.useValidatePin();
   const changePin = useMediaApi.accounts.useChangePin();
-  const unlockAccount = useMediaApi.accounts.useUnlock();
   const addUserRole = useMediaApi.accounts.useAddUserRole();
-  const updateUserRole = useMediaApi.accounts.useUpdateUserRole();
-  const removeUserRole = useMediaApi.accounts.useRemoveUserRole();
   const uploadAvatar = useMediaApi.accounts.useUploadAvatar();
 
   // Admin hooks
   const { data: analytics } = useMediaApi.accounts.useGetAnalytics();
-  const { data: lockedAccounts } = useMediaApi.accounts.useGetLockedAccounts();
-  const { data: deletedAccounts } = useMediaApi.accounts.useGetDeletedAccounts();
 
   // Form states
   const [createForm, setCreateForm] = useState({
@@ -227,7 +222,7 @@ const Accounts: React.FC = () => {
 
         {/* Accounts List */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {accounts.map((account) => (
+          {accounts.map((account: any) => (
             <motion.div
               key={account._id}
               className="bg-netflix-dark-gray rounded-lg p-6 cursor-pointer hover:bg-gray-800 transition-colors"
@@ -316,7 +311,7 @@ const Accounts: React.FC = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-3">Roles ({selectedAccountData.roles.length})</h3>
                 <div className="space-y-2">
-                  {selectedAccountData.roles.map((role, index) => (
+                  {selectedAccountData.roles.map((role: any, index: number) => (
                     <div key={index} className="flex justify-between items-center bg-gray-800 p-2 rounded">
                       <span className="text-sm">{role.userId}</span>
                       <span className={`px-2 py-1 rounded text-xs font-semibold ${
@@ -336,7 +331,7 @@ const Accounts: React.FC = () => {
               <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-3">Recent Activity</h3>
                 <div className="space-y-2 max-h-40 overflow-y-auto">
-                  {selectedAccountData.auditLogs.slice(-5).map((log, index) => (
+                  {selectedAccountData.auditLogs.slice(-5).map((log: any, index: number) => (
                     <div key={index} className="bg-gray-800 p-2 rounded text-sm">
                       <span className="font-semibold">{log.action}</span>
                       <span className="text-gray-400 ml-2">{new Date(log.date).toLocaleString()}</span>

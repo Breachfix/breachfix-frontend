@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useAuthStore } from '../../context/AuthContext';
 import { useMediaApi } from '../../hooks/useApi';
-import { motion } from 'framer-motion';
 
 interface UploadFormData {
   title: string;

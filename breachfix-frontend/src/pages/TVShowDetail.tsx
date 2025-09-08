@@ -5,25 +5,6 @@ import { useAuthStore } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import MovieCard from '../components/media/MovieCard';
 
-interface TVShow {
-  _id: string;
-  title: string;
-  description: string;
-  genres: string[];
-  language: string;
-  isFree: boolean;
-  price?: number;
-  posterFileUrl: string;
-  thumbnail_url_s3?: string;
-  rating?: number;
-  status?: string;
-  seasons?: number;
-  episodes?: number;
-  releaseDate?: string;
-  creator?: string;
-  cast?: string[];
-  trailerUrl?: string;
-}
 
 interface Episode {
   _id: string;

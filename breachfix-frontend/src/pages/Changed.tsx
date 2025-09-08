@@ -4,14 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAllBiblesApi } from '../hooks/useApi';
 import ChangedReasons from '../components/changed/ChangedReasons';
 import ChangedFeatured from '../components/changed/ChangedFeatured';
-import ChangedVideos from '../components/changed/ChangedVideos';
-import ChangedBooks from '../components/changed/ChangedBooks';
 import ChangedDetail from '../components/changed/ChangedDetail';
 
 const Changed: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [featuredVerseData, setFeaturedVerseData] = useState<any>(null);
+  const [featuredVerseData] = useState<any>(null);
   const [selectedDonationAmount, setSelectedDonationAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState<string>('');
   
@@ -83,10 +81,6 @@ const Changed: React.FC = () => {
     }
   };
 
-  const handleDonationAmount = (amount: number) => {
-    setSelectedDonationAmount(amount);
-    setCustomAmount(''); // Clear custom amount when selecting preset
-  };
 
   const handleCustomDonation = () => {
     const amount = parseFloat(customAmount);

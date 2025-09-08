@@ -180,106 +180,16 @@ interface AllBibleHealthStatus {
   };
 }
 
-// Type definitions for Accounts API
-interface Account {
-  _id: string;
-  userId: string;
-  name: string;
-  isActive: boolean;
-  type: 'standard' | 'kids' | 'adult';
-  avatar?: string;
-  roles: AccountRole[];
-  auditLogs: AuditLog[];
-  createdAt: string;
-  updatedAt: string;
-}
 
-interface AccountRole {
-  userId: string;
-  role: 'owner' | 'editor' | 'viewer';
-  addedAt: string;
-  addedBy: string;
-}
 
-interface AuditLog {
-  action: string;
-  date: string;
-  meta: Record<string, any>;
-}
 
-interface AccountAnalytics {
-  totalAccounts: number;
-  activeAccounts: number;
-  lockedAccounts: number;
-  deletedAccounts: number;
-  accountsByType: {
-    standard: number;
-    kids: number;
-    adult: number;
-  };
-  recentActivity: AuditLog[];
-}
 
-interface PinValidationResponse {
-  success: boolean;
-  message: string;
-  accountId?: string;
-  isLocked?: boolean;
-  remainingAttempts?: number;
-}
 
 // Type definitions for Favorites API
-interface Favorite {
-  _id: string;
-  userId: string;
-  mediaId: string;
-  type: 'movie' | 'tvshow' | 'episode';
-  title: string;
-  description?: string;
-  thumbnailUrl?: string;
-  videoUrl?: string;
-  platform: string;
-  accountId?: string;
-  metadata: Record<string, any>;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
 
-interface FavoriteStatus {
-  isFavorited: boolean;
-  favoriteId?: string;
-  favoritedAt?: string;
-}
 
-interface FavoriteStats {
-  total: number;
-  byType: {
-    movie: number;
-    tvshow: number;
-    episode: number;
-  };
-  byPlatform: {
-    media: number;
-    [key: string]: number;
-  };
-  recentActivity: Favorite[];
-}
 
-interface FavoritesResponse {
-  success: boolean;
-  favorites: Favorite[];
-  pagination: {
-    total: number;
-    limit: number;
-    skip: number;
-    hasMore: boolean;
-  };
-}
 
-interface BulkFavoriteStatus {
-  [mediaId: string]: FavoriteStatus;
-}
 
 // Canonical book codes mapping (ISO 15924 compliant)
 export const CANONICAL_BOOK_CODES: { [key: string]: string } = {
@@ -772,7 +682,7 @@ class ApiService {
 
       // getSimilar endpoint is not implemented in backend yet
       // Use getAll with genre filtering instead
-      getSimilar: (movieId: string, limit?: number) => {
+      getSimilar: (_movieId: string, limit?: number) => {
         const params = new URLSearchParams();
         if (limit) params.append('limit', limit.toString());
         // For now, return empty array since similar movies logic is not implemented
@@ -917,7 +827,7 @@ class ApiService {
       },
 
       // getSimilar endpoint might not be implemented in backend yet
-      getSimilar: (id: string, limit?: number) => {
+      getSimilar: (_id: string, limit?: number) => {
         const params = new URLSearchParams();
         if (limit) params.append('limit', limit.toString());
         // For now, return empty array since similar TV shows logic might not be implemented

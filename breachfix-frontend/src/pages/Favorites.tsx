@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 const Favorites: React.FC = () => {
-  const { user, isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const [selectedAccount, setSelectedAccount] = useState<string>('');
   const [filterType, setFilterType] = useState<string>('');
   const [showAddModal, setShowAddModal] = useState(false);
@@ -30,7 +30,6 @@ const Favorites: React.FC = () => {
   // Mutation hooks
   const addToFavorites = useMediaApi.favorites.useAddToFavorites();
   const removeFromFavorites = useMediaApi.favorites.useRemoveFromFavorites();
-  const toggleFavorite = useMediaApi.favorites.useToggleFavorite();
   const bulkCheckStatus = useMediaApi.favorites.useBulkCheckFavoriteStatus();
 
   // Accounts data for account selection
@@ -177,7 +176,7 @@ const Favorites: React.FC = () => {
               className="w-full p-2 bg-netflix-dark-gray rounded border border-gray-600 text-white"
             >
               <option value="">All Accounts</option>
-              {accountsData?.accounts?.map((account) => (
+              {accountsData?.accounts?.map((account: any) => (
                 <option key={account._id} value={account._id}>
                   {account.name}
                 </option>
@@ -222,7 +221,7 @@ const Favorites: React.FC = () => {
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Recently Added</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {recentFavorites.slice(0, 6).map((favorite) => (
+              {recentFavorites.slice(0, 6).map((favorite: any) => (
                 <motion.div
                   key={favorite._id}
                   className="bg-netflix-dark-gray rounded-lg p-4"
@@ -290,7 +289,7 @@ const Favorites: React.FC = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {favorites.map((favorite) => (
+              {favorites.map((favorite: any) => (
                 <motion.div
                   key={favorite._id}
                   className="bg-netflix-dark-gray rounded-lg p-4"
@@ -433,7 +432,7 @@ const Favorites: React.FC = () => {
                     className="w-full p-2 bg-gray-800 rounded border border-gray-600 text-white"
                   >
                     <option value="">No Account</option>
-                    {accountsData?.accounts?.map((account) => (
+                    {accountsData?.accounts?.map((account: any) => (
                       <option key={account._id} value={account._id}>
                         {account.name}
                       </option>
@@ -488,7 +487,7 @@ const Favorites: React.FC = () => {
                     className="w-full p-2 bg-gray-800 rounded border border-gray-600 text-white"
                   >
                     <option value="">No Account</option>
-                    {accountsData?.accounts?.map((account) => (
+                    {accountsData?.accounts?.map((account: any) => (
                       <option key={account._id} value={account._id}>
                         {account.name}
                       </option>

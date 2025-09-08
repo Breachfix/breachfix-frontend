@@ -49,7 +49,7 @@ const Auth: React.FC = () => {
           return;
         }
 
-        const response = await api.post('/auth/signup', {
+        await api.post('/auth/signup', {
           username,
           email,
           password,

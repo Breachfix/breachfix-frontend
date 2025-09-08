@@ -1,33 +1,8 @@
 import React, { useState } from 'react';
 import { useMediaApi } from '../hooks/useApi';
-import MovieCarousel from '../components/media/MovieCard';
+import MovieCarousel from '../components/media/MovieCarousel';
 import { motion } from 'framer-motion';
 
-interface Episode {
-  _id: string;
-  title: string;
-  description: string;
-  genres: string[];
-  language: string;
-  isFree: boolean;
-  price?: number;
-  thumbnail_url_s3?: string;
-  poster?: string;
-  thumbnail?: string;
-  imageUrl?: string;
-  rating?: number;
-  duration?: number;
-  releaseDate?: string;
-  episodeNumber: number;
-  seasonNumber: number;
-  tvShowId?: {
-    _id: string;
-    title: string;
-    description: string;
-    posterUrl?: string;
-    thumbnail_url_s3?: string;
-  };
-}
 
 const Episodes: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -95,11 +70,6 @@ const Episodes: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const handleTabChange = (tab: string) => {
-    setCurrentPage(1);
-    setSearchQuery('');
-    setSelectedGenre('');
-  };
 
   if (isLoading) {
     return (
