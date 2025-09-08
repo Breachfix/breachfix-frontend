@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAllBiblesApi } from '../hooks/useApi';
@@ -9,7 +9,6 @@ import ChangedDetail from '../components/changed/ChangedDetail';
 const Changed: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [featuredVerseData] = useState<any>(null);
   
   // Extract query parameters
   const lang = searchParams.get('lang');
