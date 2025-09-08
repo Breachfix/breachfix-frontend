@@ -51,7 +51,7 @@ const ChapterHeader: React.FC<ChapterHeaderProps> = ({
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-bridge-white">
               {bookName} Chapter {chapterNumber}
             </h2>
             <PartnerBadge
@@ -67,7 +67,7 @@ const ChapterHeader: React.FC<ChapterHeaderProps> = ({
               showText={true}
             />
           </div>
-          <p className="text-gray-600 text-sm">
+          <p className="text-bridge-gray text-sm">
             {language.toUpperCase()} • {source} Translation
           </p>
         </div>
@@ -92,7 +92,7 @@ const ChapterHeader: React.FC<ChapterHeaderProps> = ({
           transition={{ delay: 0.2 }}
           className="mt-4 p-3 bg-white bg-opacity-50 rounded-lg"
         >
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-bridge-white">
             💡 <strong>Help fund accurate translation</strong> and research for this chapter. 
             Your support enables detailed analysis and improved translations.
           </p>

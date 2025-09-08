@@ -66,13 +66,13 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
     >
       <div className="flex items-start gap-3">
         {/* Verse Number */}
-        <span className="text-sm font-semibold text-gray-600 min-w-[2rem]">
+        <span className="text-sm font-semibold text-bridge-gray min-w-[2rem]">
           {verse.verse}
         </span>
         
         {/* Verse Text */}
         <div className="flex-1">
-          <p className="text-gray-800 leading-relaxed">
+          <p className="text-bridge-white leading-relaxed">
             {verse.text}
           </p>
         </div>
