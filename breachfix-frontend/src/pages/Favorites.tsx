@@ -111,9 +111,9 @@ const Favorites: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-bridge-navy flex items-center justify-center">
+      <div className="min-h-screen bg-breachfix-navy flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-bridge-white mb-4">Authentication Required</h1>
+          <h1 className="text-2xl font-bold text-breachfix-white mb-4">Authentication Required</h1>
           <p className="text-gray-400">Please log in to access your favorites.</p>
         </div>
       </div>
@@ -122,7 +122,7 @@ const Favorites: React.FC = () => {
 
   if (favoritesLoading) {
     return (
-      <div className="min-h-screen bg-bridge-navy flex items-center justify-center">
+      <div className="min-h-screen bg-breachfix-navy flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -135,7 +135,7 @@ const Favorites: React.FC = () => {
   const favorites = favoritesData?.favorites || [];
 
   return (
-    <div className="min-h-screen bg-bridge-navy text-bridge-white">
+    <div className="min-h-screen bg-breachfix-navy text-breachfix-white">
       <div className="w-full px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -249,7 +249,7 @@ const Favorites: React.FC = () => {
                   )}
                   
                   {favorite.description && (
-                    <p className="text-sm text-bridge-white mb-3 line-clamp-2">
+                    <p className="text-sm text-breachfix-white mb-3 line-clamp-2">
                       {favorite.description}
                     </p>
                   )}
@@ -317,7 +317,7 @@ const Favorites: React.FC = () => {
                   )}
                   
                   {favorite.description && (
-                    <p className="text-sm text-bridge-white mb-3 line-clamp-3">
+                    <p className="text-sm text-breachfix-white mb-3 line-clamp-3">
                       {favorite.description}
                     </p>
                   )}

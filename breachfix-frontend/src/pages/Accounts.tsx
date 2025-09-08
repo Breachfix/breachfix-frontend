@@ -138,9 +138,9 @@ const Accounts: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-bridge-navy flex items-center justify-center">
+      <div className="min-h-screen bg-breachfix-navy flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-bridge-white mb-4">Authentication Required</h1>
+          <h1 className="text-2xl font-bold text-breachfix-white mb-4">Authentication Required</h1>
           <p className="text-gray-400">Please log in to access account management.</p>
         </div>
       </div>
@@ -149,7 +149,7 @@ const Accounts: React.FC = () => {
 
   if (accountsLoading) {
     return (
-      <div className="min-h-screen bg-bridge-navy flex items-center justify-center">
+      <div className="min-h-screen bg-breachfix-navy flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -162,7 +162,7 @@ const Accounts: React.FC = () => {
   const accounts = accountsData?.accounts || [];
 
   return (
-    <div className="min-h-screen bg-bridge-navy text-bridge-white">
+    <div className="min-h-screen bg-breachfix-navy text-breachfix-white">
       <div className="w-full px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -238,7 +238,7 @@ const Accounts: React.FC = () => {
                 </span>
               </div>
               
-              <div className="space-y-2 text-sm text-bridge-white">
+              <div className="space-y-2 text-sm text-breachfix-white">
                 <p><span className="font-semibold">Type:</span> {account.type}</p>
                 <p><span className="font-semibold">Roles:</span> {account.roles.length}</p>
                 <p><span className="font-semibold">Created:</span> {new Date(account.createdAt).toLocaleDateString()}</p>

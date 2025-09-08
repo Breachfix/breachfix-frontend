@@ -73,11 +73,11 @@ const DonationCard: React.FC<DonationCardProps> = ({
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
+    <div className={`bg-breachfix-dark rounded-lg shadow-lg p-6 ${className}`}>
       <div className="mb-4">
         <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-        <p className="text-gray-600 mb-3">{description}</p>
-        <div className="text-sm text-gray-500 bg-gray-50 p-2 rounded">
+        <p className="text-breachfix-gray mb-3">{description}</p>
+        <div className="text-sm text-breachfix-gray bg-breachfix-gray bg-opacity-20 p-2 rounded">
           <strong>Reference:</strong> {formatReference()}
         </div>
       </div>
@@ -109,7 +109,7 @@ const DonationCard: React.FC<DonationCardProps> = ({
               Custom Amount
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-breachfix-gray">$</span>
               <input
                 id="custom-amount"
                 type="number"
@@ -135,7 +135,7 @@ const DonationCard: React.FC<DonationCardProps> = ({
         />
       </div>
 
-      <div className="mt-4 text-xs text-gray-500">
+      <div className="mt-4 text-xs text-breachfix-gray">
         <p>• Secure payment powered by Stripe</p>
         <p>• Your donation helps support Bible translation work</p>
         <p>• You'll receive a receipt via email</p>

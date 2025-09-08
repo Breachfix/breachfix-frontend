@@ -83,7 +83,7 @@ const TVShows: React.FC = () => {
     return (
       <div className="bg-gray-800 p-4 rounded-lg mb-4 text-xs">
         <h3 className="text-white font-bold mb-2">Debug Info:</h3>
-        <div className="text-bridge-white space-y-1">
+        <div className="text-breachfix-white space-y-1">
           <div>Backend Health: {healthError ? '❌ Failed' : healthStatus ? '✅ OK' : '⏳ Checking...'}</div>
           <div>Genres Loading: {genresLoading ? 'Yes' : 'No'}</div>
           <div>Genres Error: {genresError ? genresError.message : 'None'}</div>
@@ -134,14 +134,14 @@ const TVShows: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bridge-navy">
+    <div className="min-h-screen bg-breachfix-navy">
       <div className="container mx-auto px-4 py-8">
         {/* Debug Info (Development Only) */}
         <DebugInfo />
         
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-bridge-white mb-4">TV Shows</h1>
+          <h1 className="text-4xl font-bold text-breachfix-white mb-4">TV Shows</h1>
           
           {/* Search and Filters */}
           <div className="bg-netflix-dark-gray rounded-lg p-6 mb-6">
@@ -167,7 +167,7 @@ const TVShows: React.FC = () => {
             <div className="flex flex-wrap gap-4 items-center">
               {/* Genre Filter */}
               <div className="flex flex-wrap gap-2">
-                <span className="text-bridge-white">Genres:</span>
+                <span className="text-breachfix-white">Genres:</span>
                 {genresLoading ? (
                   <span className="text-gray-500 text-sm">Loading genres...</span>
                 ) : genres && Array.isArray(genres) && genres.length > 0 ? (
@@ -178,7 +178,7 @@ const TVShows: React.FC = () => {
                       className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                         selectedGenre === genre.slug
                           ? 'bg-netflix-red text-white'
-                          : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
+                          : 'bg-netflix-gray text-breachfix-white hover:bg-gray-600'
                       }`}
                     >
                       {genre.name}
@@ -193,7 +193,7 @@ const TVShows: React.FC = () => {
 
               {/* Status Filter */}
               <div className="flex flex-wrap gap-2">
-                <span className="text-bridge-white">Status:</span>
+                <span className="text-breachfix-white">Status:</span>
                 {['ongoing', 'completed', 'cancelled'].map((status) => (
                   <button
                     key={status}
@@ -201,7 +201,7 @@ const TVShows: React.FC = () => {
                     className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                       statusFilter === status
                         ? 'bg-netflix-red text-white'
-                        : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
+                        : 'bg-netflix-gray text-breachfix-white hover:bg-gray-600'
                     }`}
                   >
                     {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -211,7 +211,7 @@ const TVShows: React.FC = () => {
 
               {/* Sort Options */}
               <div className="flex items-center gap-2">
-                <span className="text-bridge-white">Sort by:</span>
+                <span className="text-breachfix-white">Sort by:</span>
                 <select
                   value={`${sortBy}-${order}`}
                   onChange={(e) => {
@@ -232,7 +232,7 @@ const TVShows: React.FC = () => {
               </div>
 
               {/* Free Only Toggle */}
-              <label className="flex items-center gap-2 text-bridge-white">
+              <label className="flex items-center gap-2 text-breachfix-white">
                 <input
                   type="checkbox"
                   checked={isFreeOnly}
@@ -324,7 +324,7 @@ const TVShows: React.FC = () => {
               Previous
             </button>
             
-            <span className="text-bridge-white px-4">
+            <span className="text-breachfix-white px-4">
               Page {currentPage} of {tvShowsData.pages}
             </span>
             

@@ -126,7 +126,7 @@ const PartnershipIndicator: React.FC<PartnershipIndicatorProps> = ({
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ type: "spring", stiffness: 200 }}
-      className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-full font-semibold shadow-lg ${sizeClasses[size]} ${className}`}
+      className={`inline-flex items-center gap-1.5 bg-gradient-to-r from-green-600 to-emerald-600 text-breachfix-white rounded-full font-semibold shadow-lg ${sizeClasses[size]} ${className}`}
     >
       <Star className="h-3 w-3" size={iconSizes[size]} />
       {showText && (

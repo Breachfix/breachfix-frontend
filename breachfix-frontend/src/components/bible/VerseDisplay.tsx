@@ -58,21 +58,21 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
       onClick={() => onVerseClick(verse.verse)}
       className={`cursor-pointer transition-all duration-300 p-2 rounded-lg ${
         isHighlighted 
-          ? 'bg-blue-100 border-l-4 border-blue-500' 
-          : 'hover:bg-gray-50'
+          ? 'bg-breachfix-gold bg-opacity-20 border-l-4 border-breachfix-gold' 
+          : 'hover:bg-breachfix-gray hover:bg-opacity-10'
       }`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
       <div className="flex items-start gap-3">
         {/* Verse Number */}
-        <span className="text-sm font-semibold text-bridge-gray min-w-[2rem]">
+        <span className="text-sm font-semibold text-breachfix-gray min-w-[2rem]">
           {verse.verse}
         </span>
         
         {/* Verse Text */}
         <div className="flex-1">
-          <p className="text-bridge-white leading-relaxed">
+          <p className="text-breachfix-white leading-relaxed">
             {verse.text}
           </p>
         </div>
@@ -100,7 +100,7 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
                 e.stopPropagation();
                 onAsteriskClick(selectedBookNumber, selectedChapter, verse.verse);
               }}
-              className="text-red-500 hover:text-red-700 font-bold text-lg"
+              className="text-breachfix-gold hover:text-yellow-500 font-bold text-lg"
               title="This verse has translation changes"
             >
               *
@@ -113,7 +113,7 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
                 e.stopPropagation();
                 handleDonationClick();
               }}
-              className="px-2 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+              className="px-2 py-1 text-xs bg-breachfix-emerald text-breachfix-white rounded hover:bg-teal-600 transition-colors"
               title="Support this verse"
             >
               💝

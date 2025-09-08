@@ -637,16 +637,16 @@ const BibleRead: React.FC = () => {
   // Handle errors
   if (languagesError || sourcesError || booksError) {
     return (
-      <div className="min-h-screen bg-bridge-navy flex items-center justify-center">
+      <div className="min-h-screen bg-breachfix-navy flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">❌</div>
-          <h1 className="text-3xl font-bold text-bridge-white mb-4">Error Loading Bible</h1>
-          <p className="text-gray-400 text-lg mb-6">
+          <h1 className="text-3xl font-bold text-breachfix-white mb-4">Error Loading Bible</h1>
+          <p className="text-breachfix-gray text-lg mb-6">
             Failed to load Bible data. Please check your connection and try again.
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-netflix-red hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+            className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-navy px-6 py-3 rounded-lg transition-colors duration-200"
           >
             Retry
           </button>
@@ -668,7 +668,7 @@ const BibleRead: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bridge-navy">
+    <div className="min-h-screen bg-breachfix-navy">
       {/* Welcome Message */}
       <AnimatePresence>
         {showWelcome && (
@@ -676,7 +676,7 @@ const BibleRead: React.FC = () => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-lg shadow-lg"
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-breachfix-emerald to-teal-600 text-breachfix-white px-6 py-4 rounded-lg shadow-lg"
           >
             <div className="flex items-center gap-3">
               <div className="text-2xl">📖</div>
@@ -686,7 +686,7 @@ const BibleRead: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowWelcome(false)}
-                className="ml-4 text-white hover:text-gray-200"
+                className="ml-4 text-breachfix-white hover:text-breachfix-gray"
               >
                 ✕
               </button>
@@ -702,7 +702,7 @@ const BibleRead: React.FC = () => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-lg shadow-lg"
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-breachfix-emerald to-teal-600 text-breachfix-white px-6 py-4 rounded-lg shadow-lg"
           >
             <div className="flex items-center gap-3">
               <div className="text-2xl">✅</div>
@@ -712,7 +712,7 @@ const BibleRead: React.FC = () => {
               </div>
               <button
                 onClick={() => setShowSuccessMessage(null)}
-                className="ml-4 text-white hover:text-gray-200"
+                className="ml-4 text-breachfix-white hover:text-breachfix-gray"
               >
                 ✕
               </button>
@@ -729,19 +729,19 @@ const BibleRead: React.FC = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="lg:hidden bg-netflix-gray p-2 rounded-lg"
+                className="lg:hidden bg-breachfix-gray p-2 rounded-lg"
               >
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 text-breachfix-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <h1 className="text-3xl md:text-4xl font-bold text-bridge-white">Read Bible</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-breachfix-white">Read Bible</h1>
             </div>
             <div className="flex items-center gap-4">
               {/* Changed Link */}
               <button
                 onClick={() => navigate('/changed')}
-                className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
+                className="bg-breachfix-gray hover:bg-gray-500 text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
               >
                 Changed
               </button>
@@ -749,7 +749,7 @@ const BibleRead: React.FC = () => {
               <select
                 value={selectedLanguage}
                 onChange={(e) => handleLanguageChange(e.target.value)}
-                className="bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                 disabled={languagesLoading}
               >
                 {languages.map((lang: AllBibleLanguage) => (
@@ -763,7 +763,7 @@ const BibleRead: React.FC = () => {
               <select
                 value={selectedSource}
                 onChange={(e) => handleSourceChange(e.target.value)}
-                className="bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                 disabled={sourcesLoading}
               >
                 {sourcesLoading ? (
@@ -783,7 +783,7 @@ const BibleRead: React.FC = () => {
               <select
                 value={textAlignment}
                 onChange={(e) => setTextAlignment(e.target.value as 'left' | 'center' | 'indent')}
-                className="bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
               >
                 <option value="left">Left Aligned</option>
                 <option value="center">Centered</option>
@@ -797,7 +797,7 @@ const BibleRead: React.FC = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="mt-4 p-4 bg-red-900 bg-opacity-20 border border-red-500 rounded-lg"
+                className="mt-4 p-4 bg-red-600 bg-opacity-20 border border-red-400 rounded-lg"
               >
                 <div className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -805,7 +805,7 @@ const BibleRead: React.FC = () => {
                   </svg>
                   <div className="flex-1">
                     <h4 className="text-red-400 font-semibold mb-1">Invalid Language/Source Combination</h4>
-                    <p className="text-red-300 text-sm mb-2">{apiError}</p>
+                    <p className="text-red-100 text-sm mb-2">{apiError}</p>
                     <div className="text-red-200 text-xs">
                       <p className="mb-1"><strong>Tip:</strong> Each language has specific source translations available.</p>
                       <p>Try selecting a different source or language combination.</p>
@@ -813,7 +813,7 @@ const BibleRead: React.FC = () => {
                   </div>
                   <button
                     onClick={clearApiError}
-                    className="text-red-400 hover:text-red-300 transition-colors"
+                    className="text-red-400 hover:text-red-100 transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -849,10 +849,10 @@ const BibleRead: React.FC = () => {
                 className="mt-4 p-3 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-lg"
               >
                 <div className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-breachfix-gray mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <div className="text-bridge-white text-xs">
+                  <div className="text-breachfix-white text-xs">
                     <p className="mb-1">
                       <strong>{languageNameMap[selectedLanguage.toLowerCase()] || selectedLanguage.toUpperCase()}</strong> has {sources.length} translation{sources.length !== 1 ? 's' : ''} available:
                     </p>
@@ -863,7 +863,7 @@ const BibleRead: React.FC = () => {
                         </span>
                       ))}
                       {sources.length > 5 && (
-                        <span className="text-gray-400 text-xs">+{sources.length - 5} more</span>
+                        <span className="text-breachfix-gray text-xs">+{sources.length - 5} more</span>
                       )}
                     </div>
                   </div>
@@ -888,7 +888,7 @@ const BibleRead: React.FC = () => {
                 <div className="text-green-400">📍</div>
                 <div>
                   <p className="text-green-400 font-semibold">Continue Reading</p>
-                  <p className="text-bridge-white text-sm">
+                  <p className="text-breachfix-white text-sm">
                     {readingProgressBook?.name} - Chapter {readingProgress.chapter}
                   </p>
                 </div>
@@ -905,11 +905,11 @@ const BibleRead: React.FC = () => {
                   placeholder="Search Bible verses or enter reference (e.g., 'matthew 7:7', 'genesis 1', 'john 3')..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                  className="flex-1 bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                 />
               <button
                 type="submit"
-                className="bg-netflix-red hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+                className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-6 py-2 rounded-lg transition-colors duration-200"
               >
                 Search
               </button>
@@ -923,7 +923,7 @@ const BibleRead: React.FC = () => {
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === 'read'
                   ? 'text-netflix-red border-b-2 border-netflix-red'
-                  : 'text-bridge-white hover:text-white'
+                  : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
               Read Bible
@@ -933,7 +933,7 @@ const BibleRead: React.FC = () => {
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === 'search'
                   ? 'text-netflix-red border-b-2 border-netflix-red'
-                  : 'text-bridge-white hover:text-white'
+                  : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
               Search Results
@@ -943,7 +943,7 @@ const BibleRead: React.FC = () => {
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === 'parallel'
                   ? 'text-netflix-red border-b-2 border-netflix-red'
-                  : 'text-bridge-white hover:text-white'
+                  : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
               Parallel Text
@@ -957,10 +957,10 @@ const BibleRead: React.FC = () => {
             <div className="lg:col-span-1">
               <div className="bg-netflix-dark-gray rounded-lg p-6 lg:sticky lg:top-24">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-bold text-bridge-white">Books</h2>
+                  <h2 className="text-xl font-bold text-breachfix-white">Books</h2>
                   <button
                     onClick={() => setSidebarOpen(false)}
-                    className="lg:hidden text-gray-400 hover:text-white"
+                    className="lg:hidden text-breachfix-gray hover:text-breachfix-white"
                   >
                     ✕
                   </button>
@@ -968,7 +968,7 @@ const BibleRead: React.FC = () => {
                 
                 {/* Old Testament */}
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-bridge-white mb-3">Old Testament</h3>
+                  <h3 className="text-lg font-semibold text-breachfix-white mb-3">Old Testament</h3>
                   <div className="space-y-2 max-h-60 overflow-y-auto">
                     {oldTestamentBooks.map((book: AllBibleBook) => (
                       <motion.button
@@ -978,8 +978,8 @@ const BibleRead: React.FC = () => {
                         onClick={() => handleBookChange(book.number)}
                         className={`w-full text-left px-3 py-2 rounded transition-colors duration-200 ${
                           selectedBookNumber === book.number
-                            ? 'bg-netflix-red text-white'
-                            : 'text-bridge-white hover:bg-netflix-gray hover:text-white'
+                            ? 'bg-netflix-red text-breachfix-white'
+                            : 'text-breachfix-white hover:bg-breachfix-gray hover:text-breachfix-white'
                         }`}
                       >
                         {book.name}
@@ -990,7 +990,7 @@ const BibleRead: React.FC = () => {
 
                 {/* New Testament */}
                 <div>
-                  <h3 className="text-lg font-semibold text-bridge-white mb-3">New Testament</h3>
+                  <h3 className="text-lg font-semibold text-breachfix-white mb-3">New Testament</h3>
                   <div className="space-y-2 max-h-60 overflow-y-auto">
                     {newTestamentBooks.map((book: AllBibleBook) => (
                       <motion.button
@@ -1000,8 +1000,8 @@ const BibleRead: React.FC = () => {
                         onClick={() => handleBookChange(book.number)}
                         className={`w-full text-left px-3 py-2 rounded transition-colors duration-200 ${
                           selectedBookNumber === book.number
-                            ? 'bg-netflix-red text-white'
-                            : 'text-bridge-white hover:bg-netflix-gray hover:text-white'
+                            ? 'bg-netflix-red text-breachfix-white'
+                            : 'text-breachfix-white hover:bg-breachfix-gray hover:text-breachfix-white'
                         }`}
                       >
                         {book.name}
@@ -1039,7 +1039,7 @@ const BibleRead: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setSidebarOpen(true)}
-                        className="bg-netflix-gray hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
+                        className="bg-breachfix-gray hover:bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -1053,7 +1053,7 @@ const BibleRead: React.FC = () => {
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-gray-400 text-sm mb-4 flex items-center gap-2"
+                        className="text-breachfix-gray text-sm mb-4 flex items-center gap-2"
                       >
                         <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
                         <span>Books sidebar hidden - click "Show Books" to browse other books</span>
@@ -1069,8 +1069,8 @@ const BibleRead: React.FC = () => {
                           onClick={() => handleChapterChange(chapterNum)}
                           className={`px-3 py-1 rounded transition-colors duration-200 ${
                             selectedChapter === chapterNum
-                              ? 'bg-netflix-red text-white'
-                              : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
+                              ? 'bg-netflix-red text-breachfix-white'
+                              : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray'
                           }`}
                         >
                           {chapterNum}
@@ -1081,8 +1081,8 @@ const BibleRead: React.FC = () => {
                 ) : (
                   <div className="text-center py-12">
                     <div className="text-6xl mb-6">📖</div>
-                    <h2 className="text-2xl font-bold text-bridge-white mb-4">Select a Book to Begin Reading</h2>
-                    <p className="text-gray-400 text-lg mb-6">
+                    <h2 className="text-2xl font-bold text-breachfix-white mb-4">Select a Book to Begin Reading</h2>
+                    <p className="text-breachfix-gray text-lg mb-6">
                       Choose a book from the sidebar to start your Bible reading journey
                     </p>
                     {!sidebarOpen && (
@@ -1092,7 +1092,7 @@ const BibleRead: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setSidebarOpen(true)}
-                        className="bg-netflix-red hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
+                        className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
                       >
                         <span>📚</span>
                         Browse Books
@@ -1107,13 +1107,13 @@ const BibleRead: React.FC = () => {
                     <motion.div
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="w-8 h-8 border-4 border-netflix-red border-t-transparent rounded-full"
+                      className="w-8 h-8 border-4 border-breachfix-gold border-t-transparent rounded-full"
                     />
                   </div>
                 ) : chapterError ? (
                   <div className="text-center py-12">
-                    <div className="text-red-400 text-xl mb-4">Error loading chapter</div>
-                    <p className="text-gray-500">Please try selecting a different chapter</p>
+                    <div className="text-breachfix-gold text-xl mb-4">Error loading chapter</div>
+                    <p className="text-breachfix-gray">Please try selecting a different chapter</p>
                   </div>
                 ) : chapterTexts.length > 0 ? (
                   <div className="bg-netflix-dark-gray rounded-lg p-6 md:p-8">
@@ -1156,7 +1156,7 @@ const BibleRead: React.FC = () => {
                                   e.stopPropagation();
                                   handleCompareInParallel();
                                 }}
-                                className="bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 text-sm font-medium shadow-lg"
+                                className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 text-sm font-medium shadow-lg"
                               >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
@@ -1171,12 +1171,12 @@ const BibleRead: React.FC = () => {
                   </div>
                 ) : selectedBookNumber ? (
                   <div className="text-center py-12">
-                    <div className="text-gray-400 text-xl mb-4">Select a chapter to read</div>
+                    <div className="text-breachfix-gray text-xl mb-4">Select a chapter to read</div>
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <div className="text-gray-400 text-xl mb-4">Select a book to start reading</div>
-                    <p className="text-gray-500">Choose from the Old or New Testament</p>
+                    <div className="text-breachfix-gray text-xl mb-4">Select a book to start reading</div>
+                    <p className="text-breachfix-gray">Choose from the Old or New Testament</p>
                   </div>
                 ))}
               </div>
@@ -1184,7 +1184,7 @@ const BibleRead: React.FC = () => {
 
             {activeTab === 'search' && (
               <div>
-                <h2 className="text-2xl font-bold text-bridge-white mb-4">
+                <h2 className="text-2xl font-bold text-breachfix-white mb-4">
                   Search Results for "{searchQuery}"
                 </h2>
                 
@@ -1193,20 +1193,20 @@ const BibleRead: React.FC = () => {
                     <motion.div
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="w-8 h-8 border-4 border-netflix-red border-t-transparent rounded-full"
+                      className="w-8 h-8 border-4 border-breachfix-gold border-t-transparent rounded-full"
                     />
                   </div>
                 ) : searchError || globalSearchError ? (
                   <div className="text-center py-12">
                     <div className="text-red-400 text-xl mb-4">Error searching</div>
-                    <p className="text-gray-500">Please try a different search term</p>
+                    <p className="text-breachfix-gray">Please try a different search term</p>
                   </div>
                 ) : (searchResults.length > 0 || globalSearchResults.length > 0) ? (
                   <div className="space-y-4">
                     {/* Language-specific results */}
                     {searchResults.length > 0 && (
                       <div className="mb-6">
-                        <h3 className="text-lg font-semibold text-bridge-white mb-4">
+                        <h3 className="text-lg font-semibold text-breachfix-white mb-4">
                           {getLanguageByCode(selectedLanguage)?.name} ({selectedSource.toUpperCase()})
                         </h3>
                         {searchResults.map((result: AllBibleSearchResult, index: number) => (
@@ -1233,7 +1233,7 @@ const BibleRead: React.FC = () => {
                                 View Chapter
                               </button>
                             </div>
-                            <p className="text-white leading-relaxed">{result.text}</p>
+                            <p className="text-breachfix-white leading-relaxed">{result.text}</p>
                             {result.changed?.exists && (
                               <button
                                 onClick={() => navigate(`/changed?lang=${selectedLanguage}&source=${selectedSource}&book=${result.bookNumber}&chapter=${result.chapter}&verse=${result.verse}`)}
@@ -1250,7 +1250,7 @@ const BibleRead: React.FC = () => {
                     {/* Global results */}
                     {globalSearchResults.length > 0 && (
                       <div>
-                        <h3 className="text-lg font-semibold text-bridge-white mb-4">All Languages</h3>
+                        <h3 className="text-lg font-semibold text-breachfix-white mb-4">All Languages</h3>
                         {globalSearchResults.map((result: AllBibleSearchResult, index: number) => (
                           <motion.div
                             key={`global-${index}`}
@@ -1279,7 +1279,7 @@ const BibleRead: React.FC = () => {
                                 View Chapter
                               </button>
                             </div>
-                            <p className="text-white leading-relaxed">{result.text}</p>
+                            <p className="text-breachfix-white leading-relaxed">{result.text}</p>
                             {result.changed?.exists && (
                               <button
                                 onClick={() => navigate(`/changed?lang=${result.language?.code3 || selectedLanguage}&source=${result.source?.code || selectedSource}&book=${result.bookNumber}&chapter=${result.chapter}&verse=${result.verse}`)}
@@ -1295,13 +1295,13 @@ const BibleRead: React.FC = () => {
                   </div>
                 ) : searchQuery ? (
                   <div className="text-center py-12">
-                    <div className="text-gray-400 text-xl mb-4">No results found</div>
-                    <p className="text-gray-500">Try a different search term</p>
+                    <div className="text-breachfix-gray text-xl mb-4">No results found</div>
+                    <p className="text-breachfix-gray">Try a different search term</p>
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <div className="text-gray-400 text-xl mb-4">Enter a search term</div>
-                    <p className="text-gray-500">Search for specific words or phrases in the Bible</p>
+                    <div className="text-breachfix-gray text-xl mb-4">Enter a search term</div>
+                    <p className="text-breachfix-gray">Search for specific words or phrases in the Bible</p>
                   </div>
                 )}
               </div>
@@ -1309,13 +1309,13 @@ const BibleRead: React.FC = () => {
 
             {activeTab === 'parallel' && (
               <div>
-                <h2 className="text-2xl font-bold text-bridge-white mb-4">
+                <h2 className="text-2xl font-bold text-breachfix-white mb-4">
                   Parallel Text Comparison
                 </h2>
 
                 {/* Parallel Language Selector */}
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-bridge-white mb-3">Select Languages to Compare</h3>
+                  <h3 className="text-lg font-semibold text-breachfix-white mb-3">Select Languages to Compare</h3>
                   <div className="flex flex-wrap gap-2">
                     {languages.map((lang: AllBibleLanguage) => (
                       <motion.button
@@ -1325,8 +1325,8 @@ const BibleRead: React.FC = () => {
                         onClick={() => handleParallelLanguageToggle(lang.code3)}
                         className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
                           parallelLanguages.includes(lang.code3)
-                            ? 'bg-netflix-red text-white'
-                            : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
+                            ? 'bg-netflix-red text-breachfix-white'
+                            : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray'
                         }`}
                         disabled={lang.code3 === selectedLanguage}
                       >
@@ -1337,26 +1337,26 @@ const BibleRead: React.FC = () => {
                       </motion.button>
                     ))}
                   </div>
-                  <p className="text-gray-400 text-sm mt-2">
+                  <p className="text-breachfix-gray text-sm mt-2">
                     Selected languages: {parallelLanguages.length} | 
                     Filtered for comparison: {filteredParallelLanguages.length}
                     {filteredParallelLanguages.length === 0 && (
                       <span className="text-red-400 ml-2">⚠️ No languages available for comparison</span>
                     )}
                   </p>
-                  <p className="text-gray-500 text-xs mt-1">
+                  <p className="text-breachfix-gray text-xs mt-1">
                     💡 Note: Some verses may not be available in all languages. Try different verses if you encounter errors.
                   </p>
                 </div>
                 
                 {!parallelVerse && !highlightedVerse ? (
                   <div className="text-center py-12">
-                    <div className="text-gray-400 text-xl mb-4">Select a verse to compare</div>
-                    <p className="text-gray-500 mb-4">Click on a verse in the reading tab to see parallel translations, or select a verse below:</p>
+                    <div className="text-breachfix-gray text-xl mb-4">Select a verse to compare</div>
+                    <p className="text-breachfix-gray mb-4">Click on a verse in the reading tab to see parallel translations, or select a verse below:</p>
                     
                     {/* Verse Selector */}
                     <div className="mt-6 max-w-md mx-auto">
-                      <label className="block text-sm font-medium text-bridge-white mb-2">
+                      <label className="block text-sm font-medium text-breachfix-white mb-2">
                         Select Verse Number:
                       </label>
                       <div className="flex gap-2">
@@ -1371,7 +1371,7 @@ const BibleRead: React.FC = () => {
                               setParallelVerse(verse);
                             }
                           }}
-                          className="flex-1 bg-netflix-gray text-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                          className="flex-1 bg-breachfix-gray text-breachfix-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                           placeholder="Enter verse number"
                         />
                         <button
@@ -1380,15 +1380,15 @@ const BibleRead: React.FC = () => {
                               // Verse is already set, just refresh
                             }
                           }}
-                          className="bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded transition-colors duration-200"
+                          className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
                         >
                           Compare
                         </button>
                       </div>
                     </div>
-                    <div className="bg-blue-900 bg-opacity-20 border border-blue-500 rounded-lg p-4 max-w-md mx-auto">
-                      <h4 className="text-blue-400 font-semibold mb-2">How to use Parallel Text:</h4>
-                      <ol className="text-bridge-white text-sm text-left space-y-1">
+                    <div className="bg-breachfix-emerald bg-opacity-20 border border-breachfix-emerald rounded-lg p-4 max-w-md mx-auto">
+                      <h4 className="text-breachfix-emerald font-semibold mb-2">How to use Parallel Text:</h4>
+                      <ol className="text-breachfix-white text-sm text-left space-y-1">
                         <li>1. Select languages above</li>
                         <li>2. Go to "Read Bible" tab</li>
                         <li>3. Click on any verse number</li>
@@ -1401,7 +1401,7 @@ const BibleRead: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setHighlightedVerse(1)}
-                        className="bg-netflix-red hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
+                        className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
                       >
                         <span>📖</span>
                         Compare First Verse
@@ -1413,28 +1413,28 @@ const BibleRead: React.FC = () => {
                     <motion.div
                       animate={{ rotate: 360 }}
                       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="w-8 h-8 border-4 border-netflix-red border-t-transparent rounded-full"
+                      className="w-8 h-8 border-4 border-breachfix-gold border-t-transparent rounded-full"
                     />
                   </div>
                 ) : parallelError ? (
                   <div className="text-center py-12">
-                    <div className="text-red-400 text-xl mb-4">Error loading parallel text</div>
-                    <div className="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-4 max-w-md mx-auto mb-4">
-                      <p className="text-red-300 text-sm mb-2">
+                    <div className="text-breachfix-gold text-xl mb-4">Error loading parallel text</div>
+                    <div className="bg-red-600 bg-opacity-20 border border-red-400 rounded-lg p-4 max-w-md mx-auto mb-4">
+                      <p className="text-red-100 text-sm mb-2">
                         <strong>Error:</strong> {parallelError?.message || 'Unknown error occurred'}
                       </p>
-                      <p className="text-gray-400 text-xs">
+                      <p className="text-breachfix-gray text-xs">
                         This usually means the verse doesn't exist in one or more of the selected languages.
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-gray-500">Try one of these solutions:</p>
+                      <p className="text-breachfix-gray">Try one of these solutions:</p>
                       <div className="flex flex-wrap gap-2 justify-center">
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => tryDifferentVerse('first')}
-                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm transition-colors duration-200"
+                          className="bg-breachfix-emerald hover:bg-teal-600 text-breachfix-white px-4 py-2 rounded text-sm transition-colors duration-200"
                         >
                           Try Verse 1
                         </motion.button>
@@ -1442,7 +1442,7 @@ const BibleRead: React.FC = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => tryDifferentVerse('previous')}
-                          className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm transition-colors duration-200"
+                          className="bg-breachfix-gray hover:bg-gray-700 text-breachfix-white px-4 py-2 rounded text-sm transition-colors duration-200"
                         >
                           Previous Verse
                         </motion.button>
@@ -1450,7 +1450,7 @@ const BibleRead: React.FC = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => tryDifferentVerse('next')}
-                          className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm transition-colors duration-200"
+                          className="bg-breachfix-gray hover:bg-gray-700 text-breachfix-white px-4 py-2 rounded text-sm transition-colors duration-200"
                         >
                           Next Verse
                         </motion.button>
@@ -1465,7 +1465,7 @@ const BibleRead: React.FC = () => {
                           <h3 className="text-lg font-semibold text-blue-400 mb-2">
                             {selectedBook?.name} {selectedChapter}:{highlightedVerse}
                           </h3>
-                          <p className="text-bridge-white">
+                          <p className="text-breachfix-white">
                             {parallelSummary ? (
                               <>
                                 Comparing translations across {parallelSummary.totalLanguages} languages
@@ -1482,7 +1482,7 @@ const BibleRead: React.FC = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => setHighlightedVerse(null)}
-                          className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm transition-colors duration-200"
+                          className="bg-breachfix-gray hover:bg-gray-500 text-breachfix-white px-3 py-1 rounded text-sm transition-colors duration-200"
                         >
                           Clear Selection
                         </motion.button>
@@ -1498,28 +1498,28 @@ const BibleRead: React.FC = () => {
                         className={`rounded-lg p-6 mb-4 ${
                           baseText.success 
                             ? 'bg-green-900 bg-opacity-20 border border-green-500' 
-                            : 'bg-red-900 bg-opacity-20 border border-red-500'
+                            : 'bg-red-600 bg-opacity-20 border border-red-400'
                         }`}
                       >
                         <div className="flex items-start justify-between mb-3">
                           <h4 className="text-lg font-semibold text-green-400">
                             {getFullLanguageName(baseText.language, baseText.metadata?.name) || 'Base Language'}
                             {baseText.success ? (
-                              <span className="ml-2 text-xs bg-green-600 px-2 py-1 rounded">Available</span>
+                              <span className="ml-2 text-xs bg-breachfix-emerald px-2 py-1 rounded">Available</span>
                             ) : (
-                              <span className="ml-2 text-xs bg-red-600 px-2 py-1 rounded">Not Available</span>
+                              <span className="ml-2 text-xs bg-breachfix-gold px-2 py-1 rounded">Not Available</span>
                             )}
                           </h4>
-                          <span className="text-gray-400 text-sm">
+                          <span className="text-breachfix-gray text-sm">
                             {baseText.metadata?.code3?.toUpperCase() || baseText.language?.toUpperCase() || 'N/A'}
                           </span>
                         </div>
                         {baseText.success ? (
-                          <p className="text-white leading-relaxed text-lg">
+                          <p className="text-breachfix-white leading-relaxed text-lg">
                             {typeof baseText.text === 'string' ? baseText.text : baseText.text?.text || 'No text available'}
                           </p>
                         ) : (
-                          <p className="text-red-300 italic">
+                          <p className="text-red-100 italic">
                             {baseText.error || 'Text not available in this language'}
                           </p>
                         )}
@@ -1536,26 +1536,26 @@ const BibleRead: React.FC = () => {
                         className={`rounded-lg p-6 ${
                           parallel.success 
                             ? 'bg-netflix-dark-gray' 
-                            : 'bg-red-900 bg-opacity-20 border border-red-500'
+                            : 'bg-red-600 bg-opacity-20 border border-red-400'
                         }`}
                       >
                         <div className="flex items-start justify-between mb-3">
                           <h4 className="text-lg font-semibold text-netflix-red">
                             {getFullLanguageName(parallel.language, parallel.metadata?.name) || 'Unknown Language'}
                             {parallel.success ? (
-                              <span className="ml-2 text-xs bg-green-600 px-2 py-1 rounded">Available</span>
+                              <span className="ml-2 text-xs bg-breachfix-emerald px-2 py-1 rounded">Available</span>
                             ) : (
-                              <span className="ml-2 text-xs bg-red-600 px-2 py-1 rounded">Not Available</span>
+                              <span className="ml-2 text-xs bg-breachfix-gold px-2 py-1 rounded">Not Available</span>
                             )}
                           </h4>
-                          <span className="text-gray-400 text-sm">
+                          <span className="text-breachfix-gray text-sm">
                             {parallel.metadata?.code3?.toUpperCase() || parallel.language?.toUpperCase() || 'N/A'}
                           </span>
                         </div>
                         {parallel.success ? (
-                          <p className="text-white leading-relaxed text-lg">{typeof parallel.text === 'string' ? parallel.text : parallel.text?.text || 'No text available'}</p>
+                          <p className="text-breachfix-white leading-relaxed text-lg">{typeof parallel.text === 'string' ? parallel.text : parallel.text?.text || 'No text available'}</p>
                         ) : (
-                          <p className="text-red-300 italic">
+                          <p className="text-red-100 italic">
                             {parallel.error || 'Text not available in this language'}
                           </p>
                         )}
@@ -1572,8 +1572,8 @@ const BibleRead: React.FC = () => {
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <div className="text-gray-400 text-xl mb-4">No parallel translations available</div>
-                    <p className="text-gray-500">Try selecting a different verse or language</p>
+                    <div className="text-breachfix-gray text-xl mb-4">No parallel translations available</div>
+                    <p className="text-breachfix-gray">Try selecting a different verse or language</p>
                   </div>
                 )}
               </div>
@@ -1591,12 +1591,12 @@ const BibleRead: React.FC = () => {
             className="bg-netflix-dark-gray rounded-lg p-6 w-full max-w-4xl mx-4 max-h-[90vh] overflow-y-auto"
           >
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-bridge-white">
+              <h3 className="text-xl font-bold text-breachfix-white">
                 Changed Verse Details - {selectedVerseAnalysis.reference}
               </h3>
               <button
                 onClick={() => setShowChangeModal(false)}
-                className="text-gray-400 hover:text-white"
+                className="text-breachfix-gray hover:text-breachfix-white"
               >
                 ✕
               </button>
@@ -1604,14 +1604,14 @@ const BibleRead: React.FC = () => {
             
             <div className="space-y-6">
               {/* Warning Message */}
-              <div className="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-4">
+              <div className="bg-red-600 bg-opacity-20 border border-red-400 rounded-lg p-4">
                 <div className="flex items-start gap-3">
                   <svg className="w-6 h-6 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
                   </svg>
                   <div>
                     <h4 className="text-red-400 font-semibold mb-2">Verse Altered in Modern Translations</h4>
-                    <p className="text-red-300 text-sm">
+                    <p className="text-red-100 text-sm">
                       This verse has been changed or altered in modern Bible translations. 
                       The original KJV text may differ significantly from what you're reading.
                     </p>
@@ -1622,14 +1622,14 @@ const BibleRead: React.FC = () => {
               {/* Text Comparison */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Original KJV Text</h4>
-                  <div className="bg-netflix-gray p-4 rounded text-white">
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Original KJV Text</h4>
+                  <div className="bg-breachfix-gray p-4 rounded text-breachfix-white">
                     {selectedVerseAnalysis.changedVerse?.kjvBaseline || 'Original text not available'}
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Current Translation ({selectedVerseAnalysis.language?.toUpperCase()} - {selectedVerseAnalysis.source?.toUpperCase()})</h4>
-                  <div className="bg-netflix-gray p-4 rounded text-white">
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Current Translation ({selectedVerseAnalysis.language?.toUpperCase()} - {selectedVerseAnalysis.source?.toUpperCase()})</h4>
+                  <div className="bg-breachfix-gray p-4 rounded text-breachfix-white">
                     {selectedVerseAnalysis.currentText || 'Current text not available'}
                   </div>
                 </div>
@@ -1638,8 +1638,8 @@ const BibleRead: React.FC = () => {
               {/* Suggested Translation */}
               {selectedVerseAnalysis.changedVerse?.translation?.suggestion && (
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Suggested Correction</h4>
-                  <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-4 rounded text-white">
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Suggested Correction</h4>
+                  <div className="bg-blue-900 bg-opacity-30 border border-blue-500 p-4 rounded text-breachfix-white">
                     {selectedVerseAnalysis.changedVerse.translation.suggestion}
                   </div>
                 </div>
@@ -1648,8 +1648,8 @@ const BibleRead: React.FC = () => {
               {/* Change Summary */}
               {selectedVerseAnalysis.changedVerse?.summary && (
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Change Summary</h4>
-                  <div className="bg-netflix-gray p-4 rounded text-white">
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Change Summary</h4>
+                  <div className="bg-breachfix-gray p-4 rounded text-breachfix-white">
                     {selectedVerseAnalysis.changedVerse.summary}
                   </div>
                 </div>
@@ -1658,8 +1658,8 @@ const BibleRead: React.FC = () => {
               {/* Analysis */}
               {selectedVerseAnalysis.changedVerse?.analysis && (
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Analysis</h4>
-                  <div className="bg-netflix-gray p-4 rounded text-white">
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Analysis</h4>
+                  <div className="bg-breachfix-gray p-4 rounded text-breachfix-white">
                     {selectedVerseAnalysis.changedVerse.analysis}
                   </div>
                 </div>
@@ -1668,10 +1668,10 @@ const BibleRead: React.FC = () => {
               {/* Affected Doctrine */}
               {selectedVerseAnalysis.changedVerse?.affectedDoctrine && selectedVerseAnalysis.changedVerse.affectedDoctrine.length > 0 && (
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Affected Doctrine</h4>
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Affected Doctrine</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedVerseAnalysis.changedVerse.affectedDoctrine.map((doctrine: any, index: number) => (
-                      <span key={index} className="bg-yellow-600 text-white px-3 py-1 rounded text-sm">
+                      <span key={index} className="bg-yellow-600 text-breachfix-white px-3 py-1 rounded text-sm">
                         {doctrine}
                       </span>
                     ))}
@@ -1682,23 +1682,23 @@ const BibleRead: React.FC = () => {
               {/* Batch Data */}
               {selectedVerseAnalysis.changedVerse?.batchData && (
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Detailed Analysis</h4>
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Detailed Analysis</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-netflix-gray p-4 rounded">
+                    <div className="bg-breachfix-gray p-4 rounded">
                       <h5 className="text-red-400 font-semibold mb-2">Error</h5>
-                      <p className="text-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Error}</p>
+                      <p className="text-breachfix-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Error}</p>
                     </div>
-                    <div className="bg-netflix-gray p-4 rounded">
+                    <div className="bg-breachfix-gray p-4 rounded">
                       <h5 className="text-orange-400 font-semibold mb-2">Danger</h5>
-                      <p className="text-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Danger}</p>
+                      <p className="text-breachfix-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Danger}</p>
                     </div>
-                    <div className="bg-netflix-gray p-4 rounded">
+                    <div className="bg-breachfix-gray p-4 rounded">
                       <h5 className="text-blue-400 font-semibold mb-2">Evidence</h5>
-                      <p className="text-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Evidence}</p>
+                      <p className="text-breachfix-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Evidence}</p>
                     </div>
-                    <div className="bg-netflix-gray p-4 rounded">
+                    <div className="bg-breachfix-gray p-4 rounded">
                       <h5 className="text-green-400 font-semibold mb-2">Explanation</h5>
-                      <p className="text-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Explanation}</p>
+                      <p className="text-breachfix-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Explanation}</p>
                     </div>
                   </div>
                 </div>
@@ -1707,8 +1707,8 @@ const BibleRead: React.FC = () => {
               {/* Spirit of Prophecy */}
               {selectedVerseAnalysis.changedVerse?.spiritOfProphecy && (
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Spirit of Prophecy</h4>
-                  <div className="bg-purple-900 bg-opacity-30 border border-purple-500 p-4 rounded text-white">
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Spirit of Prophecy</h4>
+                  <div className="bg-purple-900 bg-opacity-30 border border-purple-500 p-4 rounded text-breachfix-white">
                     {selectedVerseAnalysis.changedVerse.spiritOfProphecy}
                   </div>
                 </div>
@@ -1717,10 +1717,10 @@ const BibleRead: React.FC = () => {
               {/* Modern Versions Cited */}
               {selectedVerseAnalysis.changedVerse?.modernVersionsCited && selectedVerseAnalysis.changedVerse.modernVersionsCited.length > 0 && (
                 <div>
-                  <h4 className="text-lg font-semibold text-bridge-white mb-4">Modern Versions Cited</h4>
+                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">Modern Versions Cited</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedVerseAnalysis.changedVerse.modernVersionsCited.map((version: any, index: number) => (
-                      <span key={index} className="bg-gray-600 text-white px-3 py-1 rounded text-sm">
+                      <span key={index} className="bg-breachfix-gray text-breachfix-white px-3 py-1 rounded text-sm">
                         {version}
                       </span>
                     ))}
@@ -1732,7 +1732,7 @@ const BibleRead: React.FC = () => {
             <div className="flex justify-end gap-4 mt-6">
               <button
                 onClick={() => setShowChangeModal(false)}
-                className="px-4 py-2 text-bridge-white hover:text-white transition-colors duration-200"
+                className="px-4 py-2 text-breachfix-white hover:text-breachfix-white transition-colors duration-200"
               >
                 Close
               </button>

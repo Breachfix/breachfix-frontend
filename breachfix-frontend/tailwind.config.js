@@ -8,14 +8,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        // BridgePix Color Palette
-        'bridge-navy': '#0D1B2A',        // Deep Navy background
-        'bridge-gold': '#FFD166',         // Gold primary accent
-        'bridge-white': '#F8F9FA',        // Soft white text
-        'bridge-emerald': '#2A9D8F',      // Emerald secondary
-        'bridge-sage': '#88C999',         // Sage green alternative
-        'bridge-gray': '#6C757D',         // Neutral gray
-        'bridge-dark': '#1A1A1A',         // Dark background variant
+        // BreachFix Color Palette
+        'breachfix-navy': '#0D1B2A',        // Deep Navy background
+        'breachfix-gold': '#FFD166',         // Gold primary accent
+        'breachfix-white': '#F8F9FA',        // Soft white text
+        'breachfix-emerald': '#2A9D8F',      // Emerald secondary
+        'breachfix-sage': '#88C999',         // Sage green alternative
+        'breachfix-gray': '#6C757D',         // Neutral gray
+        'breachfix-dark': '#1A1A1A',         // Dark background variant
         
         // Legacy Netflix colors (for gradual migration)
         'netflix-red': '#e50914',

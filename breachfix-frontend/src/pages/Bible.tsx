@@ -12,7 +12,7 @@ const Bible: React.FC = () => {
       description: 'Access 25+ languages with multiple translations. Read, search, and compare parallel texts across different versions.',
       icon: '📖',
       path: '/bible/read',
-      color: 'from-bridge-emerald to-teal-700',
+      color: 'from-breachfix-emerald to-teal-700',
       available: true,
       features: ['25+ Languages', 'Parallel Text', 'Advanced Search', 'Cross-Language Comparison']
     },
@@ -21,7 +21,7 @@ const Bible: React.FC = () => {
       description: 'Propose text corrections, translation improvements, and grammar fixes with a comprehensive 2-stage review workflow.',
       icon: '✏️',
       path: '/bible/edit',
-      color: 'from-bridge-gold to-yellow-600',
+      color: 'from-breachfix-gold to-yellow-600',
       available: isAuthenticated,
       features: ['2-Stage Review', 'Edit Types', 'Priority Levels', 'Conflict Detection']
     },
@@ -30,7 +30,7 @@ const Bible: React.FC = () => {
       description: 'Track your submitted edits through the complete workflow: draft → review1 → review2 → approved/rejected.',
       icon: '📝',
       path: '/bible/my-edits',
-      color: 'from-bridge-sage to-green-600',
+      color: 'from-breachfix-sage to-green-600',
       available: isAuthenticated,
       features: ['Workflow Tracking', 'Edit History', 'Status Updates', 'Review Notes']
     },
@@ -39,23 +39,23 @@ const Bible: React.FC = () => {
       description: 'Manage the complete edit workflow with bulk operations, reviewer assignment, and comprehensive analytics.',
       icon: '⚙️',
       path: '/bible/admin',
-      color: 'from-bridge-emerald to-emerald-700',
+      color: 'from-breachfix-emerald to-emerald-700',
       available: isAuthenticated && user?.role === 'admin',
       features: ['Bulk Operations', 'Reviewer Assignment', 'System Analytics', 'Quality Control']
     }
   ];
 
   return (
-    <div className="min-h-screen bg-bridge-navy">
+    <div className="min-h-screen bg-breachfix-navy">
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-bridge-white mb-4">AllBibles</h1>
-          <p className="text-xl text-bridge-white max-w-3xl mx-auto">
+          <h1 className="text-5xl font-bold text-breachfix-white mb-4">AllBibles</h1>
+          <p className="text-xl text-breachfix-white max-w-3xl mx-auto">
             Production-grade Bible API system with 25+ languages, comprehensive edit workflow, 
             and enterprise-ready features including parallel text comparison and advanced search.
           </p>
-          <div className="mt-6 flex justify-center gap-4 text-sm text-bridge-gray">
+          <div className="mt-6 flex justify-center gap-4 text-sm text-breachfix-gray">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 bg-green-500 rounded-full"></span>
               Production Ready

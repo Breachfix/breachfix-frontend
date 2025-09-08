@@ -118,14 +118,14 @@ const Movies: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bridge-navy">
+    <div className="min-h-screen bg-breachfix-navy">
       <div className="w-full px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-bridge-white mb-4">Movies</h1>
+          <h1 className="text-4xl font-bold text-breachfix-white mb-4">Movies</h1>
           
           {/* Search and Filters */}
-          <div className="bg-bridge-dark rounded-lg p-6 mb-6">
+          <div className="bg-breachfix-dark rounded-lg p-6 mb-6">
             <form onSubmit={handleSearch} className="mb-4">
               <div className="flex gap-4">
                 <input
@@ -133,11 +133,11 @@ const Movies: React.FC = () => {
                   placeholder="Search movies..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 bg-bridge-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-bridge-gold"
+                  className="flex-1 bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                 />
                 <button
                   type="submit"
-                  className="bg-bridge-gold hover:bg-yellow-500 text-bridge-white px-6 py-2 rounded-lg transition-colors duration-200"
+                  className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-white px-6 py-2 rounded-lg transition-colors duration-200"
                 >
                   Search
                 </button>
@@ -148,15 +148,15 @@ const Movies: React.FC = () => {
             <div className="flex flex-wrap gap-4 items-center">
               {/* Genre Filter */}
               <div className="flex flex-wrap gap-2">
-                <span className="text-bridge-white">Genres:</span>
+                <span className="text-breachfix-white">Genres:</span>
                 {genres?.map((genre) => (
                   <button
                     key={genre._id}
                     onClick={() => handleGenreChange(genre.slug)}
                     className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                       selectedGenre === genre.slug
-                        ? 'bg-bridge-gold text-bridge-white'
-                        : 'bg-bridge-gray text-bridge-white hover:bg-gray-500'
+                        ? 'bg-breachfix-gold text-breachfix-white'
+                        : 'bg-breachfix-gray text-breachfix-white hover:bg-gray-500'
                     }`}
                   >
                     {genre.name}
@@ -166,7 +166,7 @@ const Movies: React.FC = () => {
 
               {/* Sort Options */}
               <div className="flex items-center gap-2">
-                <span className="text-bridge-white">Sort by:</span>
+                <span className="text-breachfix-white">Sort by:</span>
                 <select
                   value={`${sortBy}-${order}`}
                   onChange={(e) => {
@@ -175,7 +175,7 @@ const Movies: React.FC = () => {
                     setOrder(newOrder);
                     setCurrentPage(1);
                   }}
-                  className="bg-bridge-gray text-bridge-white px-3 py-1 rounded focus:outline-none focus:ring-2 focus:ring-bridge-gold"
+                  className="bg-breachfix-gray text-breachfix-white px-3 py-1 rounded focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                 >
                   <option value="releaseDate-desc">Newest First</option>
                   <option value="releaseDate-asc">Oldest First</option>
@@ -187,7 +187,7 @@ const Movies: React.FC = () => {
               </div>
 
               {/* Free Only Toggle */}
-              <label className="flex items-center gap-2 text-bridge-white">
+              <label className="flex items-center gap-2 text-breachfix-white">
                 <input
                   type="checkbox"
                   checked={isFreeOnly}
@@ -195,7 +195,7 @@ const Movies: React.FC = () => {
                     setIsFreeOnly(e.target.checked);
                     setCurrentPage(1);
                   }}
-                  className="rounded focus:ring-2 focus:ring-bridge-gold"
+                  className="rounded focus:ring-2 focus:ring-breachfix-gold"
                 />
                 Free Only
               </label>
@@ -206,7 +206,7 @@ const Movies: React.FC = () => {
         {/* Featured Section */}
         {heroMovies && heroMovies.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-bridge-white mb-4">Featured Movies</h2>
+            <h2 className="text-2xl font-bold text-breachfix-white mb-4">Featured Movies</h2>
             <MovieCarousel movies={heroMovies} title="Featured Movies" baseUrl="/media/movies" />
           </div>
         )}
@@ -214,7 +214,7 @@ const Movies: React.FC = () => {
         {/* Trending Section */}
         {trendingMoviesData?.movies && trendingMoviesData.movies.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-bridge-white mb-4">Trending Now</h2>
+            <h2 className="text-2xl font-bold text-breachfix-white mb-4">Trending Now</h2>
             <MovieCarousel movies={trendingMoviesData.movies} title="Trending Now" baseUrl="/media/movies" />
           </div>
         )}
@@ -222,7 +222,7 @@ const Movies: React.FC = () => {
         {/* Search Results */}
         {searchQuery && moviesData?.movies && moviesData.movies.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-bridge-white mb-4">
+            <h2 className="text-2xl font-bold text-breachfix-white mb-4">
               Search Results for "{searchQuery}" ({moviesData.total} movies)
             </h2>
             <MovieCarousel movies={moviesData.movies} title={`Search Results for "${searchQuery}"`} baseUrl="/media/movies" />
@@ -232,7 +232,7 @@ const Movies: React.FC = () => {
         {/* All Movies Grid */}
         {!searchQuery && moviesData?.movies && moviesData.movies.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-bridge-white mb-4">All Movies</h2>
+            <h2 className="text-2xl font-bold text-breachfix-white mb-4">All Movies</h2>
             <MovieCarousel movies={moviesData.movies} title="All Movies" baseUrl="/media/movies" />
           </div>
         )}
@@ -251,19 +251,19 @@ const Movies: React.FC = () => {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="bg-bridge-gray hover:bg-gray-500 disabled:opacity-50 text-bridge-white px-4 py-2 rounded transition-colors duration-200"
+              className="bg-breachfix-gray hover:bg-gray-500 disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
             >
               Previous
             </button>
             
-            <span className="text-bridge-white px-4">
+            <span className="text-breachfix-white px-4">
               Page {currentPage} of {moviesData.pages}
             </span>
             
             <button
               onClick={() => setCurrentPage(Math.min(moviesData.pages, currentPage + 1))}
               disabled={currentPage === moviesData.pages}
-              className="bg-bridge-gray hover:bg-gray-500 disabled:opacity-50 text-bridge-white px-4 py-2 rounded transition-colors duration-200"
+              className="bg-breachfix-gray hover:bg-gray-500 disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
             >
               Next
             </button>

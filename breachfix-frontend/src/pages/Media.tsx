@@ -239,9 +239,9 @@ const Media: React.FC = () => {
     if (String(import.meta.env.DEV) !== 'true') return null;
     
     return (
-      <div className="bg-gray-800 p-4 rounded-lg mb-4 text-xs">
-        <h3 className="text-white font-bold mb-2">Debug Info:</h3>
-        <div className="text-bridge-white space-y-1">
+      <div className="bg-breachfix-dark p-4 rounded-lg mb-4 text-xs">
+        <h3 className="text-breachfix-white font-bold mb-2">Debug Info:</h3>
+        <div className="text-breachfix-white space-y-1">
           <div>Backend Health: {healthError ? '❌ Failed' : healthStatus ? '✅ OK' : '⏳ Checking...'}</div>
           <div>Genres Loading: {genresLoading ? 'Yes' : 'No'}</div>
           <div>Genres Error: {genresError ? genresError.message : 'None'}</div>
@@ -262,7 +262,7 @@ const Media: React.FC = () => {
           <div>Episodes Status: ✅ Working (All endpoints functional)</div>
           <div>API Base URL: {String(import.meta.env.VITE_API_BASE_URL || 'Not set')}</div>
           {moviesData?.movies?.[0] && (
-            <div className="mt-2 p-2 bg-gray-700 rounded">
+            <div className="mt-2 p-2 bg-breachfix-gray bg-opacity-20 rounded">
               <div className="font-semibold">First Movie Image Fields:</div>
               <div>posterFileUrl: {moviesData.movies[0].posterFileUrl || 'null'}</div>
               <div>thumbnail_url_s3: {moviesData.movies[0].thumbnail_url_s3 || 'null'}</div>
@@ -316,7 +316,7 @@ const Media: React.FC = () => {
   if (moviesError || tvShowsError || episodesError) {
     return (
       <div className="w-full px-4 py-8">
-        <div className="text-bridge-gold text-center">
+        <div className="text-breachfix-gold text-center">
           Error loading media content: {moviesError?.message || tvShowsError?.message || episodesError?.message}
         </div>
       </div>
@@ -324,23 +324,23 @@ const Media: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-bridge-navy">
+    <div className="min-h-screen bg-breachfix-navy">
       <div className="w-full px-4 py-8">
         {/* Debug Info (Development Only) */}
         <DebugInfo />
         
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-bridge-white mb-4">Media</h1>
+          <h1 className="text-4xl font-bold text-breachfix-white mb-4">Media</h1>
           
           {/* Tab Navigation */}
-          <div className="flex space-x-1 bg-bridge-dark rounded-lg p-1 mb-6">
+          <div className="flex space-x-1 bg-breachfix-dark rounded-lg p-1 mb-6">
             <button
               onClick={() => handleTabChange('movies')}
               className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                 activeTab === 'movies'
-                  ? 'bg-bridge-gold text-bridge-navy'
-                  : 'text-bridge-white hover:text-bridge-white'
+                  ? 'bg-breachfix-gold text-breachfix-navy'
+                  : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
               Movies
@@ -349,8 +349,8 @@ const Media: React.FC = () => {
               onClick={() => handleTabChange('tvshows')}
               className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                 activeTab === 'tvshows'
-                  ? 'bg-bridge-gold text-bridge-navy'
-                  : 'text-bridge-white hover:text-bridge-white'
+                  ? 'bg-breachfix-gold text-breachfix-navy'
+                  : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
               TV Shows
@@ -359,8 +359,8 @@ const Media: React.FC = () => {
               onClick={() => handleTabChange('episodes')}
               className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                 activeTab === 'episodes'
-                  ? 'bg-bridge-gold text-bridge-navy'
-                  : 'text-bridge-white hover:text-bridge-white'
+                  ? 'bg-breachfix-gold text-breachfix-navy'
+                  : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
               Episodes
@@ -370,8 +370,8 @@ const Media: React.FC = () => {
                 onClick={() => handleTabChange('upload')}
                 className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors duration-200 ${
                   activeTab === 'upload'
-                    ? 'bg-bridge-gold text-bridge-navy'
-                    : 'text-bridge-white hover:text-bridge-white'
+                    ? 'bg-breachfix-gold text-breachfix-navy'
+                    : 'text-breachfix-white hover:text-breachfix-white'
                 }`}
               >
                 Upload
@@ -381,7 +381,7 @@ const Media: React.FC = () => {
 
           {/* Search and Filters */}
           {activeTab !== 'upload' && (
-            <div className="bg-bridge-dark rounded-lg p-6 mb-6">
+            <div className="bg-breachfix-dark rounded-lg p-6 mb-6">
               <form onSubmit={handleSearch} className="mb-4">
                 <div className="flex gap-4">
                   <input
@@ -389,11 +389,11 @@ const Media: React.FC = () => {
                     placeholder={`Search ${activeTab === 'movies' ? 'movies' : activeTab === 'tvshows' ? 'TV shows' : activeTab === 'episodes' ? 'episodes' : 'content'}...`}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                    className="flex-1 bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                   />
                   <button
                     type="submit"
-                    className="bg-bridge-gold hover:bg-yellow-500 text-bridge-navy px-6 py-2 rounded-lg transition-colors duration-200"
+                    className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-navy px-6 py-2 rounded-lg transition-colors duration-200"
                   >
                     Search
                   </button>
@@ -404,9 +404,9 @@ const Media: React.FC = () => {
               <div className="flex flex-wrap gap-4 items-center">
                 {/* Genre Filter */}
                 <div className="flex flex-wrap gap-2">
-                  <span className="text-bridge-white">Genres:</span>
+                  <span className="text-breachfix-white">Genres:</span>
                   {genresLoading ? (
-                    <span className="text-gray-500 text-sm">Loading genres...</span>
+                    <span className="text-breachfix-gray text-sm">Loading genres...</span>
                   ) : genres && Array.isArray(genres) && genres.length > 0 ? (
                     genres.map((genre) => (
                       <button
@@ -414,15 +414,15 @@ const Media: React.FC = () => {
                         onClick={() => handleGenreChange(genre.slug)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                           selectedGenre === genre.slug
-                            ? 'bg-bridge-gold text-bridge-navy'
-                            : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
+                            ? 'bg-breachfix-gold text-breachfix-navy'
+                            : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray'
                         }`}
                       >
                         {genre.name}
                       </button>
                     ))
                   ) : (
-                    <span className="text-gray-500 text-sm">
+                    <span className="text-breachfix-gray text-sm">
                       {genresError ? 'Failed to load genres' : 'No genres available'}
                     </span>
                   )}
@@ -431,15 +431,15 @@ const Media: React.FC = () => {
                 {/* Status Filter (TV Shows only) */}
                 {activeTab === 'tvshows' && (
                   <div className="flex flex-wrap gap-2">
-                    <span className="text-bridge-white">Status:</span>
+                    <span className="text-breachfix-white">Status:</span>
                     {['ongoing', 'completed', 'cancelled'].map((status) => (
                       <button
                         key={status}
                         onClick={() => handleStatusChange(status)}
                         className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                           statusFilter === status
-                            ? 'bg-bridge-gold text-bridge-navy'
-                            : 'bg-netflix-gray text-bridge-white hover:bg-gray-600'
+                            ? 'bg-breachfix-gold text-breachfix-navy'
+                            : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray'
                         }`}
                       >
                         {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -450,7 +450,7 @@ const Media: React.FC = () => {
 
                 {/* Sort Options */}
                 <div className="flex items-center gap-2">
-                  <span className="text-bridge-white">Sort by:</span>
+                  <span className="text-breachfix-white">Sort by:</span>
                   <select
                     value={`${sortBy}-${order}`}
                     onChange={(e) => {
@@ -459,7 +459,7 @@ const Media: React.FC = () => {
                       setOrder(newOrder);
                       setCurrentPage(1);
                     }}
-                    className="bg-netflix-gray text-white px-3 py-1 rounded focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                    className="bg-breachfix-gray text-breachfix-white px-3 py-1 rounded focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                   >
                     <option value="title-asc">Title A-Z</option>
                     <option value="title-desc">Title Z-A</option>
@@ -471,7 +471,7 @@ const Media: React.FC = () => {
                 </div>
 
                 {/* Free Only Toggle */}
-                <label className="flex items-center gap-2 text-bridge-white">
+                <label className="flex items-center gap-2 text-breachfix-white">
                   <input
                     type="checkbox"
                     checked={isFreeOnly}
@@ -479,7 +479,7 @@ const Media: React.FC = () => {
                       setIsFreeOnly(e.target.checked);
                       setCurrentPage(1);
                     }}
-                    className="rounded focus:ring-2 focus:ring-netflix-red"
+                    className="rounded focus:ring-2 focus:ring-breachfix-gold"
                   />
                   Free Only
                 </label>
@@ -549,8 +549,8 @@ const Media: React.FC = () => {
             {/* No Results */}
             {moviesData?.movies && moviesData.movies.length === 0 && (
               <div className="text-center py-12">
-                <div className="text-gray-400 text-xl mb-4">No movies found</div>
-                <p className="text-gray-500">Try adjusting your search criteria or filters</p>
+                <div className="text-breachfix-gray text-xl mb-4">No movies found</div>
+                <p className="text-breachfix-gray">Try adjusting your search criteria or filters</p>
               </div>
             )}
 
@@ -560,19 +560,19 @@ const Media: React.FC = () => {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="bg-netflix-gray hover:bg-gray-600 disabled:opacity-50 text-white px-4 py-2 rounded transition-colors duration-200"
+                  className="bg-breachfix-gray hover:bg-breachfix-gray disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
                 >
                   Previous
                 </button>
                 
-                <span className="text-bridge-white px-4">
+                <span className="text-breachfix-white px-4">
                   Page {currentPage} of {moviesData.pages}
                 </span>
                 
                 <button
                   onClick={() => setCurrentPage(Math.min(moviesData.pages, currentPage + 1))}
                   disabled={currentPage === moviesData.pages}
-                  className="bg-netflix-gray hover:bg-gray-600 disabled:opacity-50 text-white px-4 py-2 rounded transition-colors duration-200"
+                  className="bg-breachfix-gray hover:bg-breachfix-gray disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
                 >
                   Next
                 </button>
@@ -585,12 +585,12 @@ const Media: React.FC = () => {
           <div>
             {/* TV Shows Status Banner */}
             {String(import.meta.env.DEV) === 'true' && (
-              <div className="bg-bridge-emerald/20 border border-bridge-emerald rounded-lg p-4 mb-8">
-                <div className="text-green-400 font-semibold mb-2">✅ TV Shows API Working!</div>
-                <p className="text-green-300 text-sm">
+              <div className="bg-breachfix-emerald/20 border border-breachfix-emerald rounded-lg p-4 mb-8">
+                <div className="text-breachfix-emerald font-semibold mb-2">✅ TV Shows API Working!</div>
+                <p className="text-breachfix-emerald text-sm">
                   All TV show endpoints are now functional. Featured, trending, and search are working properly.
                 </p>
-                <div className="mt-2 text-xs text-green-400">
+                <div className="mt-2 text-xs text-breachfix-emerald">
                   <div>Featured: {featuredTVShows ? '✅ Loaded' : '⏳ Loading...'}</div>
                   <div>Trending: {trendingTVShows ? '✅ Loaded' : '⏳ Loading...'}</div>
                   <div>All Shows: {tvShowsData ? '✅ Loaded' : '⏳ Loading...'}</div>
@@ -667,20 +667,20 @@ const Media: React.FC = () => {
             {/* No Results */}
             {tvShowsData?.tvshows && tvShowsData.tvshows.length === 0 && !tvShowsLoading && (
               <div className="text-center py-12">
-                <div className="text-gray-400 text-xl mb-4">No TV shows found</div>
-                <p className="text-gray-500">Try adjusting your search criteria or filters</p>
+                <div className="text-breachfix-gray text-xl mb-4">No TV shows found</div>
+                <p className="text-breachfix-gray">Try adjusting your search criteria or filters</p>
               </div>
             )}
 
             {/* No Featured/Trending Content */}
             {!tvShowsLoading && !(featuredTVShows as any)?.data && !(trendingTVShows as any)?.data && !tvShowsData?.tvshows && (
               <div className="text-center py-12">
-                <div className="text-gray-400 text-xl mb-4">TV Shows Coming Soon</div>
-                <p className="text-gray-500">Featured and trending TV shows will appear here once content is available.</p>
+                <div className="text-breachfix-gray text-xl mb-4">TV Shows Coming Soon</div>
+                <p className="text-breachfix-gray">Featured and trending TV shows will appear here once content is available.</p>
                 {String(import.meta.env.DEV) === 'true' && (
-                  <div className="mt-4 p-4 bg-gray-800 rounded-lg text-left">
-                    <div className="text-bridge-white text-sm font-semibold mb-2">Debug Info:</div>
-                    <div className="text-gray-400 text-xs space-y-1">
+                  <div className="mt-4 p-4 bg-breachfix-dark rounded-lg text-left">
+                    <div className="text-breachfix-white text-sm font-semibold mb-2">Debug Info:</div>
+                    <div className="text-breachfix-gray text-xs space-y-1">
                       <div>Featured TV Shows: {featuredTVShows ? 'Loaded' : 'Not loaded'}</div>
                       <div>Trending TV Shows: {trendingTVShows ? 'Loaded' : 'Not loaded'}</div>
                       <div>All TV Shows: {tvShowsData ? 'Loaded' : 'Not loaded'}</div>
@@ -697,19 +697,19 @@ const Media: React.FC = () => {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="bg-netflix-gray hover:bg-gray-600 disabled:opacity-50 text-white px-4 py-2 rounded transition-colors duration-200"
+                  className="bg-breachfix-gray hover:bg-breachfix-gray disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
                 >
                   Previous
                 </button>
                 
-                <span className="text-bridge-white px-4">
+                <span className="text-breachfix-white px-4">
                   Page {currentPage} of {tvShowsData.pages}
                 </span>
                 
                 <button
                   onClick={() => setCurrentPage(Math.min(tvShowsData.pages, currentPage + 1))}
                   disabled={currentPage === tvShowsData.pages}
-                  className="bg-netflix-gray hover:bg-gray-600 disabled:opacity-50 text-white px-4 py-2 rounded transition-colors duration-200"
+                  className="bg-breachfix-gray hover:bg-breachfix-gray disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
                 >
                   Next
                 </button>
@@ -722,9 +722,9 @@ const Media: React.FC = () => {
           <div>
             {/* Episodes Status Banner */}
             {String(import.meta.env.DEV) === 'true' && (
-              <div className="bg-bridge-emerald/20 border border-bridge-emerald rounded-lg p-4 mb-8">
-                <div className="text-green-400 font-semibold mb-2">✅ Episodes API Working!</div>
-                <p className="text-green-300 text-sm">
+              <div className="bg-breachfix-emerald/20 border border-breachfix-emerald rounded-lg p-4 mb-8">
+                <div className="text-breachfix-emerald font-semibold mb-2">✅ Episodes API Working!</div>
+                <p className="text-breachfix-emerald text-sm">
                   All episode endpoints are now functional. Featured, trending, and search are working properly.
                 </p>
               </div>
@@ -799,8 +799,8 @@ const Media: React.FC = () => {
             {/* No Results */}
             {episodesData?.episodes && episodesData.episodes.length === 0 && !episodesLoading && (
               <div className="text-center py-12">
-                <div className="text-gray-400 text-xl mb-4">No episodes found</div>
-                <p className="text-gray-500">Try adjusting your search criteria or filters</p>
+                <div className="text-breachfix-gray text-xl mb-4">No episodes found</div>
+                <p className="text-breachfix-gray">Try adjusting your search criteria or filters</p>
               </div>
             )}
 
@@ -810,19 +810,19 @@ const Media: React.FC = () => {
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="bg-netflix-gray hover:bg-gray-600 disabled:opacity-50 text-white px-4 py-2 rounded transition-colors duration-200"
+                  className="bg-breachfix-gray hover:bg-breachfix-gray disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
                 >
                   Previous
                 </button>
                 
-                <span className="text-bridge-white px-4">
+                <span className="text-breachfix-white px-4">
                   Page {currentPage} of {episodesData.pages}
                 </span>
                 
                 <button
                   onClick={() => setCurrentPage(Math.min(episodesData.pages, currentPage + 1))}
                   disabled={currentPage === episodesData.pages}
-                  className="bg-netflix-gray hover:bg-gray-600 disabled:opacity-50 text-white px-4 py-2 rounded transition-colors duration-200"
+                  className="bg-breachfix-gray hover:bg-breachfix-gray disabled:opacity-50 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
                 >
                   Next
                 </button>

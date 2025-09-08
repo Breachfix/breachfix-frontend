@@ -51,7 +51,7 @@ const ChapterHeader: React.FC<ChapterHeaderProps> = ({
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <h2 className="text-2xl font-bold text-bridge-white">
+            <h2 className="text-2xl font-bold text-breachfix-white">
               {bookName} Chapter {chapterNumber}
             </h2>
             <PartnerBadge
@@ -67,7 +67,7 @@ const ChapterHeader: React.FC<ChapterHeaderProps> = ({
               showText={true}
             />
           </div>
-          <p className="text-bridge-gray text-sm">
+          <p className="text-breachfix-gray text-sm">
             {language.toUpperCase()} • {source} Translation
           </p>
         </div>
@@ -77,7 +77,7 @@ const ChapterHeader: React.FC<ChapterHeaderProps> = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleDonationClick}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-md"
+            className="flex items-center gap-2 px-4 py-2 bg-breachfix-emerald text-white rounded-lg hover:bg-teal-600 transition-colors shadow-md"
           >
             <Heart size={16} />
             <span className="text-sm font-medium">Support Chapter</span>
@@ -92,7 +92,7 @@ const ChapterHeader: React.FC<ChapterHeaderProps> = ({
           transition={{ delay: 0.2 }}
           className="mt-4 p-3 bg-white bg-opacity-50 rounded-lg"
         >
-          <p className="text-sm text-bridge-white">
+          <p className="text-sm text-breachfix-white">
             💡 <strong>Help fund accurate translation</strong> and research for this chapter. 
             Your support enables detailed analysis and improved translations.
           </p>

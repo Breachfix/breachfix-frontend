@@ -101,22 +101,22 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+      <div className="bg-breachfix-dark rounded-lg p-6 w-full max-w-md border border-breachfix-gray">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold">Complete Your Donation</h3>
+          <h3 className="text-lg font-semibold text-breachfix-white">Complete Your Donation</h3>
           <button
             onClick={onCancel}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-breachfix-gray hover:text-breachfix-white"
             disabled={isProcessing}
           >
             ✕
           </button>
         </div>
         
-        <div className="mb-4 p-3 bg-gray-50 rounded">
-          <p className="text-sm text-gray-600">Donating for:</p>
-          <p className="font-medium">{label}</p>
-          <p className="text-lg font-bold text-green-600">
+        <div className="mb-4 p-3 bg-breachfix-gray bg-opacity-20 rounded">
+          <p className="text-sm text-breachfix-gray">Donating for:</p>
+          <p className="font-medium text-breachfix-white">{label}</p>
+          <p className="text-lg font-bold text-breachfix-gold">
             {currency.toUpperCase()} ${(amount / 100).toFixed(2)}
           </p>
         </div>
@@ -125,7 +125,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
           <PaymentElement />
           
           {error && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
+            <div className="mt-4 p-3 bg-red-600 bg-opacity-20 border border-red-400 rounded text-red-100 text-sm">
               {error}
             </div>
           )}
@@ -134,7 +134,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50"
+              className="flex-1 px-4 py-2 border border-breachfix-gray rounded text-breachfix-gray hover:bg-breachfix-gray hover:bg-opacity-10"
               disabled={isProcessing}
             >
               Cancel
@@ -142,7 +142,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
             <button
               type="submit"
               disabled={!stripe || isProcessing}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-4 py-2 bg-breachfix-gold text-breachfix-navy rounded hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isProcessing ? 'Processing...' : `Donate ${currency.toUpperCase()} ${(amount / 100).toFixed(2)}`}
             </button>
@@ -221,7 +221,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
       <button
         onClick={handleDonationClick}
         disabled={isLoading}
-        className={`px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+        className={`px-4 py-2 bg-breachfix-emerald text-breachfix-white rounded hover:bg-teal-600 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       >
         {isLoading ? 'Loading...' : label}
       </button>
