@@ -106,7 +106,7 @@ const Home: React.FC = () => {
   }
 
   if (heroError || randomHeroError || trendingError || featuredError || actionError || comedyError || dramaError) {
-    return <div className="text-red-500 text-center p-8">Error loading content. Please try again later.</div>;
+    return <div className="text-bridge-gold text-center p-8">Error loading content. Please try again later.</div>;
   }
 
   // Helper function to get image URL (same logic as MovieCard)
@@ -193,7 +193,7 @@ const Home: React.FC = () => {
                 {selectedHero.genres.slice(0, 3).map((genre: string, index: number) => (
                   <span
                     key={`hero-genre-${index}`}
-                    className="text-sm bg-netflix-red text-white px-3 py-1 rounded-full"
+                    className="text-sm bg-bridge-gold text-bridge-navy px-3 py-1 rounded-full"
                   >
                     {genre}
                   </span>

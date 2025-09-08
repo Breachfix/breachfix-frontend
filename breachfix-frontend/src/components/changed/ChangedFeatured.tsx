@@ -234,7 +234,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
               </p>
             </div>
             
-            <div className="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-4">
+            <div className="bg-red-600 bg-opacity-20 border border-red-400 rounded-lg p-4">
               <h4 className="text-red-400 font-semibold mb-2">Modern Change</h4>
               <p className="text-bridge-white leading-relaxed">
                 {featuredVerse.modernNote}
@@ -286,7 +286,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
             <h4 className="text-lg font-semibold text-bridge-white mb-3">Detailed Analysis</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {featuredVerse.batchData.Error && (
-                <div className="bg-red-900 bg-opacity-20 border border-red-500 p-3 rounded-lg">
+                <div className="bg-red-600 bg-opacity-20 border border-red-400 p-3 rounded-lg">
                   <h5 className="text-red-400 font-semibold mb-1 text-sm">Error</h5>
                   <p className="text-bridge-white text-xs">{featuredVerse.batchData.Error}</p>
                 </div>
@@ -298,7 +298,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
                 </div>
               )}
               {featuredVerse.batchData.Evidence && (
-                <div className="bg-blue-900 bg-opacity-20 border border-blue-500 p-3 rounded-lg">
+                <div className="bg-bridge-emerald bg-opacity-20 border border-bridge-emerald p-3 rounded-lg">
                   <h5 className="text-bridge-gold font-semibold mb-1 text-sm">Evidence</h5>
                   <p className="text-bridge-white text-xs">{featuredVerse.batchData.Evidence}</p>
                 </div>

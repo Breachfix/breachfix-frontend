@@ -227,7 +227,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, baseUrl = '/movies' }) => 
           
                     {/* Episode Badge - Always visible */}
           {movie.episodeNumber && movie.seasonNumber && (
-            <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-semibold z-10">
+            <div className="absolute top-2 right-2 bg-bridge-emerald text-bridge-white px-2 py-1 rounded-full text-xs font-semibold z-10">
               S{movie.seasonNumber} E{movie.episodeNumber}
             </div>
           )}
@@ -251,7 +251,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, baseUrl = '/movies' }) => 
                   movie.genres.slice(0, 2).map((genre, index) => (
                     <span
                       key={index}
-                      className="text-xs bg-netflix-red text-white px-2 py-1 rounded"
+                      className="text-xs bg-bridge-gold text-bridge-navy px-2 py-1 rounded"
                     >
                       {genre}
                     </span>
@@ -287,7 +287,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, baseUrl = '/movies' }) => 
           
           {/* Play Button Overlay */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <div className="bg-netflix-red text-white p-3 rounded-full shadow-lg">
+            <div className="bg-bridge-gold text-bridge-navy p-3 rounded-full shadow-lg">
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
               </svg>

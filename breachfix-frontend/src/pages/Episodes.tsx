@@ -86,7 +86,7 @@ const Episodes: React.FC = () => {
   if (error) {
     return (
       <div className="w-full px-4 py-8">
-        <div className="text-red-500 text-center">
+        <div className="text-bridge-gold text-center">
           Error loading episodes: {error.message}
         </div>
       </div>
@@ -113,7 +113,7 @@ const Episodes: React.FC = () => {
                 />
                 <button
                   type="submit"
-                  className="bg-netflix-red hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+                  className="bg-bridge-gold hover:bg-yellow-500 text-bridge-navy px-6 py-2 rounded-lg transition-colors duration-200"
                 >
                   Search
                 </button>
@@ -132,7 +132,7 @@ const Episodes: React.FC = () => {
                       onClick={() => handleGenreChange(genre.slug)}
                       className={`px-3 py-1 rounded-full text-sm transition-colors duration-200 ${
                         selectedGenre === genre.slug
-                          ? 'bg-netflix-red text-white'
+                          ? 'bg-bridge-gold text-bridge-navy'
                           : 'bg-netflix-gray text-gray-300 hover:bg-gray-600'
                       }`}
                     >

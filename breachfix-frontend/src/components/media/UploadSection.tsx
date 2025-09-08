@@ -194,7 +194,7 @@ const UploadSection: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="bg-netflix-dark-gray rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-white mb-6">Upload Media</h2>
+        <h2 className="text-2xl font-bold text-bridge-white mb-6">Upload Media</h2>
 
         {/* Upload Type Selection */}
         <div className="mb-6">
@@ -227,7 +227,7 @@ const UploadSection: React.FC = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
                 placeholder="Enter title"
               />
             </div>
@@ -238,7 +238,7 @@ const UploadSection: React.FC = () => {
                 name="genre"
                 value={formData.genre}
                 onChange={handleInputChange}
-                className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
               >
                 <option value="">Select genre</option>
                 <option value="action">Action</option>
@@ -258,7 +258,7 @@ const UploadSection: React.FC = () => {
                 name="language"
                 value={formData.language}
                 onChange={handleInputChange}
-                className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
               >
                 <option value="English">English</option>
                 <option value="Spanish">Spanish</option>
@@ -280,7 +280,7 @@ const UploadSection: React.FC = () => {
                 name="releaseDate"
                 value={formData.releaseDate}
                 onChange={handleInputChange}
-                className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
               />
             </div>
 
@@ -292,7 +292,7 @@ const UploadSection: React.FC = () => {
                   name="duration"
                   value={formData.duration}
                   onChange={handleInputChange}
-                  className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                  className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
                   placeholder="120"
                 />
               </div>
@@ -306,7 +306,7 @@ const UploadSection: React.FC = () => {
                   name="seasons"
                   value={formData.seasons}
                   onChange={handleInputChange}
-                  className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                  className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
                   placeholder="1"
                   min="1"
                 />
@@ -320,7 +320,7 @@ const UploadSection: React.FC = () => {
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
-                  className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                  className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
                 >
                   <option value="ongoing">Ongoing</option>
                   <option value="completed">Completed</option>
@@ -338,7 +338,7 @@ const UploadSection: React.FC = () => {
               value={formData.description}
               onChange={handleInputChange}
               rows={4}
-              className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+              className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
               placeholder="Enter description"
             />
           </div>
@@ -366,7 +366,7 @@ const UploadSection: React.FC = () => {
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
-                  className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                  className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
                   placeholder="9.99"
                   min="0"
                   step="0.01"
@@ -377,7 +377,7 @@ const UploadSection: React.FC = () => {
 
           {/* File Uploads */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white">Media Files</h3>
+            <h3 className="text-lg font-semibold text-bridge-white">Media Files</h3>
 
             {/* Poster Upload */}
             <div>
@@ -387,7 +387,7 @@ const UploadSection: React.FC = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleFileInputChange('poster')}
-                className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
               />
               {selectedFiles.poster && (
                 <div className="mt-2 text-sm text-gray-400">
@@ -398,7 +398,7 @@ const UploadSection: React.FC = () => {
                 <div className="mt-2">
                   <div className="w-full bg-gray-700 rounded-full h-2">
                     <div
-                      className="bg-netflix-red h-2 rounded-full transition-all duration-300"
+                      className="bg-bridge-gold h-2 rounded-full transition-all duration-300"
                       style={{ width: `${uploadProgress.poster}%` }}
                     />
                   </div>
@@ -414,7 +414,7 @@ const UploadSection: React.FC = () => {
                 type="file"
                 accept="video/*"
                 onChange={handleFileInputChange('video')}
-                className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
               />
               {selectedFiles.video && (
                 <div className="mt-2 text-sm text-gray-400">
@@ -425,7 +425,7 @@ const UploadSection: React.FC = () => {
                 <div className="mt-2">
                   <div className="w-full bg-gray-700 rounded-full h-2">
                     <div
-                      className="bg-netflix-red h-2 rounded-full transition-all duration-300"
+                      className="bg-bridge-gold h-2 rounded-full transition-all duration-300"
                       style={{ width: `${uploadProgress.video}%` }}
                     />
                   </div>
@@ -441,7 +441,7 @@ const UploadSection: React.FC = () => {
                 type="file"
                 accept="video/*"
                 onChange={handleFileInputChange('trailer')}
-                className="w-full bg-netflix-gray text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
+                className="w-full bg-netflix-gray text-bridge-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-netflix-red"
               />
               {selectedFiles.trailer && (
                 <div className="mt-2 text-sm text-gray-400">
@@ -452,7 +452,7 @@ const UploadSection: React.FC = () => {
                 <div className="mt-2">
                   <div className="w-full bg-gray-700 rounded-full h-2">
                     <div
-                      className="bg-netflix-red h-2 rounded-full transition-all duration-300"
+                      className="bg-bridge-gold h-2 rounded-full transition-all duration-300"
                       style={{ width: `${uploadProgress.trailer}%` }}
                     />
                   </div>
@@ -465,10 +465,10 @@ const UploadSection: React.FC = () => {
           {uploadStatus && (
             <div className={`p-4 rounded-lg ${
               uploadStatus.includes('failed') || uploadStatus.includes('error')
-                ? 'bg-red-900 text-red-200'
+                ? 'bg-red-600 text-red-100'
                 : uploadStatus.includes('completed')
-                ? 'bg-green-900 text-green-200'
-                : 'bg-blue-900 text-blue-200'
+                ? 'bg-bridge-emerald text-bridge-white'
+                : 'bg-bridge-emerald text-bridge-white'
             }`}>
               {uploadStatus}
             </div>
@@ -479,7 +479,7 @@ const UploadSection: React.FC = () => {
             <button
               type="submit"
               disabled={isUploading}
-              className="flex-1 bg-netflix-red hover:bg-red-700 disabled:bg-gray-600 text-white py-3 px-6 rounded-lg font-medium transition-colors duration-200"
+              className="flex-1 bg-bridge-gold hover:bg-yellow-500 disabled:bg-gray-600 text-bridge-white py-3 px-6 rounded-lg font-medium transition-colors duration-200"
             >
               {isUploading ? 'Uploading...' : 'Upload Media'}
             </button>

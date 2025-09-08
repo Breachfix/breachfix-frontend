@@ -316,7 +316,7 @@ const Media: React.FC = () => {
   if (moviesError || tvShowsError || episodesError) {
     return (
       <div className="w-full px-4 py-8">
-        <div className="text-red-500 text-center">
+        <div className="text-bridge-gold text-center">
           Error loading media content: {moviesError?.message || tvShowsError?.message || episodesError?.message}
         </div>
       </div>
@@ -393,7 +393,7 @@ const Media: React.FC = () => {
                   />
                   <button
                     type="submit"
-                    className="bg-netflix-red hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+                    className="bg-bridge-gold hover:bg-yellow-500 text-bridge-navy px-6 py-2 rounded-lg transition-colors duration-200"
                   >
                     Search
                   </button>
@@ -585,7 +585,7 @@ const Media: React.FC = () => {
           <div>
             {/* TV Shows Status Banner */}
             {String(import.meta.env.DEV) === 'true' && (
-              <div className="bg-green-900/20 border border-green-600 rounded-lg p-4 mb-8">
+              <div className="bg-bridge-emerald/20 border border-bridge-emerald rounded-lg p-4 mb-8">
                 <div className="text-green-400 font-semibold mb-2">✅ TV Shows API Working!</div>
                 <p className="text-green-300 text-sm">
                   All TV show endpoints are now functional. Featured, trending, and search are working properly.
@@ -722,7 +722,7 @@ const Media: React.FC = () => {
           <div>
             {/* Episodes Status Banner */}
             {String(import.meta.env.DEV) === 'true' && (
-              <div className="bg-green-900/20 border border-green-600 rounded-lg p-4 mb-8">
+              <div className="bg-bridge-emerald/20 border border-bridge-emerald rounded-lg p-4 mb-8">
                 <div className="text-green-400 font-semibold mb-2">✅ Episodes API Working!</div>
                 <p className="text-green-300 text-sm">
                   All episode endpoints are now functional. Featured, trending, and search are working properly.
