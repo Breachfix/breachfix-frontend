@@ -1,6 +1,7 @@
 // src/utils/api.ts
 import axios from 'axios';
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { ENV } from '../config/environment';
 
 // Type definitions for Bible API
 interface Book {
@@ -523,13 +524,13 @@ export const AllBiblesHelpers = {
 
 // Environment configuration
 const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:7001/api/v3',
+  BASE_URL: ENV.API_BASE_URL,
   API_KEY: import.meta.env.VITE_INTERNAL_API_KEY,
   TIMEOUT: 30000, // 30 seconds
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000, // 1 second
   // AllBibles specific configuration
-  ALL_BIBLES_ENABLED: import.meta.env.VITE_ALL_BIBLES_ENABLED !== 'false', // Default to true
+  ALL_BIBLES_ENABLED: ENV.ALLBIBLES_ENABLE_PARALLEL, // Use environment config
   ALL_BIBLES_CACHE_TTL: parseInt(import.meta.env.VITE_ALL_BIBLES_CACHE_TTL || '300'), // 5 minutes default
   ALL_BIBLES_MAX_PARALLEL_LANGUAGES: parseInt(import.meta.env.VITE_ALL_BIBLES_MAX_PARALLEL_LANGUAGES || '10'),
 };

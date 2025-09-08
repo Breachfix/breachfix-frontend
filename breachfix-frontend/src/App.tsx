@@ -22,6 +22,8 @@ import VideoPlayer from './pages/VideoPlayer';
 import Admin from './pages/Admin';
 import Accounts from './pages/Accounts';
 import Favorites from './pages/Favorites';
+import DonationTest from './pages/DonationTest';
+import DonationSuccess from './pages/DonationSuccess';
 import './App.css';
 
 function App() {
@@ -58,6 +60,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/accounts" element={<Accounts />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/donation-test" element={<DonationTest />} />
+          <Route path="/donation-success" element={<DonationSuccess />} />
           <Route path="/login" element={<Auth />} />
           <Route path="/signup" element={<Auth />} />
           <Route path="/watch/:type/:id" element={<VideoPlayer />} />
