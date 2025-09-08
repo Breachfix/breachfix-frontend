@@ -2,6 +2,10 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAllBiblesApi } from '../hooks/useApi';
 import { motion, AnimatePresence } from 'framer-motion';
+import VerseDisplay from '../components/bible/VerseDisplay';
+import ChapterHeader from '../components/bible/ChapterHeader';
+import DonationModal from '../components/donations/DonationModal';
+import { useDonation } from '../hooks/useDonation';
 
 // Interfaces for the AllBibles API
 interface AllBibleLanguage {
@@ -61,6 +65,7 @@ interface ReadingProgress {
 
 const BibleRead: React.FC = () => {
   const navigate = useNavigate();
+  const { handleDonationClick, handleDonationSuccess, handleDonationError, showModal, donationScope, handleDonationCancel } = useDonation();
   
   // Load initial state from localStorage or use defaults
   const [selectedLanguage, setSelectedLanguage] = useState<string>(() => 
@@ -191,18 +196,14 @@ const BibleRead: React.FC = () => {
 
   // State to store verse analysis data
   const [verseAnalysisData, setVerseAnalysisData] = useState<{ [key: string]: any }>({});
-  const [isAnalyzingVerses, setIsAnalyzingVerses] = useState(false);
 
   // Check asterisks for current chapter verses using individual queries
   useEffect(() => {
     if (!shouldShowAsterisks || !chapterResponse?.verses) {
       setVerseAnalysisData({});
       setAsteriskData({});
-      setIsAnalyzingVerses(false);
       return;
     }
-
-    setIsAnalyzingVerses(true);
 
     // Create analysis promises for all verses
     const analysisPromises = chapterResponse.verses.map(async (verse: any) => {
@@ -235,10 +236,8 @@ const BibleRead: React.FC = () => {
       
       setVerseAnalysisData(newAnalysisData);
       setAsteriskData(newAsteriskData);
-      setIsAnalyzingVerses(false);
     }).catch((error) => {
       console.error('Failed to analyze verses:', error);
-      setIsAnalyzingVerses(false);
     });
   }, [shouldShowAsterisks, chapterResponse?.verses, selectedBookNumber, selectedChapter, selectedLanguage, selectedSource]);
 
@@ -1021,27 +1020,33 @@ const BibleRead: React.FC = () => {
                 {/* Chapter Selection */}
                 {selectedBookNumber ? (
                   <div className="mb-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <h2 className="text-2xl font-bold text-netflix-white">
-                        {selectedBook?.name} - Chapter {selectedChapter}
-                      </h2>
-                      {/* Show Books Button - only visible when sidebar is hidden */}
-                      {!sidebarOpen && (
-                        <motion.button
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setSidebarOpen(true)}
-                          className="bg-netflix-gray hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                          </svg>
-                          Show Books
-                        </motion.button>
-                      )}
-                    </div>
+                    <ChapterHeader
+                      bookName={selectedBook?.name || 'Unknown Book'}
+                      chapterNumber={selectedChapter}
+                      language={selectedLanguage}
+                      source={selectedSource}
+                      bookNumber={selectedBookNumber}
+                      onDonationClick={handleDonationClick}
+                      donationEnabled={true}
+                      userId={undefined} // TODO: Get from auth context
+                    />
+                    
+                    {/* Show Books Button - only visible when sidebar is hidden */}
+                    {!sidebarOpen && (
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => setSidebarOpen(true)}
+                        className="bg-netflix-gray hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        Show Books
+                      </motion.button>
+                    )}
                     
                     {/* Subtle indicator when sidebar is hidden */}
                     {!sidebarOpen && (
@@ -1122,51 +1127,21 @@ const BibleRead: React.FC = () => {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: verse.verse * 0.05 }}
-                          onClick={() => handleVerseClick(verse.verse)}
-                          className={`mb-4 cursor-pointer transition-all duration-300 rounded-lg p-3 ${
-                            highlightedVerse === verse.verse
-                              ? 'bg-yellow-600 bg-opacity-20 border-2 border-yellow-500 shadow-lg'
-                              : 'hover:bg-netflix-gray hover:bg-opacity-50'
-                          }`}
                         >
-                          <div className="flex items-start gap-3">
-                            <span className="text-netflix-red font-bold mr-2 flex-shrink-0 text-lg">
-                              {verse.verse}.
-                            </span>
-                            <span className={`text-white leading-relaxed flex-1 text-lg ${
-                              textAlignment === 'center' 
-                                ? 'text-center' 
-                                : textAlignment === 'indent' 
-                                  ? 'text-left pl-8' 
-                                  : 'text-left'
-                            }`}>
-                              {verse.text}
-                            </span>
-                            {shouldShowAsterisk(selectedBookNumber, selectedChapter, verse.verse) && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleAsteriskClick(selectedBookNumber, selectedChapter, verse.verse);
-                                }}
-                                className="text-red-500 hover:text-red-400 text-lg font-bold ml-2 transition-colors duration-200"
-                                title="This verse has been altered in modern translations. Click for details."
-                              >
-                                *
-                              </button>
-                            )}
-                            {isAnalyzingVerses && shouldShowAsterisks && !verseAnalysisData[`${selectedBookNumber}:${selectedChapter}:${verse.verse}`] && (
-                              <div className="ml-2 w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" title="Analyzing verse for changes..."></div>
-                            )}
-                            {highlightedVerse === verse.verse && (
-                              <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                className="text-yellow-400 text-sm"
-                              >
-                                ✨
-                              </motion.div>
-                            )}
-                          </div>
+                          <VerseDisplay
+                            verse={verse}
+                            isHighlighted={highlightedVerse === verse.verse}
+                            showAsterisk={shouldShowAsterisk(selectedBookNumber, selectedChapter, verse.verse)}
+                            onVerseClick={handleVerseClick}
+                            onAsteriskClick={handleAsteriskClick}
+                            onDonationClick={handleDonationClick}
+                            donationEnabled={true}
+                            selectedLanguage={selectedLanguage}
+                            selectedSource={selectedSource}
+                            selectedBookNumber={selectedBookNumber}
+                            selectedChapter={selectedChapter}
+                            userId={undefined} // TODO: Get from auth context
+                          />
                           
                           {/* Compare in Parallel Button - appears when verse is highlighted */}
                           {highlightedVerse === verse.verse && (
@@ -1765,6 +1740,15 @@ const BibleRead: React.FC = () => {
           </motion.div>
         </div>
       )}
+
+      {/* Donation Modal */}
+      <DonationModal
+        isOpen={showModal}
+        onClose={handleDonationCancel}
+        scope={donationScope}
+        onSuccess={handleDonationSuccess}
+        onError={handleDonationError}
+      />
     </div>
   );
 };

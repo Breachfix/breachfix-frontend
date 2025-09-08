@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './context/AuthContext';
+import { DonationProvider } from './context/DonationContext';
 import Header from './components/layout/Header';
 import Home from './pages/Home';
 import Media from './pages/Media';
@@ -35,9 +36,10 @@ function App() {
   }, [initializeAuth]);
 
   return (
-    <div className="app bg-netflix-black min-h-screen">
-      <Header />
-      <main className="pt-16">
+    <DonationProvider>
+      <div className="app bg-netflix-black min-h-screen">
+        <Header />
+        <main className="pt-16">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/media" element={<Media />} />
@@ -67,8 +69,9 @@ function App() {
           <Route path="/watch/:type/:id" element={<VideoPlayer />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
-      </main>
-    </div>
+        </main>
+      </div>
+    </DonationProvider>
   );
 }
 

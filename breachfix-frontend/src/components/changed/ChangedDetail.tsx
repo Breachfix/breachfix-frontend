@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Heart } from 'lucide-react';
 import { ApiService } from '../../utils/api';
+import DonationButton from '../donations/DonationButton';
+import { useDonation } from '../../hooks/useDonation';
 
 interface ChangedDetailProps {
   lang: string;
@@ -14,6 +17,7 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { handleDonationSuccess, handleDonationError } = useDonation();
 
   useEffect(() => {
     if (!lang || !source || !book || !chapter || !verse) return;
@@ -229,6 +233,48 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
           </div>
         </div>
       )}
+
+      {/* Donation Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="bg-gradient-to-r from-green-900 to-emerald-900 rounded-2xl p-6 border border-green-500"
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <Heart className="text-green-400" size={24} />
+          <h4 className="text-lg font-semibold text-green-400">Support Translation Research</h4>
+        </div>
+        
+        <p className="text-gray-300 mb-6 leading-relaxed">
+          This verse analysis represents hours of research and comparison across multiple Bible versions. 
+          Your donation helps fund continued research, accurate translations, and the development of tools 
+          that help believers understand God's Word more clearly.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+          <DonationButton
+            scope={{
+              kind: 'verse',
+              lang: lang,
+              source: source,
+              bookNumber: book,
+              chapter: chapter,
+              verse: verse
+            }}
+            amount={25}
+            label="Support This Research"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+            onSuccess={handleDonationSuccess}
+            onError={handleDonationError}
+          />
+          
+          <div className="text-sm text-gray-400">
+            <p>💡 <strong>Suggested:</strong> $25 helps fund 1 hour of research</p>
+            <p>🎯 <strong>Impact:</strong> Your support enables accurate Bible translation</p>
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
   );
 };

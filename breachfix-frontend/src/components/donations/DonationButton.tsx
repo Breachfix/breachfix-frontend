@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { ApiService } from '../../utils/api';
+import { usePaymentTracking } from '../../hooks/usePaymentTracking';
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_your_stripe_publishable_key_here');
@@ -17,6 +18,7 @@ interface DonationButtonProps {
   };
   amount: number;
   currency?: string;
+  label?: string;
   className?: string;
   onSuccess?: (paymentIntent: any) => void;
   onError?: (error: any) => void;
@@ -27,6 +29,7 @@ interface PaymentFormProps {
   amount: number;
   currency: string;
   label: string;
+  scope: DonationButtonProps['scope'];
   onSuccess: (paymentIntent: any) => void;
   onError: (error: any) => void;
   onCancel: () => void;
@@ -37,6 +40,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   amount,
   currency,
   label,
+  scope,
   onSuccess,
   onError,
   onCancel
@@ -45,6 +49,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { recordPayment } = usePaymentTracking();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -69,6 +74,20 @@ const PaymentForm: React.FC<PaymentFormProps> = ({
         setError(error.message || 'An error occurred during payment');
         onError(error);
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // Record the payment
+        try {
+          await recordPayment({
+            scope,
+            amount,
+            currency,
+            paymentIntentId: paymentIntent.id,
+            status: 'succeeded'
+          });
+        } catch (recordError) {
+          console.error('Failed to record payment:', recordError);
+          // Don't fail the payment if recording fails
+        }
+        
         onSuccess(paymentIntent);
       }
     } catch (err) {
@@ -138,6 +157,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
   scope,
   amount,
   currency = 'usd',
+  label = 'Donate',
   className = '',
   onSuccess,
   onError
@@ -203,7 +223,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
         disabled={isLoading}
         className={`px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
       >
-        {isLoading ? 'Loading...' : `Donate $${amount}`}
+        {isLoading ? 'Loading...' : label}
       </button>
 
       {showPaymentForm && clientSecret && paymentData && (
@@ -213,6 +233,7 @@ const DonationButton: React.FC<DonationButtonProps> = ({
             amount={paymentData.amount}
             currency={paymentData.currency}
             label={paymentData.label}
+            scope={scope}
             onSuccess={handlePaymentSuccess}
             onError={handlePaymentError}
             onCancel={handleCancel}

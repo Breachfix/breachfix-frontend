@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Heart, CheckCircle, Star } from 'lucide-react';
 
 const DonationSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -9,7 +11,6 @@ const DonationSuccess: React.FC = () => {
   useEffect(() => {
     // Get payment intent ID from URL parameters
     const paymentIntentId = searchParams.get('payment_intent');
-    const paymentIntentClientSecret = searchParams.get('payment_intent_client_secret');
     
     if (paymentIntentId) {
       // In a real app, you might want to verify the payment with your backend
@@ -36,24 +37,55 @@ const DonationSuccess: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-2xl w-full space-y-8"
+      >
         <div className="text-center">
-          {/* Success Icon */}
-          <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
-            <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
+          {/* Success Icon with Animation */}
+          <motion.div 
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6"
+          >
+            <CheckCircle className="h-12 w-12 text-green-600" />
+          </motion.div>
 
           {/* Success Message */}
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Thank You for Your Donation!
-          </h2>
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-4xl font-bold text-gray-900 mb-4"
+          >
+            🎉 Thank You for Your Generous Donation!
+          </motion.h2>
           
-          <p className="text-lg text-gray-600 mb-6">
-            Your generous contribution helps support Bible translation work and makes a real difference.
-          </p>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="text-xl text-gray-600 mb-6"
+          >
+            You are now a <span className="font-bold text-green-600">Partner in Bible Translation</span>! 
+            Your contribution directly supports accurate translation work and helps believers worldwide.
+          </motion.p>
+
+          {/* Partner Status Badge */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8 }}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-full font-semibold mb-8"
+          >
+            <Star className="h-5 w-5" />
+            <span>Translation Partner</span>
+            <Heart className="h-5 w-5" />
+          </motion.div>
 
           {/* Payment Details */}
           {paymentIntent && (
@@ -128,7 +160,7 @@ const DonationSuccess: React.FC = () => {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

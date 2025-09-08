@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Heart } from 'lucide-react';
 import { ApiService } from '../../utils/api';
+import DonationButton from '../donations/DonationButton';
+import { useDonation } from '../../hooks/useDonation';
 
 interface ChangedFeaturedProps {
   onFeaturedVerseChange?: (data: any) => void;
 }
 
-const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange }) => {
+const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange: _onFeaturedVerseChange }) => {
   const [data, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [currentVerse, setCurrentVerse] = useState({ book: 43, chapter: 1, verse: 18 });
   const [currentRotationIndex, setCurrentRotationIndex] = useState<number | null>(null);
+  const { handleDonationSuccess, handleDonationError } = useDonation();
 
   // Book number to name mapping
   const bookNames: { [key: number]: string } = {
@@ -325,6 +329,48 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
             </div>
           </div>
         )}
+
+        {/* Donation Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 bg-gradient-to-r from-green-900 to-emerald-900 rounded-2xl p-6 border border-green-500"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Heart className="text-green-400" size={24} />
+            <h4 className="text-lg font-semibold text-green-400">Support This Research</h4>
+          </div>
+          
+          <p className="text-gray-300 mb-6 leading-relaxed">
+            This featured verse analysis represents extensive research across multiple Bible versions and historical sources. 
+            Your donation helps fund continued research, accurate translations, and the development of tools that help 
+            believers understand God's Word more clearly.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <DonationButton
+              scope={{
+                kind: 'verse',
+                lang: 'eng',
+                source: 'kjv',
+                bookNumber: currentVerse.book,
+                chapter: currentVerse.chapter,
+                verse: currentVerse.verse
+              }}
+              amount={15}
+              label="Support Featured Research"
+              className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+              onSuccess={handleDonationSuccess}
+              onError={handleDonationError}
+            />
+            
+            <div className="text-sm text-gray-400">
+              <p>💡 <strong>Featured Verse:</strong> {bookNames[currentVerse.book]} {currentVerse.chapter}:{currentVerse.verse}</p>
+              <p>🎯 <strong>Impact:</strong> Your support enables detailed translation analysis</p>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
     </section>
   );
