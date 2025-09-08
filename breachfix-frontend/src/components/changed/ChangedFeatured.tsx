@@ -149,7 +149,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
   if (isLoading) {
     return (
       <section className="mb-12">
-        <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-2xl p-8">
+        <div className="bg-gradient-to-r from-bridge-navy to-bridge-emerald rounded-2xl p-8">
           <div className="flex justify-center py-8">
             <motion.div
               animate={{ rotate: 360 }}
@@ -157,7 +157,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
               className="w-8 h-8 border-4 border-white border-t-transparent rounded-full"
             />
           </div>
-          <p className="text-center text-gray-300 text-sm">
+          <p className="text-center text-bridge-white text-sm">
             Loading featured verse...
           </p>
         </div>
@@ -169,12 +169,12 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
   if (!featuredVerse) {
     return (
       <section className="mb-12">
-        <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-2xl p-8">
+        <div className="bg-gradient-to-r from-bridge-navy to-bridge-emerald rounded-2xl p-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
+            <h2 className="text-3xl font-bold text-bridge-white mb-4">
               BreachFix Verse
             </h2>
-            <p className="text-gray-300 mb-4">
+            <p className="text-bridge-white mb-4">
               Loading a verse where translation changes affect doctrine...
             </p>
             <motion.button
@@ -183,7 +183,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
               onClick={() => {
                 fetchNextFeaturedVerse();
               }}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+              className="bg-bridge-gold hover:bg-yellow-500 text-bridge-navy px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
             >
               🎲 Try Another Verse
             </motion.button>
@@ -199,13 +199,13 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-2xl p-8"
+        className="bg-gradient-to-r from-bridge-navy to-bridge-emerald rounded-2xl p-8"
       >
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-bold text-white mb-2">
+          <h2 className="text-3xl font-bold text-bridge-white mb-2">
             BreachFix Verse
           </h2>
-          <p className="text-gray-300 mb-4">
+          <p className="text-bridge-white mb-4">
             A real example of how translation changes can affect doctrine
           </p>
                   <motion.button
@@ -214,7 +214,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
                     onClick={() => {
                       fetchNextFeaturedVerse();
                     }}
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                    className="bg-bridge-gold hover:bg-yellow-500 text-bridge-navy px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
                   >
                     🎲 New Verse
                   </motion.button>
@@ -223,20 +223,20 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Verse Comparison */}
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-white mb-4">
+            <h3 className="text-xl font-semibold text-bridge-white mb-4">
               {featuredVerse.reference}
             </h3>
             
-            <div className="bg-netflix-dark-gray rounded-lg p-4">
-              <h4 className="text-green-400 font-semibold mb-2">Original KJV Text</h4>
-              <p className="text-white leading-relaxed">
+            <div className="bg-bridge-dark rounded-lg p-4">
+              <h4 className="text-bridge-gold font-semibold mb-2">Original KJV Text</h4>
+              <p className="text-bridge-white leading-relaxed">
                 {featuredVerse.kjvBaseline}
               </p>
             </div>
             
             <div className="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-4">
               <h4 className="text-red-400 font-semibold mb-2">Modern Change</h4>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-bridge-white leading-relaxed">
                 {featuredVerse.modernNote}
               </p>
             </div>
@@ -244,23 +244,23 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
 
           {/* Spirit of Prophecy & Analysis */}
           <div className="space-y-4">
-            <div className="bg-purple-900 bg-opacity-30 border border-purple-500 rounded-lg p-4">
-              <h4 className="text-purple-400 font-semibold mb-2">Spirit of Prophecy</h4>
-              <blockquote className="text-white leading-relaxed text-sm italic mb-2">
+            <div className="bg-bridge-emerald bg-opacity-30 border border-bridge-emerald rounded-lg p-4">
+              <h4 className="text-bridge-emerald font-semibold mb-2">Spirit of Prophecy</h4>
+              <blockquote className="text-bridge-white leading-relaxed text-sm italic mb-2">
                 "{typeof featuredVerse.spiritOfProphecy === 'string' 
                   ? featuredVerse.spiritOfProphecy 
                   : featuredVerse.spiritOfProphecy?.quote || 'Spirit of Prophecy quote not available'}"
               </blockquote>
               {typeof featuredVerse.spiritOfProphecy === 'object' && featuredVerse.spiritOfProphecy?.citation && (
-                <cite className="text-purple-300 text-xs">
+                <cite className="text-bridge-emerald text-xs">
                   — {featuredVerse.spiritOfProphecy.citation}
                 </cite>
               )}
             </div>
             
-            <div className="bg-netflix-dark-gray rounded-lg p-4">
-              <h4 className="text-blue-400 font-semibold mb-2">What Changed & Why</h4>
-              <p className="text-gray-300 leading-relaxed text-sm">
+            <div className="bg-bridge-dark rounded-lg p-4">
+              <h4 className="text-bridge-gold font-semibold mb-2">What Changed & Why</h4>
+              <p className="text-bridge-white leading-relaxed text-sm">
                 {featuredVerse.changeSummary}
               </p>
             </div>
@@ -270,10 +270,10 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
         {/* Additional Real Data Sections */}
         {featuredVerse.affectedDoctrine && Array.isArray(featuredVerse.affectedDoctrine) && featuredVerse.affectedDoctrine.length > 0 && (
           <div className="mt-6">
-            <h4 className="text-lg font-semibold text-yellow-400 mb-3">Affected Doctrine</h4>
+            <h4 className="text-lg font-semibold text-bridge-gold mb-3">Affected Doctrine</h4>
             <div className="flex flex-wrap gap-2">
               {featuredVerse.affectedDoctrine.map((doctrine: string, index: number) => (
-                <span key={index} className="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm">
+                <span key={index} className="bg-bridge-gold text-bridge-navy px-3 py-1 rounded-full text-sm">
                   {doctrine}
                 </span>
               ))}
@@ -283,30 +283,30 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
 
         {featuredVerse.batchData && (
           <div className="mt-6">
-            <h4 className="text-lg font-semibold text-gray-300 mb-3">Detailed Analysis</h4>
+            <h4 className="text-lg font-semibold text-bridge-white mb-3">Detailed Analysis</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {featuredVerse.batchData.Error && (
                 <div className="bg-red-900 bg-opacity-20 border border-red-500 p-3 rounded-lg">
                   <h5 className="text-red-400 font-semibold mb-1 text-sm">Error</h5>
-                  <p className="text-white text-xs">{featuredVerse.batchData.Error}</p>
+                  <p className="text-bridge-white text-xs">{featuredVerse.batchData.Error}</p>
                 </div>
               )}
               {featuredVerse.batchData.Danger && (
                 <div className="bg-orange-900 bg-opacity-20 border border-orange-500 p-3 rounded-lg">
                   <h5 className="text-orange-400 font-semibold mb-1 text-sm">Danger</h5>
-                  <p className="text-white text-xs">{featuredVerse.batchData.Danger}</p>
+                  <p className="text-bridge-white text-xs">{featuredVerse.batchData.Danger}</p>
                 </div>
               )}
               {featuredVerse.batchData.Evidence && (
                 <div className="bg-blue-900 bg-opacity-20 border border-blue-500 p-3 rounded-lg">
-                  <h5 className="text-blue-400 font-semibold mb-1 text-sm">Evidence</h5>
-                  <p className="text-white text-xs">{featuredVerse.batchData.Evidence}</p>
+                  <h5 className="text-bridge-gold font-semibold mb-1 text-sm">Evidence</h5>
+                  <p className="text-bridge-white text-xs">{featuredVerse.batchData.Evidence}</p>
                 </div>
               )}
               {featuredVerse.batchData.Explanation && (
                 <div className="bg-green-900 bg-opacity-20 border border-green-500 p-3 rounded-lg">
-                  <h5 className="text-green-400 font-semibold mb-1 text-sm">Explanation</h5>
-                  <p className="text-white text-xs">{featuredVerse.batchData.Explanation}</p>
+                  <h5 className="text-bridge-gold font-semibold mb-1 text-sm">Explanation</h5>
+                  <p className="text-bridge-white text-xs">{featuredVerse.batchData.Explanation}</p>
                 </div>
               )}
             </div>
@@ -315,10 +315,10 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
 
         {featuredVerse.modernVersionsCited && Array.isArray(featuredVerse.modernVersionsCited) && featuredVerse.modernVersionsCited.length > 0 && (
           <div className="mt-6">
-            <h4 className="text-lg font-semibold text-gray-300 mb-3">Modern Versions Cited</h4>
+            <h4 className="text-lg font-semibold text-bridge-white mb-3">Modern Versions Cited</h4>
             <div className="flex flex-wrap gap-2">
               {featuredVerse.modernVersionsCited.map((version: string, index: number) => (
-                <span key={index} className="bg-gray-600 text-white px-3 py-1 rounded-full text-sm">
+                <span key={index} className="bg-bridge-gray text-bridge-white px-3 py-1 rounded-full text-sm">
                   {version}
                 </span>
               ))}

@@ -81,7 +81,7 @@ const Changed: React.FC = () => {
 
   
   return (
-    <div className="min-h-screen bg-netflix-black">
+    <div className="min-h-screen bg-bridge-navy">
 
          {/* Featured Verse */}
          <ChangedFeatured />
@@ -131,17 +131,17 @@ const Changed: React.FC = () => {
               </nav>
               
               {/* Verse Header */}
-              <div className="bg-netflix-dark-gray rounded-2xl p-6 mb-6">
+              <div className="bg-bridge-dark rounded-2xl p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-2">
+                    <h2 className="text-2xl font-bold text-bridge-white mb-2">
                       {selectedBook?.name} {chapter}:{verse}
                     </h2>
                     <div className="flex gap-2">
-                      <span className="bg-netflix-red text-white px-3 py-1 rounded-full text-sm">
+                      <span className="bg-bridge-gold text-bridge-navy px-3 py-1 rounded-full text-sm">
                         {getFullLanguageName(lang || '')}
                       </span>
-                      <span className="bg-gray-600 text-white px-3 py-1 rounded-full text-sm">
+                      <span className="bg-bridge-gray text-bridge-white px-3 py-1 rounded-full text-sm">
                         {source?.toUpperCase()}
                       </span>
                     </div>
@@ -149,19 +149,19 @@ const Changed: React.FC = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={handleBackToReasons}
-                      className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      className="bg-bridge-gray hover:bg-gray-500 text-bridge-white px-4 py-2 rounded-lg transition-colors duration-200"
                     >
                       Back to Reasons
                     </button>
                     <button
                       onClick={handleViewInReader}
-                      className="bg-netflix-red hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      className="bg-bridge-gold hover:bg-yellow-500 text-bridge-navy px-4 py-2 rounded-lg transition-colors duration-200"
                     >
                       View in Reader
                     </button>
                     <button
                       onClick={handleCopyLink}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      className="bg-bridge-emerald hover:bg-teal-600 text-bridge-white px-4 py-2 rounded-lg transition-colors duration-200"
                     >
                       Copy Link
                     </button>
@@ -205,14 +205,14 @@ const Changed: React.FC = () => {
               <div className="text-center mt-12">
                 {/* Back to Bible Reader Button */}
                 <div className="border-t border-gray-700 pt-6">
-                  <h4 className="text-lg font-semibold text-white mb-4">
+                  <h4 className="text-lg font-semibold text-bridge-white mb-4">
                     Continue Reading the Bible
                   </h4>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => navigate('/bible')}
-                    className="bg-gradient-to-r from-netflix-red to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+                    className="bg-gradient-to-r from-bridge-gold to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-bridge-navy px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     Go Back to Read
                   </motion.button>

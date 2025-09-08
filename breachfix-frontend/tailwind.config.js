@@ -8,6 +8,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        // BridgePix Color Palette
+        'bridge-navy': '#0D1B2A',        // Deep Navy background
+        'bridge-gold': '#FFD166',         // Gold primary accent
+        'bridge-white': '#F8F9FA',        // Soft white text
+        'bridge-emerald': '#2A9D8F',      // Emerald secondary
+        'bridge-sage': '#88C999',         // Sage green alternative
+        'bridge-gray': '#6C757D',         // Neutral gray
+        'bridge-dark': '#1A1A1A',         // Dark background variant
+        
+        // Legacy Netflix colors (for gradual migration)
         'netflix-red': '#e50914',
         'netflix-black': '#000000',
         'netflix-dark-gray': '#141414',

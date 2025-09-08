@@ -37,7 +37,7 @@ function App() {
 
   return (
     <DonationProvider>
-      <div className="app bg-netflix-black min-h-screen">
+      <div className="app bg-bridge-navy min-h-screen">
         <Header />
         <main className="pt-16">
         <Routes>
