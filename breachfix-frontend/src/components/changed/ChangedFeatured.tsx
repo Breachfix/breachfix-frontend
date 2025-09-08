@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Heart } from 'lucide-react';
 import { ApiService } from '../../utils/api';
+import DonationButton from '../donations/DonationButton';
+import { useDonation } from '../../hooks/useDonation';
 
 interface ChangedFeaturedProps {
   onFeaturedVerseChange?: (data: any) => void;
@@ -11,6 +14,7 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
   const [isLoading, setIsLoading] = useState(false);
   const [currentVerse, setCurrentVerse] = useState({ book: 43, chapter: 1, verse: 18 });
   const [currentRotationIndex, setCurrentRotationIndex] = useState<number | null>(null);
+  const { handleDonationSuccess, handleDonationError } = useDonation();
 
   // Book number to name mapping
   const bookNames: { [key: number]: string } = {
@@ -325,6 +329,48 @@ const ChangedFeatured: React.FC<ChangedFeaturedProps> = ({ onFeaturedVerseChange
             </div>
           </div>
         )}
+
+        {/* Donation Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 bg-gradient-to-r from-bridge-emerald to-teal-700 rounded-2xl p-6 border border-bridge-emerald"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Heart className="text-bridge-emerald" size={24} />
+            <h4 className="text-lg font-semibold text-bridge-emerald">Support This Translation Research</h4>
+          </div>
+          
+          <p className="text-bridge-white mb-6 leading-relaxed">
+            This BreachFix Verse analysis represents extensive research across multiple Bible versions and historical sources. 
+            Your donation helps fund continued research, accurate translations, and the development of tools that help 
+            believers understand God's Word more clearly.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <DonationButton
+              scope={{
+                kind: 'verse',
+                lang: 'eng',
+                source: 'kjv',
+                bookNumber: currentVerse.book,
+                chapter: currentVerse.chapter,
+                verse: currentVerse.verse
+              }}
+              amount={15}
+              label="Support BreachFix Research"
+              className="bg-bridge-gold hover:bg-yellow-500 text-bridge-navy px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+              onSuccess={handleDonationSuccess}
+              onError={handleDonationError}
+            />
+            
+            <div className="text-sm text-bridge-white">
+              <p>💡 <strong>BreachFix Verse:</strong> {bookNames[currentVerse.book]} {currentVerse.chapter}:{currentVerse.verse}</p>
+              <p>🎯 <strong>Impact:</strong> Your support enables detailed translation analysis</p>
+            </div>
+          </div>
+        </motion.div>
 
       </motion.div>
     </section>
