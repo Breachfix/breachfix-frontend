@@ -6,7 +6,6 @@ interface ParallelTextDisplayProps {
   selectedBookNumber: number;
   selectedChapter: number;
   selectedLanguage: string;
-  selectedSource: string;
   highlightedVerse: number | null;
   onClearSelection: () => void;
 }
@@ -15,7 +14,6 @@ export const ParallelTextDisplay: React.FC<ParallelTextDisplayProps> = ({
   selectedBookNumber,
   selectedChapter,
   selectedLanguage,
-  selectedSource,
   highlightedVerse,
   onClearSelection,
 }) => {
@@ -40,7 +38,6 @@ export const ParallelTextDisplay: React.FC<ParallelTextDisplayProps> = ({
     selectedBookNumber,
     selectedChapter,
     selectedLanguage,
-    selectedSource,
     highlightedVerse,
   });
 

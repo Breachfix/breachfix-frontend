@@ -57,13 +57,6 @@ interface AllBibleSearchResult {
   changed?: { exists: boolean };
 }
 
-interface ReadingProgress {
-  languageCode: string;
-  sourceCode: string;
-  bookNumber: number;
-  chapter: number;
-  lastReadAt: string;
-}
 
 const BibleRead: React.FC = () => {
   const navigate = useNavigate();
@@ -103,7 +96,6 @@ const BibleRead: React.FC = () => {
     const stored = localStorage.getItem('bibleRead_highlightedVerse');
     return urlVerseNum || (stored ? parseInt(stored, 10) : null);
   });
-  const [readingProgress, setReadingProgress] = useState<ReadingProgress | null>(null);
   const [showWelcome, setShowWelcome] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(true); // Default to open for better UX
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
@@ -295,10 +287,6 @@ const BibleRead: React.FC = () => {
     [books, selectedBookNumber]
   );
 
-  const readingProgressBook = useMemo(() => 
-    readingProgress ? books.find((b: AllBibleBook) => b.number === readingProgress.bookNumber) : null,
-    [books, readingProgress]
-  );
 
   // Memoized book lookup function for search results
   const getBookByNumber = useMemo(() => {
@@ -431,7 +419,6 @@ const BibleRead: React.FC = () => {
     if (savedProgress) {
       const progress = JSON.parse(savedProgress);
       if (progress.languageCode === selectedLanguage && progress.sourceCode === selectedSource) {
-        setReadingProgress(progress);
         setSelectedBookNumber(progress.bookNumber);
         setSelectedChapter(progress.chapter);
         setShowWelcome(false);
@@ -455,14 +442,13 @@ const BibleRead: React.FC = () => {
   // Save reading progress
   useEffect(() => {
     if (selectedBookNumber && selectedChapter && selectedLanguage && selectedSource) {
-      const progress: ReadingProgress = {
+      const progress = {
         languageCode: selectedLanguage,
         sourceCode: selectedSource,
         bookNumber: selectedBookNumber,
         chapter: selectedChapter,
         lastReadAt: new Date().toISOString(),
       };
-      setReadingProgress(progress);
       localStorage.setItem('bible-reading-progress', JSON.stringify(progress));
     }
   }, [selectedBookNumber, selectedChapter, selectedLanguage, selectedSource]);
@@ -1477,7 +1463,6 @@ const BibleRead: React.FC = () => {
                 selectedBookNumber={selectedBookNumber}
                 selectedChapter={selectedChapter}
                 selectedLanguage={selectedLanguage}
-                selectedSource={selectedSource}
                 highlightedVerse={highlightedVerse}
                 onClearSelection={() => setHighlightedVerse(null)}
               />

@@ -57,7 +57,8 @@ export const ParallelText: React.FC<ParallelTextProps> = ({
   );
 
   // Fetch languages using the new AllBibles API
-  const { data: languages = [], isLoading: languagesLoading, error: languagesError } = useAllBiblesApi.languages.useGetAll();
+  const { data: languagesResponse, isLoading: languagesLoading, error: languagesError } = useAllBiblesApi.languages.useGetAll();
+  const languages = languagesResponse?.languages || [];
 
   // Resolve and persist the correct base source (version) for the selected language
   const { data: sourcesResp } = useAllBiblesApi.sources.useGetByLanguage(selectedLanguage, { enabled: !!selectedLanguage });
