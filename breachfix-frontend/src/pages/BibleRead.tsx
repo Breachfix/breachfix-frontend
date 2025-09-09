@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAllBiblesApi } from '../hooks/useApi';
 import { motion, AnimatePresence } from 'framer-motion';
 import VerseDisplay from '../components/bible/VerseDisplay';
+import { useAuthStore } from '../context/AuthContext';
 import ChapterHeader from '../components/bible/ChapterHeader';
 import DonationModal from '../components/donations/DonationModal';
 import { useDonation } from '../hooks/useDonation';
+import { ParallelTextDisplay } from '../components/bible/ParallelTextDisplay';
 
 // Interfaces for the AllBibles API
 interface AllBibleLanguage {
@@ -65,54 +67,60 @@ interface ReadingProgress {
 
 const BibleRead: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { handleDonationClick, handleDonationSuccess, handleDonationError, showModal, donationScope, handleDonationCancel } = useDonation();
+  const { isAuthenticated } = useAuthStore();
   
-  // Load initial state from localStorage or use defaults
+  // Get URL parameters
+  const urlLang = searchParams.get('lang');
+  const urlSource = searchParams.get('source');
+  const urlBook = searchParams.get('book');
+  const urlChapter = searchParams.get('chapter');
+  const urlVerse = searchParams.get('verse');
+  
+  // Load initial state from URL params first, then localStorage, then defaults
   const [selectedLanguage, setSelectedLanguage] = useState<string>(() => 
-    localStorage.getItem('bibleRead_selectedLanguage') || 'eng'
+    urlLang || localStorage.getItem('bibleRead_selectedLanguage') || 'eng'
   );
   const [selectedSource, setSelectedSource] = useState<string>(() => 
-    localStorage.getItem('bibleRead_selectedSource') || ''
+    urlSource || localStorage.getItem('bibleRead_selectedSource') || ''
   );
   const [selectedBookNumber, setSelectedBookNumber] = useState<number>(() => 
-    parseInt(localStorage.getItem('bibleRead_selectedBookNumber') || '1', 10)
+    parseInt(urlBook || localStorage.getItem('bibleRead_selectedBookNumber') || '1', 10)
   );
   const [selectedChapter, setSelectedChapter] = useState<number>(() => 
-    parseInt(localStorage.getItem('bibleRead_selectedChapter') || '1', 10)
+    parseInt(urlChapter || localStorage.getItem('bibleRead_selectedChapter') || '1', 10)
   );
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchScope, setSearchScope] = useState<'current' | 'global'>(() => 
+    (localStorage.getItem('bibleRead_searchScope') as 'current' | 'global') || 'current'
+  );
   const [activeTab, setActiveTab] = useState<'read' | 'search' | 'parallel'>(() => 
     (localStorage.getItem('bibleRead_activeTab') as 'read' | 'search' | 'parallel') || 'read'
   );
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(() => {
+    const urlVerseNum = urlVerse ? parseInt(urlVerse, 10) : null;
     const stored = localStorage.getItem('bibleRead_highlightedVerse');
-    return stored ? parseInt(stored, 10) : null;
+    return urlVerseNum || (stored ? parseInt(stored, 10) : null);
   });
   const [readingProgress, setReadingProgress] = useState<ReadingProgress | null>(null);
   const [showWelcome, setShowWelcome] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Default to open for better UX
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const [showSuccessMessage, setShowSuccessMessage] = useState<string | null>(null);
   const [textAlignment, setTextAlignment] = useState<'left' | 'center' | 'indent'>(() => 
     (localStorage.getItem('bibleRead_textAlignment') as 'left' | 'center' | 'indent') || 'left'
   );
-  const [parallelLanguages, setParallelLanguages] = useState<string[]>(() => {
-    const stored = localStorage.getItem('bibleRead_parallelLanguages');
-    return stored ? JSON.parse(stored) : ['run', 'fra'];
-  });
   const [apiError, setApiError] = useState<string | null>(null);
   const [isValidatingCombination, setIsValidatingCombination] = useState(false);
   const [asteriskData, setAsteriskData] = useState<{ [key: string]: boolean }>({});
   const [showChangeModal, setShowChangeModal] = useState(false);
   const [selectedChangeReference, setSelectedChangeReference] = useState<string | null>(null);
-  const [parallelVerse, setParallelVerse] = useState<number | null>(() => {
-    const stored = localStorage.getItem('bibleRead_parallelVerse');
-    return stored ? parseInt(stored, 10) : null;
-  });
 
-  // Languages and sources that should NOT show asterisks
-  const excludedLanguages = ['eng', 'fra', 'heb', 'grc'];
-  const excludedSources = ['kjv', 'kjf', 'mt', 'tr1894'];
+  // Languages and sources that should NOT show asterisks or donations
+  // English (KJV only), French, Hebrew, Greek are considered "good" versions
+  const excludedLanguages = ['fra', 'heb', 'grc']; // French, Hebrew, Greek
+  const excludedSources = ['kjv', 'kjf', 'mt', 'tr1894']; // KJV, KJF, Masoretic Text, Textus Receptus
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
@@ -135,6 +143,11 @@ const BibleRead: React.FC = () => {
     localStorage.setItem('bibleRead_activeTab', activeTab);
   }, [activeTab]);
 
+  // Save search scope to localStorage
+  useEffect(() => {
+    localStorage.setItem('bibleRead_searchScope', searchScope);
+  }, [searchScope]);
+
   useEffect(() => {
     if (highlightedVerse) {
       localStorage.setItem('bibleRead_highlightedVerse', highlightedVerse.toString());
@@ -147,23 +160,7 @@ const BibleRead: React.FC = () => {
     localStorage.setItem('bibleRead_textAlignment', textAlignment);
   }, [textAlignment]);
 
-  useEffect(() => {
-    localStorage.setItem('bibleRead_parallelLanguages', JSON.stringify(parallelLanguages));
-  }, [parallelLanguages]);
 
-  useEffect(() => {
-    if (parallelVerse) {
-      localStorage.setItem('bibleRead_parallelVerse', parallelVerse.toString());
-    } else {
-      localStorage.removeItem('bibleRead_parallelVerse');
-    }
-  }, [parallelVerse]);
-
-  // Filter out the selected language from parallel languages to avoid API conflicts
-  const filteredParallelLanguages = useMemo(() => 
-    parallelLanguages.filter(lang => lang !== selectedLanguage),
-    [parallelLanguages, selectedLanguage]
-  );
 
   // Fetch languages using the new AllBibles API
   const { data: languagesResponse, isLoading: languagesLoading, error: languagesError } = useAllBiblesApi.languages.useGetAll();
@@ -191,6 +188,19 @@ const BibleRead: React.FC = () => {
 
   // Check if current language/source should show asterisks
   const shouldShowAsterisks = useMemo(() => {
+    // English KJV should not show asterisks, but other English versions should
+    if (selectedLanguage === 'eng' && selectedSource === 'kjv') {
+      return false;
+    }
+    return !excludedLanguages.includes(selectedLanguage) && !excludedSources.includes(selectedSource);
+  }, [selectedLanguage, selectedSource]);
+
+  // Check if donations should be enabled for current language/source
+  const shouldEnableDonations = useMemo(() => {
+    // English KJV should not show donations, but other English versions should
+    if (selectedLanguage === 'eng' && selectedSource === 'kjv') {
+      return false;
+    }
     return !excludedLanguages.includes(selectedLanguage) && !excludedSources.includes(selectedSource);
   }, [selectedLanguage, selectedSource]);
 
@@ -243,42 +253,41 @@ const BibleRead: React.FC = () => {
 
   // Note: We now use selectedVerseAnalysis instead of changeDetails
 
-  // Search verses using the new AllBibles API
-  const { data: searchResponse, isLoading: searchLoading, error: searchError } = useAllBiblesApi.search.useByLanguageSource(
-    selectedLanguage,
-    selectedSource,
-    searchQuery,
-    { limit: 50 },
-    { enabled: !!selectedLanguage && !!selectedSource && !!searchQuery && searchQuery.length > 2 }
-  );
-
   // Global search for cross-language results
   const { data: globalSearchResponse, isLoading: globalSearchLoading, error: globalSearchError } = useAllBiblesApi.search.useGlobal(
     searchQuery,
-    { limit: 100, includeMetadata: true },
-    { enabled: !!searchQuery && searchQuery.length > 2 && activeTab === 'search' }
+    { 
+      limit: 100, 
+      includeMetadata: true,
+      ...(searchScope === 'current' && selectedLanguage ? { language: selectedLanguage } : {})
+    },
+    { enabled: !!searchQuery && searchQuery.length > 2 && activeTab === 'search' && (searchScope === 'current' || (searchScope === 'global' && isAuthenticated)) }
   );
 
-  // Parallel text for selected verse
-  const { data: parallelResponse, isLoading: parallelLoading, error: parallelError } = useAllBiblesApi.parallel.useGetMultiple(
-    selectedBookNumber,
-    selectedChapter,
-    parallelVerse || highlightedVerse || 1, // Use parallelVerse first, then highlightedVerse, then fallback to 1
-    selectedLanguage,
-    filteredParallelLanguages,
-    { enabled: !!selectedBookNumber && !!selectedChapter && filteredParallelLanguages.length >= 1 }
-  );
 
   // Extract data from responses
   const languages = languagesResponse?.languages || [];
   const sources = sourcesResponse?.sources || [];
   const books = booksResponse?.books || [];
   const chapterTexts = chapterResponse?.texts || [];
-  const searchResults = searchResponse?.results || [];
+
+  // Debug logging
+  console.log('Languages loaded:', languages.length, languages);
+  console.log('Current selectedLanguage:', selectedLanguage);
+  console.log('Languages loading:', languagesLoading);
+  console.log('Sources loaded:', sources.length, sources);
+  console.log('Current selectedSource:', selectedSource);
+
+  // Debug selectedLanguage changes
+  useEffect(() => {
+    console.log('selectedLanguage state changed to:', selectedLanguage);
+  }, [selectedLanguage]);
+
+  // Debug select rendering
+  useEffect(() => {
+    console.log('Rendering select with value:', selectedLanguage);
+  }, [selectedLanguage]);
   const globalSearchResults = globalSearchResponse?.results || [];
-  const parallelTexts = parallelResponse?.parallels || [];
-  const baseText = parallelResponse?.base;
-  const parallelSummary = parallelResponse?.summary;
 
   // Memoized book lookups for performance
   const selectedBook = useMemo(() => 
@@ -333,16 +342,88 @@ const BibleRead: React.FC = () => {
     'xha': 'Xhosa'
   };
 
-  // Helper function to get full language name
-  const getFullLanguageName = (languageCode: string, metadataName?: string) => {
-    if (metadataName) return metadataName;
-    const lang = getLanguageByCode(languageCode);
-    if (lang) {
-      // Use mapped name if available, otherwise use the name from API
-      return languageNameMap[languageCode.toLowerCase()] || lang.name;
+
+  // Handle URL parameter changes - simplified approach
+  useEffect(() => {
+    console.log('URL params effect triggered:', { urlLang, urlSource, urlBook, urlChapter, urlVerse, selectedLanguage, selectedSource, selectedBookNumber, selectedChapter, highlightedVerse });
+    
+    // Only update if URL params differ from current state
+    if (urlLang && urlLang !== selectedLanguage) {
+      console.log('Updating language from URL:', urlLang);
+      console.log('Previous language:', selectedLanguage, 'Previous source:', selectedSource);
+      setSelectedLanguage(urlLang);
+      localStorage.setItem('bibleRead_selectedLanguage', urlLang);
+      // Always reset source when language changes to prevent invalid combinations
+      setSelectedSource('');
+      localStorage.removeItem('bibleRead_selectedSource');
+      
+      // Clear comparison state when switching languages
+      // This ensures users start fresh in the new language
+      setHighlightedVerse(null);
+      localStorage.removeItem('bibleRead_highlightedVerse');
+      
+      console.log('Source and comparison state cleared for new language:', urlLang);
     }
-    return languageCode;
-  };
+    if (urlSource && urlSource !== selectedSource) {
+      console.log('Updating source from URL:', urlSource);
+      setSelectedSource(urlSource);
+      localStorage.setItem('bibleRead_selectedSource', urlSource);
+    }
+    if (urlBook && parseInt(urlBook, 10) !== selectedBookNumber) {
+      console.log('Updating book from URL:', urlBook);
+      setSelectedBookNumber(parseInt(urlBook, 10));
+      localStorage.setItem('bibleRead_selectedBookNumber', urlBook);
+    }
+    if (urlChapter && parseInt(urlChapter, 10) !== selectedChapter) {
+      console.log('Updating chapter from URL:', urlChapter);
+      setSelectedChapter(parseInt(urlChapter, 10));
+      localStorage.setItem('bibleRead_selectedChapter', urlChapter);
+    }
+    if (urlVerse) {
+      const verseNum = parseInt(urlVerse, 10);
+      if (verseNum !== highlightedVerse) {
+        console.log('Updating verse from URL:', urlVerse);
+        setHighlightedVerse(verseNum);
+        localStorage.setItem('bibleRead_highlightedVerse', urlVerse);
+      }
+    }
+    
+    // If we have URL parameters for book/chapter/verse, switch to Read Bible tab
+    if (urlBook || urlChapter || urlVerse) {
+      setActiveTab('read');
+      localStorage.setItem('bibleRead_activeTab', 'read');
+    }
+  }, [urlLang, urlSource, urlBook, urlChapter, urlVerse, selectedLanguage, selectedSource, selectedBookNumber, selectedChapter, highlightedVerse]);
+
+  // Auto-select first available source when language changes and no source is selected
+  useEffect(() => {
+    console.log('Auto-selection effect triggered:', { selectedLanguage, sourcesLength: sources.length, selectedSource, sources: sources.map(s => s.code) });
+    if (selectedLanguage && sources.length > 0 && !selectedSource) {
+      // Select first available source for the current language
+      const firstSource = sources[0].code;
+      console.log('Auto-selecting first source for language:', selectedLanguage, '->', firstSource);
+      setSelectedSource(firstSource);
+      localStorage.setItem('bibleRead_selectedSource', firstSource);
+    }
+  }, [selectedLanguage, sources, selectedSource]);
+
+  // Clear any invalid source combinations
+  useEffect(() => {
+    console.log('Invalid source check effect triggered:', { selectedLanguage, selectedSource, sourcesLength: sources.length, sources: sources.map(s => s.code) });
+    if (selectedLanguage && selectedSource && sources.length > 0) {
+      // Check if the current source is valid for the current language
+      const isValidSource = sources.some(s => s.code === selectedSource);
+      console.log('Source validation:', { selectedSource, isValidSource, availableSources: sources.map(s => s.code) });
+      if (!isValidSource) {
+        console.log('Invalid source combination detected:', selectedLanguage, selectedSource);
+        console.log('Available sources for this language:', sources.map(s => s.code));
+        // Source is not valid for this language, reset it
+        setSelectedSource('');
+        localStorage.removeItem('bibleRead_selectedSource');
+        console.log('Invalid source cleared');
+      }
+    }
+  }, [selectedLanguage, selectedSource, sources]);
 
   // Load reading progress from localStorage
   useEffect(() => {
@@ -396,10 +477,27 @@ const BibleRead: React.FC = () => {
 
   // Auto-select first available source when sources are loaded
   useEffect(() => {
+    console.log('Second auto-selection effect triggered:', { sourcesLength: sources.length, selectedSource, selectedLanguage, sources: sources.map(s => s.code) });
     if (sources.length > 0 && !selectedSource) {
-      setSelectedSource(sources[0].code);
+      // Prefer specific sources for known languages
+      let preferredSource = '';
+      if (selectedLanguage === 'eng') {
+        preferredSource = sources.find(s => s.code === 'kjv')?.code || sources[0].code;
+      } else if (selectedLanguage === 'esp') {
+        preferredSource = sources.find(s => s.code === 'rvr')?.code || sources[0].code;
+      } else if (selectedLanguage === 'fra') {
+        preferredSource = sources.find(s => s.code === 'lsg')?.code || sources[0].code;
+      } else {
+        preferredSource = sources[0].code;
+      }
+      
+      console.log('Auto-selecting source:', preferredSource, 'for language:', selectedLanguage);
+      console.log('Available sources:', sources.map(s => s.code));
+      
+      setSelectedSource(preferredSource);
+      localStorage.setItem('bibleRead_selectedSource', preferredSource);
     }
-  }, [sources, selectedSource]);
+  }, [sources, selectedSource, selectedLanguage]);
 
   const handleChapterChange = (chapterNumber: number) => {
     setSelectedChapter(chapterNumber);
@@ -416,20 +514,19 @@ const BibleRead: React.FC = () => {
   };
 
   const handleLanguageChange = async (languageCode: string) => {
-    setSelectedLanguage(languageCode);
-    setSelectedSource(''); // Reset source - will be set when sources load
-    // Keep current book and chapter position - don't reset to Genesis
-    // setSelectedBookNumber(1); // Removed - maintain current position
-    // setSelectedChapter(1); // Removed - maintain current position
-    setHighlightedVerse(null);
-    clearApiError(); // Clear any previous errors
+    console.log('Language change requested:', languageCode);
+    
+    // Use simple navigation like the Bible landing page for reliability
+    // This ensures clean state and eliminates race conditions
+    window.location.href = `/bible/read?lang=${languageCode}`;
   };
 
   const handleSourceChange = async (sourceCode: string) => {
+    console.log('Source change requested:', sourceCode);
+    
+    // Simple state update for source changes (no URL sync needed)
     setSelectedSource(sourceCode);
-    // Keep current book and chapter position - don't reset to Genesis
-    // setSelectedBookNumber(1); // Removed - maintain current position
-    // setSelectedChapter(1); // Removed - maintain current position
+    localStorage.setItem('bibleRead_selectedSource', sourceCode);
     setHighlightedVerse(null);
     clearApiError(); // Clear any previous errors
     
@@ -439,36 +536,7 @@ const BibleRead: React.FC = () => {
     }
   };
 
-  const handleParallelLanguageToggle = (languageCode: string) => {
-    setParallelLanguages(prev => {
-      if (prev.includes(languageCode)) {
-        // Remove language if already selected
-        return prev.filter(lang => lang !== languageCode);
-      } else {
-        // Add language if not selected
-        return [...prev, languageCode];
-      }
-    });
-  };
 
-  const tryDifferentVerse = (direction: 'previous' | 'next' | 'first') => {
-    if (!highlightedVerse) return;
-    
-    let newVerse = highlightedVerse;
-    switch (direction) {
-      case 'previous':
-        newVerse = Math.max(1, highlightedVerse - 1);
-        break;
-      case 'next':
-        newVerse = highlightedVerse + 1;
-        break;
-      case 'first':
-        newVerse = 1;
-        break;
-    }
-    
-    setHighlightedVerse(newVerse);
-  };
 
   const getBookChapters = (bookNumber: number) => {
     const book = getBookByNumber(bookNumber);
@@ -517,6 +585,12 @@ const BibleRead: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      // Check if user is trying to use global search without authentication
+      if (searchScope === 'global' && !isAuthenticated) {
+        navigate('/login?redirect=' + encodeURIComponent('/bible/read'));
+        return;
+      }
+      
       // First, try to parse as a Bible reference
       const reference = parseBibleReference(searchQuery);
       
@@ -563,19 +637,12 @@ const BibleRead: React.FC = () => {
 
     // Auto-hide highlight after 7 seconds, but only if not on parallel tab
     if (activeTab !== 'parallel') {
-      setTimeout(() => {
-        setHighlightedVerse(null);
-      }, 7000);
+    setTimeout(() => {
+      setHighlightedVerse(null);
+    }, 7000);
     }
   };
 
-  const handleCompareInParallel = () => {
-    if (highlightedVerse) {
-      setParallelVerse(highlightedVerse); // Set the verse for parallel comparison
-      setActiveTab('parallel');
-      // The parallel text will automatically load for the highlighted verse
-    }
-  };
 
   // Handle asterisk click to show change details
   const handleAsteriskClick = (bookNumber: number, chapter: number, verse: number) => {
@@ -640,8 +707,8 @@ const BibleRead: React.FC = () => {
       <div className="min-h-screen bg-breachfix-navy flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">❌</div>
-          <h1 className="text-3xl font-bold text-breachfix-white mb-4">Error Loading Bible</h1>
-          <p className="text-breachfix-gray text-lg mb-6">
+          <h1 className="text-heading-lg text-breachfix-white mb-4">Error Loading Bible</h1>
+          <p className="text-breachfix-gray text-body-sm mb-6">
             Failed to load Bible data. Please check your connection and try again.
           </p>
           <button
@@ -661,14 +728,14 @@ const BibleRead: React.FC = () => {
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-10 h-10 border-4 border-netflix-red border-t-transparent rounded-full"
+          className="w-10 h-10 border-4 border-breachfix-gold border-t-transparent rounded-full"
         />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-breachfix-navy">
+    <div className="bible-reading-container">
       {/* Welcome Message */}
       <AnimatePresence>
         {showWelcome && (
@@ -735,26 +802,29 @@ const BibleRead: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <h1 className="text-3xl md:text-4xl font-bold text-breachfix-white">Read Bible</h1>
+              <h1 className="text-heading-lg text-breachfix-white">Read Bible</h1>
             </div>
             <div className="flex items-center gap-4">
               {/* Changed Link */}
               <button
-                onClick={() => navigate('/changed')}
-                className="bg-breachfix-gray hover:bg-gray-500 text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
+                onClick={() => navigate('/bible')}
+                className="bg-breachfix-gray hover:bg-gray-500 text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 text-caption font-medium"
               >
                 Changed
               </button>
               {/* Language Selector */}
               <select
                 value={selectedLanguage}
-                onChange={(e) => handleLanguageChange(e.target.value)}
+                onChange={(e) => {
+                  console.log('Select onChange triggered:', e.target.value);
+                  handleLanguageChange(e.target.value);
+                }}
                 className="bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                 disabled={languagesLoading}
               >
                 {languages.map((lang: AllBibleLanguage) => (
                   <option key={lang.code3} value={lang.code3}>
-                    {languageNameMap[lang.code3.toLowerCase()] || lang.name} ({lang.code3?.toUpperCase() || 'N/A'})
+                    {languageNameMap[lang.code3.toLowerCase()] || lang.name}
                   </option>
                 ))}
               </select>
@@ -899,20 +969,68 @@ const BibleRead: React.FC = () => {
           
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="mb-6">
+            <div className="space-y-4">
+              {/* Search Scope Selector */}
+              <div className="flex flex-wrap gap-2">
+                <span className="text-breachfix-white text-sm font-medium self-center">Search in:</span>
+                <button
+                  type="button"
+                  onClick={() => setSearchScope('current')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    searchScope === 'current'
+                      ? 'bg-breachfix-gold text-breachfix-navy'
+                      : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray/80'
+                  }`}
+                >
+                  Current Language ({getLanguageByCode(selectedLanguage)?.name || selectedLanguage})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (isAuthenticated) {
+                      setSearchScope('global');
+                    } else {
+                      navigate('/login?redirect=' + encodeURIComponent('/bible/read'));
+                    }
+                  }}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${
+                    searchScope === 'global'
+                      ? 'bg-breachfix-gold text-breachfix-navy'
+                      : isAuthenticated
+                      ? 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray/80'
+                      : 'bg-breachfix-gray/50 text-breachfix-gray cursor-pointer hover:bg-breachfix-gray/70'
+                  }`}
+                  title={!isAuthenticated ? 'Login Required - Click to sign in' : 'Search across all languages and versions'}
+                >
+                  All Languages
+                  {!isAuthenticated && (
+                    <span className="ml-2 text-xs bg-breachfix-gold text-breachfix-navy px-2 py-1 rounded-full">
+                      Login Required
+                    </span>
+                  )}
+                </button>
+              </div>
+              
+              {/* Search Input */}
             <div className="flex gap-4">
                               <input
                   type="text"
-                  placeholder="Search Bible verses or enter reference (e.g., 'matthew 7:7', 'genesis 1', 'john 3')..."
+                  placeholder={
+                    searchScope === 'current' 
+                      ? `Search in ${getLanguageByCode(selectedLanguage)?.name || selectedLanguage} (all versions)...`
+                      : "Search across all languages and versions..."
+                  }
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="flex-1 bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
                 />
               <button
                 type="submit"
-                className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-6 py-2 rounded-lg transition-colors duration-200"
+                  className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-navy px-6 py-2 rounded-lg transition-colors duration-200"
               >
                 Search
               </button>
+              </div>
             </div>
           </form>
 
@@ -922,7 +1040,7 @@ const BibleRead: React.FC = () => {
               onClick={() => setActiveTab('read')}
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === 'read'
-                  ? 'text-netflix-red border-b-2 border-netflix-red'
+                  ? 'text-breachfix-gold border-b-2 border-breachfix-gold'
                   : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
@@ -932,7 +1050,7 @@ const BibleRead: React.FC = () => {
               onClick={() => setActiveTab('search')}
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === 'search'
-                  ? 'text-netflix-red border-b-2 border-netflix-red'
+                  ? 'text-breachfix-gold border-b-2 border-breachfix-gold'
                   : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
@@ -942,7 +1060,7 @@ const BibleRead: React.FC = () => {
               onClick={() => setActiveTab('parallel')}
               className={`px-6 py-3 font-semibold transition-colors duration-200 ${
                 activeTab === 'parallel'
-                  ? 'text-netflix-red border-b-2 border-netflix-red'
+                  ? 'text-breachfix-gold border-b-2 border-breachfix-gold'
                   : 'text-breachfix-white hover:text-breachfix-white'
               }`}
             >
@@ -951,57 +1069,59 @@ const BibleRead: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Book Selection Sidebar - completely hidden when closed */}
-          {sidebarOpen && (
-            <div className="lg:col-span-1">
-              <div className="bg-netflix-dark-gray rounded-lg p-6 lg:sticky lg:top-24">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-bold text-breachfix-white">Books</h2>
+        <div className="flex gap-4">
+          {/* Book Selection Sidebar - Always visible on desktop, collapsible on mobile */}
+          <div className={`${sidebarOpen ? 'block' : 'hidden'} lg:block w-40 flex-shrink-0`}>
+            <div className="lg:sticky lg:top-24">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-body-sm font-bold text-breachfix-white">Books</h2>
                   <button
                     onClick={() => setSidebarOpen(false)}
-                    className="lg:hidden text-breachfix-gray hover:text-breachfix-white"
+                  className="lg:hidden text-breachfix-gray hover:text-breachfix-white transition-colors"
                   >
-                    ✕
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                   </button>
                 </div>
                 
-                {/* Old Testament */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-breachfix-white mb-3">Old Testament</h3>
-                  <div className="space-y-2 max-h-60 overflow-y-auto">
+              {/* All Books - Unified List */}
+              <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-breachfix-gold scrollbar-track-transparent">
+                <div className="space-y-1">
+                  {/* Old Testament Section */}
+                  <div className="sticky top-0 bg-breachfix-navy py-1 mb-2">
+                    <h3 className="text-caption font-semibold text-breachfix-gold uppercase tracking-wide">Old Testament</h3>
+                  </div>
                     {oldTestamentBooks.map((book: AllBibleBook) => (
                       <motion.button
                         key={book.number}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleBookChange(book.number)}
-                        className={`w-full text-left px-3 py-2 rounded transition-colors duration-200 ${
+                      className={`w-full text-left px-2 py-1 rounded-md transition-all duration-200 text-xs ${
                           selectedBookNumber === book.number
-                            ? 'bg-netflix-red text-breachfix-white'
-                            : 'text-breachfix-white hover:bg-breachfix-gray hover:text-breachfix-white'
+                          ? 'bg-breachfix-gold text-breachfix-navy font-semibold shadow-sm'
+                          : 'text-breachfix-white hover:bg-breachfix-emerald hover:bg-opacity-20 hover:text-breachfix-emerald'
                         }`}
                       >
                         {book.name}
                       </motion.button>
                     ))}
+                  
+                  {/* New Testament Section */}
+                  <div className="sticky top-0 bg-breachfix-navy py-1 mb-2 mt-4">
+                    <h3 className="text-xs font-semibold text-breachfix-gold uppercase tracking-wide">New Testament</h3>
                   </div>
-                </div>
-
-                {/* New Testament */}
-                <div>
-                  <h3 className="text-lg font-semibold text-breachfix-white mb-3">New Testament</h3>
-                  <div className="space-y-2 max-h-60 overflow-y-auto">
                     {newTestamentBooks.map((book: AllBibleBook) => (
                       <motion.button
                         key={book.number}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleBookChange(book.number)}
-                        className={`w-full text-left px-3 py-2 rounded transition-colors duration-200 ${
+                      className={`w-full text-left px-2 py-1 rounded-md transition-all duration-200 text-xs ${
                           selectedBookNumber === book.number
-                            ? 'bg-netflix-red text-breachfix-white'
-                            : 'text-breachfix-white hover:bg-breachfix-gray hover:text-breachfix-white'
+                          ? 'bg-breachfix-gold text-breachfix-navy font-semibold shadow-sm'
+                          : 'text-breachfix-white hover:bg-breachfix-emerald hover:bg-opacity-20 hover:text-breachfix-emerald'
                         }`}
                       >
                         {book.name}
@@ -1011,10 +1131,9 @@ const BibleRead: React.FC = () => {
                 </div>
               </div>
             </div>
-          )}
 
-          {/* Main Content - takes full width when sidebar is hidden */}
-          <div className={`${sidebarOpen ? 'lg:col-span-3' : 'lg:col-span-4'}`}>
+          {/* Main Content */}
+          <div className="flex-1 min-w-0 bg-gradient-to-b from-breachfix-navy/50 to-breachfix-dark/30 rounded-lg p-6 backdrop-blur-sm">
             {activeTab === 'read' && (
               <div>
                 {/* Chapter Selection */}
@@ -1027,33 +1146,33 @@ const BibleRead: React.FC = () => {
                       source={selectedSource}
                       bookNumber={selectedBookNumber}
                       onDonationClick={handleDonationClick}
-                      donationEnabled={true}
+                      donationEnabled={shouldEnableDonations}
                       userId={undefined} // TODO: Get from auth context
                     />
                     
-                    {/* Show Books Button - only visible when sidebar is hidden */}
-                    {!sidebarOpen && (
-                      <motion.button
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setSidebarOpen(true)}
-                        className="bg-breachfix-gray hover:bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
-                      >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                        Show Books
-                      </motion.button>
-                    )}
+                    {/* Show Books Button - only visible on mobile when sidebar is hidden */}
+                      {!sidebarOpen && (
+                        <motion.button
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => setSidebarOpen(true)}
+                        className="lg:hidden bg-breachfix-gray hover:bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                          </svg>
+                          Show Books
+                        </motion.button>
+                      )}
                     
-                    {/* Subtle indicator when sidebar is hidden */}
+                    {/* Subtle indicator when sidebar is hidden on mobile */}
                     {!sidebarOpen && (
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-breachfix-gray text-sm mb-4 flex items-center gap-2"
+                        className="lg:hidden text-breachfix-gray text-sm mb-4 flex items-center gap-2"
                       >
                         <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
                         <span>Books sidebar hidden - click "Show Books" to browse other books</span>
@@ -1069,8 +1188,8 @@ const BibleRead: React.FC = () => {
                           onClick={() => handleChapterChange(chapterNum)}
                           className={`px-3 py-1 rounded transition-colors duration-200 ${
                             selectedChapter === chapterNum
-                              ? 'bg-netflix-red text-breachfix-white'
-                              : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray'
+                              ? 'bg-breachfix-gold text-breachfix-navy'
+                              : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gold hover:bg-opacity-20 hover:text-breachfix-navy'
                           }`}
                         >
                           {chapterNum}
@@ -1092,7 +1211,7 @@ const BibleRead: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setSidebarOpen(true)}
-                        className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
+                        className="lg:hidden bg-breachfix-gold hover:bg-yellow-500 text-breachfix-navy px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
                       >
                         <span>📚</span>
                         Browse Books
@@ -1116,7 +1235,7 @@ const BibleRead: React.FC = () => {
                     <p className="text-breachfix-gray">Please try selecting a different chapter</p>
                   </div>
                 ) : chapterTexts.length > 0 ? (
-                  <div className="bg-netflix-dark-gray rounded-lg p-6 md:p-8">
+                  <div className="bible-chapter-container rounded-xl p-6 md:p-8 shadow-2xl">
                     <div className="prose prose-invert max-w-none">
                       {chapterTexts.map((verse: AllBibleText) => (
                         <motion.div
@@ -1135,7 +1254,8 @@ const BibleRead: React.FC = () => {
                             onVerseClick={handleVerseClick}
                             onAsteriskClick={handleAsteriskClick}
                             onDonationClick={handleDonationClick}
-                            donationEnabled={true}
+                            donationEnabled={shouldEnableDonations}
+                            showPartnerBadge={shouldEnableDonations}
                             selectedLanguage={selectedLanguage}
                             selectedSource={selectedSource}
                             selectedBookNumber={selectedBookNumber}
@@ -1143,28 +1263,6 @@ const BibleRead: React.FC = () => {
                             userId={undefined} // TODO: Get from auth context
                           />
                           
-                          {/* Compare in Parallel Button - appears when verse is highlighted */}
-                          {highlightedVerse === verse.verse && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: 0.2 }}
-                              className="mt-3 flex justify-center"
-                            >
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleCompareInParallel();
-                                }}
-                                className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 text-sm font-medium shadow-lg"
-                              >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                                </svg>
-                                Compare in Parallel
-                              </button>
-                            </motion.div>
-                          )}
                         </motion.div>
                       ))}
                     </div>
@@ -1184,11 +1282,17 @@ const BibleRead: React.FC = () => {
 
             {activeTab === 'search' && (
               <div>
-                <h2 className="text-2xl font-bold text-breachfix-white mb-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold text-breachfix-white">
                   Search Results for "{searchQuery}"
                 </h2>
+                  <div className="text-sm text-breachfix-gray">
+                    {searchScope === 'current' && `Searching in ${getLanguageByCode(selectedLanguage)?.name || selectedLanguage} (all versions)`}
+                    {searchScope === 'global' && 'Searching across all languages and versions'}
+                  </div>
+                </div>
                 
-                {searchLoading || globalSearchLoading ? (
+                {globalSearchLoading ? (
                   <div className="flex justify-center py-12">
                     <motion.div
                       animate={{ rotate: 360 }}
@@ -1196,59 +1300,65 @@ const BibleRead: React.FC = () => {
                       className="w-8 h-8 border-4 border-breachfix-gold border-t-transparent rounded-full"
                     />
                   </div>
-                ) : searchError || globalSearchError ? (
+                ) : globalSearchError ? (
                   <div className="text-center py-12">
                     <div className="text-red-400 text-xl mb-4">Error searching</div>
-                    <p className="text-breachfix-gray">Please try a different search term</p>
+                    <p className="text-breachfix-gray">Please try a different search term or change your search scope</p>
                   </div>
-                ) : (searchResults.length > 0 || globalSearchResults.length > 0) ? (
+                ) : globalSearchResults.length > 0 ? (
                   <div className="space-y-4">
-                    {/* Language-specific results */}
-                    {searchResults.length > 0 && (
+                    {/* Show results based on search scope */}
+                    
+                    {/* Current language results (all versions) */}
+                    {searchScope === 'current' && globalSearchResults.length > 0 && (
                       <div className="mb-6">
                         <h3 className="text-lg font-semibold text-breachfix-white mb-4">
-                          {getLanguageByCode(selectedLanguage)?.name} ({selectedSource.toUpperCase()})
+                          {getLanguageByCode(selectedLanguage)?.name} (All Versions)
                         </h3>
-                        {searchResults.map((result: AllBibleSearchResult, index: number) => (
-                          <motion.div
-                            key={`lang-${index}`}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
+                        {globalSearchResults
+                          .filter((result: AllBibleSearchResult) => result.language?.code === selectedLanguage)
+                          .map((result: AllBibleSearchResult, index: number) => (
+                      <motion.div
+                              key={`current-${index}`}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
                             className="bg-netflix-dark-gray rounded-lg p-6 mb-4"
-                          >
-                            <div className="flex items-start justify-between mb-2">
-                              <h4 className="text-lg font-semibold text-netflix-red">
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                                <h4 className="text-lg font-semibold text-breachfix-gold">
                                 {getBookByNumber(result.bookNumber)?.name} {result.chapter}:{result.verse}
                               </h4>
-                              <button
-                                onClick={() => {
+                                <div className="text-right">
+                                  <span className="text-breachfix-emerald text-sm font-medium">
+                                    {result.source?.code?.toUpperCase()}
+                                  </span>
+                                  <span className="text-breachfix-gray text-sm block">
+                                    {result.wordCount} words
+                                  </span>
+                                </div>
+                              </div>
+                              <p className="text-breachfix-white leading-relaxed">
+                                {result.text}
+                              </p>
+                          <button
+                            onClick={() => {
                                   setSelectedBookNumber(result.bookNumber);
-                                  setSelectedChapter(result.chapter);
-                                  setActiveTab('read');
-                                  setSidebarOpen(false);
-                                }}
-                                className="text-netflix-red hover:text-red-400 text-sm"
+                              setSelectedChapter(result.chapter);
+                              setActiveTab('read');
+                              setSidebarOpen(false);
+                            }}
+                                className="mt-3 bg-breachfix-gold hover:bg-yellow-500 text-breachfix-navy px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium"
                               >
-                                View Chapter
+                                Go to Verse
                               </button>
-                            </div>
-                            <p className="text-breachfix-white leading-relaxed">{result.text}</p>
-                            {result.changed?.exists && (
-                              <button
-                                onClick={() => navigate(`/changed?lang=${selectedLanguage}&source=${selectedSource}&book=${result.bookNumber}&chapter=${result.chapter}&verse=${result.verse}`)}
-                                className="text-orange-400 hover:text-orange-300 text-xs bg-orange-900 bg-opacity-30 hover:bg-orange-900 hover:bg-opacity-50 px-2 py-1 rounded mt-2 inline-block transition-colors duration-200"
-                              >
-                                Changed
-                              </button>
-                            )}
                           </motion.div>
                         ))}
                       </div>
                     )}
                     
                     {/* Global results */}
-                    {globalSearchResults.length > 0 && (
+                    {searchScope === 'global' && globalSearchResults.length > 0 && (
                       <div>
                         <h3 className="text-lg font-semibold text-breachfix-white mb-4">All Languages</h3>
                         {globalSearchResults.map((result: AllBibleSearchResult, index: number) => (
@@ -1261,7 +1371,7 @@ const BibleRead: React.FC = () => {
                           >
                             <div className="flex items-start justify-between mb-2">
                               <div>
-                                <h4 className="text-lg font-semibold text-netflix-red">
+                                <h4 className="text-lg font-semibold text-breachfix-gold">
                                   {result.language?.name} - {result.source?.name} - {result.bookNumber}:{result.chapter}:{result.verse}
                                 </h4>
                               </div>
@@ -1274,309 +1384,47 @@ const BibleRead: React.FC = () => {
                                   setActiveTab('read');
                                   setSidebarOpen(false);
                                 }}
-                                className="text-netflix-red hover:text-red-400 text-sm"
-                              >
-                                View Chapter
-                              </button>
-                            </div>
+                                className="text-breachfix-gold hover:text-red-400 text-sm"
+                          >
+                            View Chapter
+                          </button>
+                        </div>
                             <p className="text-breachfix-white leading-relaxed">{result.text}</p>
                             {result.changed?.exists && (
                               <button
-                                onClick={() => navigate(`/changed?lang=${result.language?.code3 || selectedLanguage}&source=${result.source?.code || selectedSource}&book=${result.bookNumber}&chapter=${result.chapter}&verse=${result.verse}`)}
+                                onClick={() => navigate(`/bible/changed?lang=${result.language?.code3 || selectedLanguage}&source=${result.source?.code || selectedSource}&book=${result.bookNumber}&chapter=${result.chapter}&verse=${result.verse}`)}
                                 className="text-orange-400 hover:text-orange-300 text-xs bg-orange-900 bg-opacity-30 hover:bg-orange-900 hover:bg-opacity-50 px-2 py-1 rounded mt-2 inline-block transition-colors duration-200"
                               >
                                 Changed
                               </button>
                             )}
-                          </motion.div>
-                        ))}
+                      </motion.div>
+                    ))}
                       </div>
                     )}
                   </div>
                 ) : searchQuery ? (
                   <div className="text-center py-12">
                     <div className="text-breachfix-gray text-xl mb-4">No results found</div>
-                    <p className="text-breachfix-gray">Try a different search term</p>
+                    <p className="text-breachfix-gray">Try a different search term or change your search scope</p>
                   </div>
                 ) : (
                   <div className="text-center py-12">
                     <div className="text-breachfix-gray text-xl mb-4">Enter a search term</div>
-                    <p className="text-breachfix-gray">Search for specific words or phrases in the Bible</p>
+                    <p className="text-breachfix-gray">Choose your search scope and search for specific words or phrases in the Bible</p>
                   </div>
                 )}
               </div>
             )}
 
             {activeTab === 'parallel' && (
-              <div>
-                <h2 className="text-2xl font-bold text-breachfix-white mb-4">
-                  Parallel Text Comparison
-                </h2>
-
-                {/* Parallel Language Selector */}
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-breachfix-white mb-3">Select Languages to Compare</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {languages.map((lang: AllBibleLanguage) => (
-                      <motion.button
-                        key={lang.code3}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleParallelLanguageToggle(lang.code3)}
-                        className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-                          parallelLanguages.includes(lang.code3)
-                            ? 'bg-netflix-red text-breachfix-white'
-                            : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray'
-                        }`}
-                        disabled={lang.code3 === selectedLanguage}
-                      >
-                        {languageNameMap[lang.code3.toLowerCase()] || lang.name} ({lang.code3?.toUpperCase()})
-                        {lang.code3 === selectedLanguage && (
-                          <span className="ml-2 text-xs opacity-75">(Base)</span>
-                        )}
-                      </motion.button>
-                    ))}
-                  </div>
-                  <p className="text-breachfix-gray text-sm mt-2">
-                    Selected languages: {parallelLanguages.length} | 
-                    Filtered for comparison: {filteredParallelLanguages.length}
-                    {filteredParallelLanguages.length === 0 && (
-                      <span className="text-red-400 ml-2">⚠️ No languages available for comparison</span>
-                    )}
-                  </p>
-                  <p className="text-breachfix-gray text-xs mt-1">
-                    💡 Note: Some verses may not be available in all languages. Try different verses if you encounter errors.
-                  </p>
-                </div>
-                
-                {!parallelVerse && !highlightedVerse ? (
-                  <div className="text-center py-12">
-                    <div className="text-breachfix-gray text-xl mb-4">Select a verse to compare</div>
-                    <p className="text-breachfix-gray mb-4">Click on a verse in the reading tab to see parallel translations, or select a verse below:</p>
-                    
-                    {/* Verse Selector */}
-                    <div className="mt-6 max-w-md mx-auto">
-                      <label className="block text-sm font-medium text-breachfix-white mb-2">
-                        Select Verse Number:
-                      </label>
-                      <div className="flex gap-2">
-                        <input
-                          type="number"
-                          min="1"
-                          max="200"
-                          value={parallelVerse || ''}
-                          onChange={(e) => {
-                            const verse = parseInt(e.target.value, 10);
-                            if (verse > 0) {
-                              setParallelVerse(verse);
-                            }
-                          }}
-                          className="flex-1 bg-breachfix-gray text-breachfix-white px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
-                          placeholder="Enter verse number"
-                        />
-                        <button
-                          onClick={() => {
-                            if (parallelVerse) {
-                              // Verse is already set, just refresh
-                            }
-                          }}
-                          className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-4 py-2 rounded transition-colors duration-200"
-                        >
-                          Compare
-                        </button>
-                      </div>
-                    </div>
-                    <div className="bg-breachfix-emerald bg-opacity-20 border border-breachfix-emerald rounded-lg p-4 max-w-md mx-auto">
-                      <h4 className="text-breachfix-emerald font-semibold mb-2">How to use Parallel Text:</h4>
-                      <ol className="text-breachfix-white text-sm text-left space-y-1">
-                        <li>1. Select languages above</li>
-                        <li>2. Go to "Read Bible" tab</li>
-                        <li>3. Click on any verse number</li>
-                        <li>4. Return to "Parallel Text" tab</li>
-                        <li>5. See translations in all selected languages</li>
-                      </ol>
-                    </div>
-                    <div className="mt-6">
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setHighlightedVerse(1)}
-                        className="bg-netflix-red hover:bg-yellow-500 text-breachfix-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
-                      >
-                        <span>📖</span>
-                        Compare First Verse
-                      </motion.button>
-                    </div>
-                  </div>
-                ) : parallelLoading ? (
-                  <div className="flex justify-center py-12">
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="w-8 h-8 border-4 border-breachfix-gold border-t-transparent rounded-full"
-                    />
-                  </div>
-                ) : parallelError ? (
-                  <div className="text-center py-12">
-                    <div className="text-breachfix-gold text-xl mb-4">Error loading parallel text</div>
-                    <div className="bg-red-600 bg-opacity-20 border border-red-400 rounded-lg p-4 max-w-md mx-auto mb-4">
-                      <p className="text-red-100 text-sm mb-2">
-                        <strong>Error:</strong> {parallelError?.message || 'Unknown error occurred'}
-                      </p>
-                      <p className="text-breachfix-gray text-xs">
-                        This usually means the verse doesn't exist in one or more of the selected languages.
-                      </p>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-breachfix-gray">Try one of these solutions:</p>
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => tryDifferentVerse('first')}
-                          className="bg-breachfix-emerald hover:bg-teal-600 text-breachfix-white px-4 py-2 rounded text-sm transition-colors duration-200"
-                        >
-                          Try Verse 1
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => tryDifferentVerse('previous')}
-                          className="bg-breachfix-gray hover:bg-gray-700 text-breachfix-white px-4 py-2 rounded text-sm transition-colors duration-200"
-                        >
-                          Previous Verse
-                        </motion.button>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => tryDifferentVerse('next')}
-                          className="bg-breachfix-gray hover:bg-gray-700 text-breachfix-white px-4 py-2 rounded text-sm transition-colors duration-200"
-                        >
-                          Next Verse
-                        </motion.button>
-                      </div>
-                    </div>
-                  </div>
-                ) : (baseText || parallelTexts.length > 0) ? (
-                  <div className="space-y-4">
-                    <div className="bg-blue-900 bg-opacity-20 border border-blue-500 rounded-lg p-4 mb-6">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h3 className="text-lg font-semibold text-blue-400 mb-2">
-                            {selectedBook?.name} {selectedChapter}:{highlightedVerse}
-                          </h3>
-                          <p className="text-breachfix-white">
-                            {parallelSummary ? (
-                              <>
-                                Comparing translations across {parallelSummary.totalLanguages} languages
-                                <span className="ml-2 text-green-400">
-                                  ({parallelSummary.totalSuccessful} available, {parallelSummary.totalFailed} missing)
-                                </span>
-                              </>
-                            ) : (
-                              `Comparing translations across ${parallelTexts.length} languages`
-                            )}
-                          </p>
-                        </div>
-                        <motion.button
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setHighlightedVerse(null)}
-                          className="bg-breachfix-gray hover:bg-gray-500 text-breachfix-white px-3 py-1 rounded text-sm transition-colors duration-200"
-                        >
-                          Clear Selection
-                        </motion.button>
-                      </div>
-                    </div>
-                    
-                    {/* Base Language Text */}
-                    {baseText && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0 }}
-                        className={`rounded-lg p-6 mb-4 ${
-                          baseText.success 
-                            ? 'bg-green-900 bg-opacity-20 border border-green-500' 
-                            : 'bg-red-600 bg-opacity-20 border border-red-400'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between mb-3">
-                          <h4 className="text-lg font-semibold text-green-400">
-                            {getFullLanguageName(baseText.language, baseText.metadata?.name) || 'Base Language'}
-                            {baseText.success ? (
-                              <span className="ml-2 text-xs bg-breachfix-emerald px-2 py-1 rounded">Available</span>
-                            ) : (
-                              <span className="ml-2 text-xs bg-breachfix-gold px-2 py-1 rounded">Not Available</span>
-                            )}
-                          </h4>
-                          <span className="text-breachfix-gray text-sm">
-                            {baseText.metadata?.code3?.toUpperCase() || baseText.language?.toUpperCase() || 'N/A'}
-                          </span>
-                        </div>
-                        {baseText.success ? (
-                          <p className="text-breachfix-white leading-relaxed text-lg">
-                            {typeof baseText.text === 'string' ? baseText.text : baseText.text?.text || 'No text available'}
-                          </p>
-                        ) : (
-                          <p className="text-red-100 italic">
-                            {baseText.error || 'Text not available in this language'}
-                          </p>
-                        )}
-                      </motion.div>
-                    )}
-                    
-                    {/* Parallel Language Texts */}
-                    {parallelTexts.map((parallel: any, index: number) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className={`rounded-lg p-6 ${
-                          parallel.success 
-                            ? 'bg-netflix-dark-gray' 
-                            : 'bg-red-600 bg-opacity-20 border border-red-400'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between mb-3">
-                          <h4 className="text-lg font-semibold text-netflix-red">
-                            {getFullLanguageName(parallel.language, parallel.metadata?.name) || 'Unknown Language'}
-                            {parallel.success ? (
-                              <span className="ml-2 text-xs bg-breachfix-emerald px-2 py-1 rounded">Available</span>
-                            ) : (
-                              <span className="ml-2 text-xs bg-breachfix-gold px-2 py-1 rounded">Not Available</span>
-                            )}
-                          </h4>
-                          <span className="text-breachfix-gray text-sm">
-                            {parallel.metadata?.code3?.toUpperCase() || parallel.language?.toUpperCase() || 'N/A'}
-                          </span>
-                        </div>
-                        {parallel.success ? (
-                          <p className="text-breachfix-white leading-relaxed text-lg">{typeof parallel.text === 'string' ? parallel.text : parallel.text?.text || 'No text available'}</p>
-                        ) : (
-                          <p className="text-red-100 italic">
-                            {parallel.error || 'Text not available in this language'}
-                          </p>
-                        )}
-                        {(parallel.changed?.exists || (typeof parallel.text === 'object' && parallel.text?.changed?.exists)) && (
-                          <button
-                            onClick={() => navigate(`/changed?lang=${parallel.language}&source=${selectedSource}&book=${selectedBookNumber}&chapter=${selectedChapter}&verse=${highlightedVerse || 1}`)}
-                            className="text-orange-400 hover:text-orange-300 text-xs bg-orange-900 bg-opacity-30 hover:bg-orange-900 hover:bg-opacity-50 px-2 py-1 rounded mt-2 inline-block transition-colors duration-200"
-                          >
-                            Changed
-                          </button>
-                        )}
-                      </motion.div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <div className="text-breachfix-gray text-xl mb-4">No parallel translations available</div>
-                    <p className="text-breachfix-gray">Try selecting a different verse or language</p>
-                  </div>
-                )}
-              </div>
+              <ParallelTextDisplay
+                selectedBookNumber={selectedBookNumber}
+                selectedChapter={selectedChapter}
+                selectedLanguage={selectedLanguage}
+                highlightedVerse={highlightedVerse}
+                onClearSelection={() => setHighlightedVerse(null)}
+              />
             )}
           </div>
         </div>

@@ -73,17 +73,17 @@ const DonationCard: React.FC<DonationCardProps> = ({
   };
 
   return (
-    <div className={`bg-breachfix-dark rounded-lg shadow-lg p-6 ${className}`}>
+    <div className={`bg-breachfix-gold bg-opacity-10 rounded-lg shadow-lg p-6 border border-breachfix-gold ${className}`}>
       <div className="mb-4">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-        <p className="text-breachfix-gray mb-3">{description}</p>
-        <div className="text-sm text-breachfix-gray bg-breachfix-gray bg-opacity-20 p-2 rounded">
+        <h3 className="text-heading-sm font-bold text-breachfix-white mb-2">{title}</h3>
+        <p className="text-breachfix-white mb-3">{description}</p>
+        <div className="text-body-sm text-breachfix-navy bg-breachfix-gold bg-opacity-30 p-2 rounded border border-breachfix-gold">
           <strong>Reference:</strong> {formatReference()}
         </div>
       </div>
 
       <div className="mb-6">
-        <h4 className="text-lg font-semibold mb-3">Select Amount</h4>
+        <h4 className="text-body-lg font-semibold mb-3 text-breachfix-white">Select Amount</h4>
         
         {/* Suggested amounts */}
         <div className="grid grid-cols-2 gap-2 mb-4">
@@ -93,8 +93,8 @@ const DonationCard: React.FC<DonationCardProps> = ({
               onClick={() => handleAmountSelect(amount)}
               className={`p-3 border rounded-lg text-center transition-colors ${
                 selectedAmount === amount
-                  ? 'border-green-500 bg-green-50 text-green-700'
-                  : 'border-gray-300 hover:border-gray-400'
+                  ? 'border-breachfix-gold bg-breachfix-gold text-breachfix-navy'
+                  : 'border-breachfix-white hover:border-breachfix-gold text-breachfix-white hover:bg-breachfix-gold hover:bg-opacity-20'
               }`}
             >
               <span className="font-semibold">${amount}</span>
@@ -105,11 +105,11 @@ const DonationCard: React.FC<DonationCardProps> = ({
         {/* Custom amount */}
         {customAmount && (
           <div className="mb-4">
-            <label htmlFor="custom-amount" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="custom-amount" className="block text-body-sm font-medium text-breachfix-white mb-1">
               Custom Amount
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-breachfix-gray">$</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-breachfix-navy">$</span>
               <input
                 id="custom-amount"
                 type="number"
@@ -117,7 +117,7 @@ const DonationCard: React.FC<DonationCardProps> = ({
                 step="0.01"
                 value={customAmountValue}
                 onChange={handleCustomAmountChange}
-                className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full pl-8 pr-3 py-2 border border-breachfix-gold rounded-lg focus:ring-2 focus:ring-breachfix-gold focus:border-breachfix-gold bg-breachfix-gold bg-opacity-20 text-breachfix-navy placeholder-breachfix-navy placeholder-opacity-60"
                 placeholder="Enter amount"
               />
             </div>
@@ -125,7 +125,7 @@ const DonationCard: React.FC<DonationCardProps> = ({
         )}
       </div>
 
-      <div className="border-t pt-4">
+      <div className="border-t border-breachfix-gold pt-4">
         <DonationButton
           scope={scope}
           amount={selectedAmount}
@@ -135,7 +135,7 @@ const DonationCard: React.FC<DonationCardProps> = ({
         />
       </div>
 
-      <div className="mt-4 text-xs text-breachfix-gray">
+      <div className="mt-4 text-caption text-breachfix-white">
         <p>• Secure payment powered by Stripe</p>
         <p>• Your donation helps support Bible translation work</p>
         <p>• You'll receive a receipt via email</p>

@@ -69,15 +69,15 @@ const DonationModal: React.FC<DonationModalProps> = ({
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
-            <div className="bg-breachfix-dark rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-gradient-to-br from-breachfix-emerald to-teal-600 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-breachfix-gold">
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b">
-                <h2 className="text-xl font-semibold text-gray-900">
+              <div className="flex items-center justify-between p-6 border-b border-breachfix-gold">
+                <h2 className="text-heading-sm font-semibold text-breachfix-white">
                   Support Bible Translation
                 </h2>
                 <button
                   onClick={onClose}
-                  className="text-gray-400 hover:text-breachfix-gray transition-colors"
+                  className="text-breachfix-white hover:text-breachfix-gold transition-colors"
                 >
                   <X size={24} />
                 </button>

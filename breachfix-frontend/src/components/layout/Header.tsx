@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     <>
       <header className="flex items-center justify-between p-4 bg-breachfix-navy text-breachfix-white shadow-lg sticky top-0 z-50">
         {/* Logo */}
-        <Link to="/" className="text-breachfix-gold text-3xl font-bold font-sans">
+        <Link to="/" className="text-breachfix-gold text-heading-lg font-bold font-sans">
           BreachFix
         </Link>
 
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
         <div className="md:hidden">
           <button 
             onClick={toggleMobileMenu}
-            className="text-breachfix-white text-2xl hover:text-breachfix-gold transition-colors duration-200"
+            className="text-breachfix-white text-heading-md hover:text-breachfix-gold transition-colors duration-200"
           >
             {isMobileMenuOpen ? '✕' : '☰'}
           </button>

@@ -58,6 +58,7 @@ function App() {
           <Route path="/bible/edit" element={<BibleEdit />} />
           <Route path="/bible/my-edits" element={<BibleMyEdits />} />
           <Route path="/bible/admin" element={<BibleAdmin />} />
+          <Route path="/bible/changed" element={<Changed />} />
           <Route path="/changed" element={<Changed />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/accounts" element={<Accounts />} />

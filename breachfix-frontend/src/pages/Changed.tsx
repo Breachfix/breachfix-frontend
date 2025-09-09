@@ -59,7 +59,7 @@ const Changed: React.FC = () => {
   };
   
   const handleBackToReasons = () => {
-    navigate('/changed');
+    navigate('/bible/changed');
   };
   
   const handleViewInReader = () => {
@@ -116,7 +116,7 @@ const Changed: React.FC = () => {
             >
               {/* Breadcrumbs */}
               <nav className="mb-6">
-                <div className="flex items-center space-x-2 text-sm text-breachfix-gray">
+                <div className="flex items-center space-x-2 text-body-sm text-breachfix-gray">
                   <button
                     onClick={handleBackToReasons}
                     className="hover:text-breachfix-white transition-colors"
@@ -134,14 +134,14 @@ const Changed: React.FC = () => {
               <div className="bg-breachfix-dark rounded-2xl p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-breachfix-white mb-2">
+                    <h2 className="text-heading-md font-bold text-breachfix-white mb-2">
                       {selectedBook?.name} {chapter}:{verse}
                     </h2>
                     <div className="flex gap-2">
-                      <span className="bg-breachfix-gold text-breachfix-navy px-3 py-1 rounded-full text-sm">
+                      <span className="bg-breachfix-gold text-breachfix-navy px-3 py-1 rounded-full text-body-sm">
                         {getFullLanguageName(lang || '')}
                       </span>
-                      <span className="bg-breachfix-gray text-breachfix-white px-3 py-1 rounded-full text-sm">
+                      <span className="bg-breachfix-gray text-breachfix-white px-3 py-1 rounded-full text-body-sm">
                         {source?.toUpperCase()}
                       </span>
                     </div>
@@ -186,6 +186,8 @@ const Changed: React.FC = () => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
             >
+                 {/* Featured Verse */}
+         <ChangedFeatured />
 
              
 
@@ -205,14 +207,14 @@ const Changed: React.FC = () => {
               <div className="text-center mt-12">
                 {/* Back to Bible Reader Button */}
                 <div className="border-t border-breachfix-gray pt-6">
-                  <h4 className="text-lg font-semibold text-breachfix-white mb-4">
+                  <h4 className="text-body-lg font-semibold text-breachfix-white mb-4">
                     Continue Reading the Bible
                   </h4>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate('/bible')}
-                    className="bg-gradient-to-r from-breachfix-gold to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-breachfix-navy px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+                    onClick={() => navigate('/bible/read')}
+                    className="bg-gradient-to-r from-breachfix-gold to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-breachfix-navy px-8 py-4 rounded-lg text-body-lg font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     Go Back to Read
                   </motion.button>
