@@ -59,6 +59,51 @@ export const ParallelText: React.FC<ParallelTextProps> = ({
   // Fetch languages using the new AllBibles API
   const { data: languages = [], isLoading: languagesLoading, error: languagesError } = useAllBiblesApi.languages.useGetAll();
 
+  // Resolve and persist the correct base source (version) for the selected language
+  const { data: sourcesResp } = useAllBiblesApi.sources.useGetByLanguage(selectedLanguage, { enabled: !!selectedLanguage });
+
+  // Preferred sources by language (fallback to first available if not found)
+  const preferredSourceByLanguage: Record<string, string[]> = {
+    // English
+    eng: ['kjv', 'akjv', 'nkjv', 'niv'],
+    // French
+    fra: ['lsg', 'bdc', 'pdv'],
+    // Spanish
+    spa: ['rvr', 'rvr1960', 'rves'],
+    esp: ['rvr', 'rvr1960', 'rves'],
+    // Rundi
+    run: ['kir'],
+    // Shona (avoid by67)
+    sna: ['sov', 'shona', 'sna'],
+  };
+
+  useEffect(() => {
+    const sources: Array<{ code: string }> = (sourcesResp as any)?.sources || [];
+    if (!sources || sources.length === 0) return;
+
+    const normalizedLang = (selectedLanguage || '').toLowerCase();
+    const prefs = preferredSourceByLanguage[normalizedLang] || [];
+
+    // Try preferred list first
+    let picked = prefs.map(p => p.toLowerCase()).find(p => sources.some(s => s.code?.toLowerCase() === p));
+
+    // Avoid obviously bad sources for certain languages
+    if (!picked && normalizedLang === 'sna') {
+      picked = sources.map(s => s.code?.toLowerCase()).find(code => code && !code.startsWith('by')); // avoid byXX like by67
+    }
+
+    // Fallback to first available
+    if (!picked) {
+      picked = sources[0].code?.toLowerCase();
+    }
+
+    if (picked) {
+      // Persist globally so reading/text endpoints pick the right version
+      localStorage.setItem('bibleRead_selectedSource', picked);
+      localStorage.setItem(`bibleRead_source_${normalizedLang}`, picked);
+    }
+  }, [sourcesResp, selectedLanguage]);
+
   // Parallel text for selected verse
   const { data: parallelResponse, isLoading: parallelLoading, error: parallelError } = useAllBiblesApi.parallel.useGetMultiple(
     selectedBookNumber,
@@ -82,40 +127,6 @@ export const ParallelText: React.FC<ParallelTextProps> = ({
     'spa': 'Spanish',
     'deu': 'German',
     'por': 'Portuguese',
-    'ita': 'Italian',
-    'rus': 'Russian',
-    'ara': 'Arabic',
-    'heb': 'Hebrew',
-    'grc': 'Greek',
-    'lat': 'Latin',
-    'zho': 'Chinese',
-    'jpn': 'Japanese',
-    'kor': 'Korean',
-    'hin': 'Hindi',
-    'swa': 'Swahili',
-    'amh': 'Amharic',
-    'yor': 'Yoruba',
-    'ibo': 'Igbo',
-    'hau': 'Hausa',
-    'ful': 'Fulani',
-    'wol': 'Wolof',
-    'bam': 'Bambara',
-    'lin': 'Lingala',
-    'kin': 'Kinyarwanda',
-    'lug': 'Luganda',
-    'ach': 'Acholi',
-    'lwo': 'Luo',
-    'tes': 'Teso',
-    'kik': 'Kikuyu',
-    'kam': 'Kamba',
-    'mer': 'Meru',
-    'emb': 'Embu',
-    'thr': 'Tharaka',
-    'mij': 'Mijikenda',
-    'gir': 'Giriama',
-    'dav': 'Dawida',
-    'duj': 'Duruma',
-    'rab': 'Raba',
   };
 
   const getFullLanguageName = (code: string, fallbackName?: string) => {

@@ -44,7 +44,7 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          className="w-8 h-8 border-4 border-netflix-red border-t-transparent rounded-full"
+          className="w-8 h-8 border-4 border-breachfix-gold border-t-transparent rounded-full"
         />
       </div>
     );
@@ -53,10 +53,10 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
   if (error) {
     return (
       <div className="text-center py-12">
-        <div className="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-6 max-w-md mx-auto">
-          <div className="text-red-400 text-xl mb-4">⚠️ Error Loading Verse</div>
-          <p className="text-red-300 text-sm mb-4">{error}</p>
-          <p className="text-gray-400 text-xs">
+        <div className="bg-breachfix-emerald bg-opacity-20 border border-breachfix-emerald rounded-lg p-6 max-w-md mx-auto">
+          <div className="text-breachfix-emerald text-xl mb-4">⚠️ Error Loading Verse</div>
+          <p className="text-breachfix-white text-sm mb-4">{error}</p>
+          <p className="text-breachfix-gray text-xs">
             This verse may not have change analysis available, or there was a connection issue.
           </p>
         </div>
@@ -67,9 +67,9 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
   if (!data || !data.success) {
     return (
       <div className="text-center py-12">
-        <div className="bg-gray-800 rounded-lg p-6 max-w-md mx-auto">
-          <div className="text-gray-400 text-xl mb-4">No Analysis Available</div>
-          <p className="text-gray-300 text-sm">
+        <div className="bg-breachfix-dark rounded-lg p-6 max-w-md mx-auto">
+          <div className="text-breachfix-gray text-xl mb-4">No Analysis Available</div>
+          <p className="text-breachfix-white text-sm">
             This verse doesn't have change analysis data available.
           </p>
         </div>
@@ -87,14 +87,14 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
       className="space-y-6"
     >
       {/* Warning Message */}
-      <div className="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-6">
+      <div className="bg-breachfix-gold bg-opacity-20 border border-breachfix-gold rounded-lg p-6">
         <div className="flex items-start gap-3">
-          <svg className="w-6 h-6 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-breachfix-gold mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
           </svg>
           <div>
-            <h4 className="text-red-400 font-semibold mb-2">Verse Altered in Modern Translations</h4>
-            <p className="text-red-300 text-sm">
+            <h4 className="text-breachfix-gold font-semibold mb-2">Verse Altered in Modern Translations</h4>
+            <p className="text-breachfix-white text-sm">
               This verse has been changed or altered in modern Bible translations. 
               The original KJV text may differ significantly from what you're reading.
             </p>
@@ -104,21 +104,21 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Text Comparison */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-green-400 mb-4">Original KJV Text</h4>
-          <div className="bg-netflix-gray p-4 rounded-lg">
-            <p className="text-white leading-relaxed">
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Original KJV Text</h4>
+          <div className="bg-breachfix-gray bg-opacity-20 p-4 rounded-lg">
+            <p className="text-breachfix-white leading-relaxed">
               {changedVerse?.kjvBaseline || 'Original text not available'}
             </p>
           </div>
         </div>
         
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-blue-400 mb-4">
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">
             Current Translation ({lang.toUpperCase()} - {source.toUpperCase()})
           </h4>
-          <div className="bg-netflix-gray p-4 rounded-lg">
-            <p className="text-white leading-relaxed">
+          <div className="bg-breachfix-gray bg-opacity-20 p-4 rounded-lg">
+            <p className="text-breachfix-white leading-relaxed">
               {data.currentText || 'Current text not available'}
             </p>
           </div>
@@ -127,10 +127,10 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Suggested Correction */}
       {changedVerse?.translation?.suggestion && (
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-yellow-400 mb-4">Suggested Correction</h4>
-          <div className="bg-yellow-900 bg-opacity-30 border border-yellow-500 p-4 rounded-lg">
-            <p className="text-white leading-relaxed">
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Suggested Correction</h4>
+          <div className="bg-breachfix-gold bg-opacity-20 border border-breachfix-gold p-4 rounded-lg">
+            <p className="text-breachfix-white leading-relaxed">
               {changedVerse.translation.suggestion}
             </p>
           </div>
@@ -139,10 +139,10 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Change Summary */}
       {changedVerse?.summary && (
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-gray-300 mb-4">Change Summary</h4>
-          <div className="bg-netflix-gray p-4 rounded-lg">
-            <p className="text-white leading-relaxed">
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Change Summary</h4>
+          <div className="bg-breachfix-gray bg-opacity-20 p-4 rounded-lg">
+            <p className="text-breachfix-white leading-relaxed">
               {changedVerse.summary}
             </p>
           </div>
@@ -151,10 +151,10 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Analysis */}
       {changedVerse?.analysis && (
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-gray-300 mb-4">Analysis</h4>
-          <div className="bg-netflix-gray p-4 rounded-lg">
-            <p className="text-white leading-relaxed">
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Analysis</h4>
+          <div className="bg-breachfix-gray bg-opacity-20 p-4 rounded-lg">
+            <p className="text-breachfix-white leading-relaxed">
               {changedVerse.analysis}
             </p>
           </div>
@@ -163,11 +163,11 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Affected Doctrine */}
       {changedVerse?.affectedDoctrine && Array.isArray(changedVerse.affectedDoctrine) && changedVerse.affectedDoctrine.length > 0 && (
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-gray-300 mb-4">Affected Doctrine</h4>
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Affected Doctrine</h4>
           <div className="flex flex-wrap gap-2">
             {changedVerse.affectedDoctrine.map((doctrine: string, index: number) => (
-              <span key={index} className="bg-yellow-600 text-white px-3 py-1 rounded-full text-sm">
+              <span key={index} className="bg-breachfix-gold text-breachfix-navy px-3 py-1 rounded-full text-sm">
                 {doctrine}
               </span>
             ))}
@@ -177,31 +177,31 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Batch Data */}
       {changedVerse?.batchData && (
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-gray-300 mb-4">Detailed Analysis</h4>
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Detailed Analysis</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {changedVerse.batchData?.Error && (
-              <div className="bg-red-900 bg-opacity-20 border border-red-500 p-4 rounded-lg">
-                <h5 className="text-red-400 font-semibold mb-2">Error</h5>
-                <p className="text-white text-sm">{changedVerse.batchData.Error}</p>
+              <div className="bg-breachfix-gold bg-opacity-20 border border-breachfix-gold p-4 rounded-lg">
+                <h5 className="text-breachfix-gold font-semibold mb-2">Error</h5>
+                <p className="text-breachfix-white text-sm">{changedVerse.batchData.Error}</p>
               </div>
             )}
             {changedVerse.batchData?.Danger && (
-              <div className="bg-orange-900 bg-opacity-20 border border-orange-500 p-4 rounded-lg">
-                <h5 className="text-orange-400 font-semibold mb-2">Danger</h5>
-                <p className="text-white text-sm">{changedVerse.batchData.Danger}</p>
+              <div className="bg-breachfix-gold bg-opacity-20 border border-breachfix-gold p-4 rounded-lg">
+                <h5 className="text-breachfix-gold font-semibold mb-2">Danger</h5>
+                <p className="text-breachfix-white text-sm">{changedVerse.batchData.Danger}</p>
               </div>
             )}
             {changedVerse.batchData?.Evidence && (
-              <div className="bg-blue-900 bg-opacity-20 border border-blue-500 p-4 rounded-lg">
-                <h5 className="text-blue-400 font-semibold mb-2">Evidence</h5>
-                <p className="text-white text-sm">{changedVerse.batchData.Evidence}</p>
+              <div className="bg-breachfix-gold bg-opacity-20 border border-breachfix-gold p-4 rounded-lg">
+                <h5 className="text-breachfix-gold font-semibold mb-2">Evidence</h5>
+                <p className="text-breachfix-white text-sm">{changedVerse.batchData.Evidence}</p>
               </div>
             )}
             {changedVerse.batchData?.Explanation && (
-              <div className="bg-green-900 bg-opacity-20 border border-green-500 p-4 rounded-lg">
-                <h5 className="text-green-400 font-semibold mb-2">Explanation</h5>
-                <p className="text-white text-sm">{changedVerse.batchData.Explanation}</p>
+              <div className="bg-breachfix-gold bg-opacity-20 border border-breachfix-gold p-4 rounded-lg">
+                <h5 className="text-breachfix-gold font-semibold mb-2">Explanation</h5>
+                <p className="text-breachfix-white text-sm">{changedVerse.batchData.Explanation}</p>
               </div>
             )}
           </div>
@@ -210,10 +210,10 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Spirit of Prophecy */}
       {changedVerse?.spiritOfProphecy && (
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-purple-400 mb-4">Spirit of Prophecy</h4>
-          <div className="bg-purple-900 bg-opacity-30 border border-purple-500 p-4 rounded-lg">
-            <blockquote className="text-white leading-relaxed italic">
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Spirit of Prophecy</h4>
+          <div className="bg-breachfix-gold bg-opacity-20 border border-breachfix-gold p-4 rounded-lg">
+            <blockquote className="text-breachfix-white leading-relaxed italic">
               "{changedVerse.spiritOfProphecy}"
             </blockquote>
           </div>
@@ -222,11 +222,11 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
 
       {/* Modern Versions Cited */}
       {changedVerse?.modernVersionsCited && Array.isArray(changedVerse.modernVersionsCited) && changedVerse.modernVersionsCited.length > 0 && (
-        <div className="bg-netflix-dark-gray rounded-2xl p-6">
-          <h4 className="text-lg font-semibold text-gray-300 mb-4">Modern Versions Cited</h4>
+        <div className="bg-breachfix-dark border border-breachfix-gold rounded-2xl p-6">
+          <h4 className="text-lg font-semibold text-breachfix-gold mb-4">Modern Versions Cited</h4>
           <div className="flex flex-wrap gap-2">
             {changedVerse.modernVersionsCited.map((version: string, index: number) => (
-              <span key={index} className="bg-gray-600 text-white px-3 py-1 rounded-full text-sm">
+              <span key={index} className="bg-breachfix-gray text-breachfix-white px-3 py-1 rounded-full text-sm">
                 {version}
               </span>
             ))}
@@ -239,14 +239,14 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="bg-gradient-to-r from-green-900 to-emerald-900 rounded-2xl p-6 border border-green-500"
+        className="bg-gradient-to-r from-breachfix-emerald to-teal-700 rounded-2xl p-6 border border-breachfix-emerald"
       >
         <div className="flex items-center gap-3 mb-4">
-          <Heart className="text-green-400" size={24} />
-          <h4 className="text-lg font-semibold text-green-400">Support Translation Research</h4>
+          <Heart className="text-breachfix-white" size={24} />
+          <h4 className="text-lg font-semibold text-breachfix-white">Support Translation Research</h4>
         </div>
         
-        <p className="text-gray-300 mb-6 leading-relaxed">
+        <p className="text-breachfix-white mb-6 leading-relaxed">
           This verse analysis represents hours of research and comparison across multiple Bible versions. 
           Your donation helps fund continued research, accurate translations, and the development of tools 
           that help believers understand God's Word more clearly.
@@ -264,12 +264,12 @@ const ChangedDetail: React.FC<ChangedDetailProps> = ({ lang, source, book, chapt
             }}
             amount={25}
             label="Support This Research"
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
+            className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-navy px-6 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
             onSuccess={handleDonationSuccess}
             onError={handleDonationError}
           />
           
-          <div className="text-sm text-gray-400">
+          <div className="text-sm text-breachfix-white">
             <p>💡 <strong>Suggested:</strong> $25 helps fund 1 hour of research</p>
             <p>🎯 <strong>Impact:</strong> Your support enables accurate Bible translation</p>
           </div>

@@ -735,7 +735,19 @@ const BibleRead: React.FC = () => {
   }
 
   return (
-    <div className="bible-reading-container">
+    <div className="bible-reading-container relative min-h-screen bg-breachfix-navy overflow-hidden">
+      {/* Page-wide Amber-to-Blue Radiating Effect */}
+      <div className="absolute inset-0 bg-gradient-radial from-amber-500/8 via-amber-400/4 to-transparent opacity-30"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/6 via-transparent to-breachfix-gold/6 opacity-25"></div>
+      <div className="absolute inset-0 bg-gradient-to-tl from-amber-400/4 via-transparent to-breachfix-gold/4 opacity-20"></div>
+      
+      {/* Floating Fire Particles */}
+      <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-amber-400 rounded-full animate-ping opacity-40" style={{animationDelay: '0s'}}></div>
+      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-breachfix-gold rounded-full animate-ping opacity-50" style={{animationDelay: '1s'}}></div>
+      <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-amber-400 rounded-full animate-ping opacity-35" style={{animationDelay: '2s'}}></div>
+      <div className="absolute bottom-1/3 right-1/4 w-1.5 h-1.5 bg-breachfix-gold rounded-full animate-ping opacity-45" style={{animationDelay: '3s'}}></div>
+      <div className="absolute top-1/2 left-1/6 w-1 h-1 bg-amber-400 rounded-full animate-ping opacity-30" style={{animationDelay: '4s'}}></div>
+      <div className="absolute top-1/6 right-1/6 w-1.5 h-1.5 bg-breachfix-gold rounded-full animate-ping opacity-40" style={{animationDelay: '5s'}}></div>
       {/* Welcome Message */}
       <AnimatePresence>
         {showWelcome && (
@@ -743,7 +755,7 @@ const BibleRead: React.FC = () => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-breachfix-emerald to-teal-600 text-breachfix-white px-6 py-4 rounded-lg shadow-lg"
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-amber-500 to-breachfix-gold text-breachfix-navy px-6 py-4 rounded-lg shadow-lg relative"
           >
             <div className="flex items-center gap-3">
               <div className="text-2xl">📖</div>
@@ -769,7 +781,7 @@ const BibleRead: React.FC = () => {
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -50 }}
-            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-breachfix-emerald to-teal-600 text-breachfix-white px-6 py-4 rounded-lg shadow-lg"
+            className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-amber-500 to-breachfix-gold text-breachfix-navy px-6 py-4 rounded-lg shadow-lg"
           >
             <div className="flex items-center gap-3">
               <div className="text-2xl">✅</div>
@@ -788,10 +800,10 @@ const BibleRead: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 relative z-10">
         {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-4">
               {/* Mobile Menu Button */}
               <button
@@ -802,24 +814,17 @@ const BibleRead: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <h1 className="text-heading-lg text-breachfix-white">Read Bible</h1>
+              <h1 className="text-xl font-semibold text-breachfix-white">Read Bible</h1>
             </div>
-            <div className="flex items-center gap-4">
-              {/* Changed Link */}
-              <button
-                onClick={() => navigate('/bible')}
-                className="bg-breachfix-gray hover:bg-gray-500 text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 text-caption font-medium"
-              >
-                Changed
-              </button>
-              {/* Language Selector */}
+            <div className="flex items-center gap-3">
+              {/* Language Selector - Smaller */}
               <select
                 value={selectedLanguage}
                 onChange={(e) => {
                   console.log('Select onChange triggered:', e.target.value);
                   handleLanguageChange(e.target.value);
                 }}
-                className="bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
+                className="bg-breachfix-gray text-breachfix-white px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold text-sm"
                 disabled={languagesLoading}
               >
                 {languages.map((lang: AllBibleLanguage) => (
@@ -829,7 +834,7 @@ const BibleRead: React.FC = () => {
                 ))}
               </select>
               
-              {/* Source Selector */}
+              {/* Source Selector - Keep same size */}
               <select
                 value={selectedSource}
                 onChange={(e) => handleSourceChange(e.target.value)}
@@ -847,17 +852,6 @@ const BibleRead: React.FC = () => {
                     </option>
                   ))
                 )}
-              </select>
-              
-              {/* Text Alignment Selector */}
-              <select
-                value={textAlignment}
-                onChange={(e) => setTextAlignment(e.target.value as 'left' | 'center' | 'indent')}
-                className="bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
-              >
-                <option value="left">Left Aligned</option>
-                <option value="center">Centered</option>
-                <option value="indent">Indented</option>
               </select>
             </div>
             
@@ -942,44 +936,26 @@ const BibleRead: React.FC = () => {
             )}
           </div>
           
-          {/* Reading Progress */}
-          {readingProgress && (
-            <motion.div
+          
+          {/* Futuristic Search Bar */}
+          <motion.form 
+            onSubmit={handleSearch} 
+            className="mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-green-900 bg-opacity-20 border border-green-500 rounded-lg p-4 mb-6 cursor-pointer hover:bg-green-900 hover:bg-opacity-30 transition-colors duration-200"
-              onClick={() => {
-                setSelectedBookNumber(readingProgress.bookNumber);
-                setSelectedChapter(readingProgress.chapter);
-                setSidebarOpen(false);
-              }}
-            >
-              <div className="flex items-center gap-3">
-                <div className="text-green-400">📍</div>
-                <div>
-                  <p className="text-green-400 font-semibold">Continue Reading</p>
-                  <p className="text-breachfix-white text-sm">
-                    {readingProgressBook?.name} - Chapter {readingProgress.chapter}
-                  </p>
-                </div>
-                <div className="ml-auto text-green-400 text-sm">Click to continue →</div>
-              </div>
-            </motion.div>
-          )}
-          
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="mb-6">
+            transition={{ duration: 0.6 }}
+          >
             <div className="space-y-4">
               {/* Search Scope Selector */}
               <div className="flex flex-wrap gap-2">
-                <span className="text-breachfix-white text-sm font-medium self-center">Search in:</span>
+                <span className="text-amber-100 text-sm font-medium self-center">Search in:</span>
                 <button
                   type="button"
                   onClick={() => setSearchScope('current')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                     searchScope === 'current'
-                      ? 'bg-breachfix-gold text-breachfix-navy'
-                      : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray/80'
+                      ? 'bg-amber-500 text-breachfix-navy shadow-lg shadow-amber-500/30'
+                      : 'bg-amber-900/30 text-amber-200 hover:bg-amber-800/40 border border-amber-400/30'
                   }`}
                 >
                   Current Language ({getLanguageByCode(selectedLanguage)?.name || selectedLanguage})
@@ -993,26 +969,35 @@ const BibleRead: React.FC = () => {
                       navigate('/login?redirect=' + encodeURIComponent('/bible/read'));
                     }
                   }}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 relative ${
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 relative ${
                     searchScope === 'global'
-                      ? 'bg-breachfix-gold text-breachfix-navy'
+                      ? 'bg-amber-500 text-breachfix-navy shadow-lg shadow-amber-500/30'
                       : isAuthenticated
-                      ? 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gray/80'
-                      : 'bg-breachfix-gray/50 text-breachfix-gray cursor-pointer hover:bg-breachfix-gray/70'
+                      ? 'bg-amber-900/30 text-amber-200 hover:bg-amber-800/40 border border-amber-400/30'
+                      : 'bg-amber-900/20 text-amber-300 cursor-pointer hover:bg-amber-800/30 border border-amber-400/20'
                   }`}
                   title={!isAuthenticated ? 'Login Required - Click to sign in' : 'Search across all languages and versions'}
                 >
                   All Languages
                   {!isAuthenticated && (
-                    <span className="ml-2 text-xs bg-breachfix-gold text-breachfix-navy px-2 py-1 rounded-full">
+                    <span className="ml-2 text-xs bg-amber-500 text-breachfix-navy px-2 py-1 rounded-full animate-pulse">
                       Login Required
                     </span>
                   )}
                 </button>
               </div>
               
-              {/* Search Input */}
+              {/* Futuristic Search Input */}
+              <div className="relative">
             <div className="flex gap-4">
+                  <div className="flex-1 relative group">
+                    {/* Animated Background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-breachfix-gold/10 rounded-lg opacity-50"></div>
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-400 via-breachfix-gold to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    {/* Typing Animation Background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/5 to-transparent rounded-lg animate-pulse opacity-30"></div>
+                    
                               <input
                   type="text"
                   placeholder={
@@ -1022,17 +1007,35 @@ const BibleRead: React.FC = () => {
                   }
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 bg-breachfix-gray text-breachfix-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-breachfix-gold"
-                />
-              <button
+                      className="relative z-10 w-full bg-amber-900/30 text-amber-100 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-amber-800/40 border border-amber-400/30 hover:border-amber-400/50 transition-all duration-300 placeholder-amber-300/70"
+                    />
+                    
+                    {/* Animated Cursor Effect */}
+                    {searchQuery && (
+                      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-0.5 h-6 bg-amber-400 animate-pulse"></div>
+                    )}
+                  </div>
+                  
+                  <motion.button
                 type="submit"
-                  className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-navy px-6 py-2 rounded-lg transition-colors duration-200"
+                    whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 193, 7, 0.5)" }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-gradient-to-r from-amber-500 to-breachfix-gold hover:from-amber-400 hover:to-yellow-400 text-breachfix-navy px-6 py-3 rounded-lg transition-all duration-300 border border-amber-400 border-opacity-50 hover:border-opacity-80 shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 font-semibold relative overflow-hidden group"
               >
+                    <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-amber-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                    <span className="relative z-10 flex items-center gap-2">
+                      <span className="text-lg">🔍</span>
                 Search
-              </button>
+                    </span>
+                  </motion.button>
               </div>
+                
+                {/* Floating Particles Effect */}
+                <div className="absolute -top-2 -left-2 w-1 h-1 bg-amber-400 rounded-full animate-ping opacity-60"></div>
+                <div className="absolute -bottom-2 -right-2 w-1 h-1 bg-breachfix-gold rounded-full animate-ping opacity-60" style={{animationDelay: '1s'}}></div>
             </div>
-          </form>
+            </div>
+          </motion.form>
 
           {/* Tab Navigation */}
           <div className="flex border-b border-netflix-gray mb-6">
@@ -1101,7 +1104,7 @@ const BibleRead: React.FC = () => {
                       className={`w-full text-left px-2 py-1 rounded-md transition-all duration-200 text-xs ${
                           selectedBookNumber === book.number
                           ? 'bg-breachfix-gold text-breachfix-navy font-semibold shadow-sm'
-                          : 'text-breachfix-white hover:bg-breachfix-emerald hover:bg-opacity-20 hover:text-breachfix-emerald'
+                          : 'text-breachfix-white hover:bg-amber-500 hover:bg-opacity-20 hover:text-amber-300'
                         }`}
                       >
                         {book.name}
@@ -1121,7 +1124,7 @@ const BibleRead: React.FC = () => {
                       className={`w-full text-left px-2 py-1 rounded-md transition-all duration-200 text-xs ${
                           selectedBookNumber === book.number
                           ? 'bg-breachfix-gold text-breachfix-navy font-semibold shadow-sm'
-                          : 'text-breachfix-white hover:bg-breachfix-emerald hover:bg-opacity-20 hover:text-breachfix-emerald'
+                          : 'text-breachfix-white hover:bg-amber-500 hover:bg-opacity-20 hover:text-amber-300'
                         }`}
                       >
                         {book.name}
@@ -1148,6 +1151,8 @@ const BibleRead: React.FC = () => {
                       onDonationClick={handleDonationClick}
                       donationEnabled={shouldEnableDonations}
                       userId={undefined} // TODO: Get from auth context
+                      textAlignment={textAlignment}
+                      onTextAlignmentChange={setTextAlignment}
                     />
                     
                     {/* Show Books Button - only visible on mobile when sidebar is hidden */}
@@ -1235,8 +1240,36 @@ const BibleRead: React.FC = () => {
                     <p className="text-breachfix-gray">Please try selecting a different chapter</p>
                   </div>
                 ) : chapterTexts.length > 0 ? (
-                  <div className="bible-chapter-container rounded-xl p-6 md:p-8 shadow-2xl">
-                    <div className="prose prose-invert max-w-none">
+                  <div className="bible-chapter-container rounded-xl p-6 md:p-8 shadow-2xl relative overflow-hidden bg-breachfix-navy">
+                    {/* Extended Fire Effects - Radiating from borders inward */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-amber-400/5 to-breachfix-gold/10 opacity-40"></div>
+                    <div className="absolute inset-4 bg-gradient-to-r from-amber-500/8 via-amber-400/3 to-breachfix-gold/8 opacity-30"></div>
+                    <div className="absolute inset-8 bg-gradient-to-r from-amber-500/5 via-amber-400/2 to-breachfix-gold/5 opacity-20"></div>
+                    
+                    {/* Outer Fire Borders */}
+                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-amber-400 via-breachfix-gold to-amber-400 opacity-70 animate-pulse"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-amber-400 via-breachfix-gold to-amber-400 opacity-70 animate-pulse" style={{animationDelay: '1s'}}></div>
+                    <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-amber-400 via-breachfix-gold to-amber-400 opacity-50 animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                    <div className="absolute top-0 right-0 w-2 h-full bg-gradient-to-b from-amber-400 via-breachfix-gold to-amber-400 opacity-50 animate-pulse" style={{animationDelay: '1.5s'}}></div>
+                    
+                    {/* Inner Fire Borders - Extended inward */}
+                    <div className="absolute top-4 left-4 w-[calc(100%-2rem)] h-1 bg-gradient-to-r from-amber-400/60 via-breachfix-gold/60 to-amber-400/60 opacity-50 animate-pulse" style={{animationDelay: '0.3s'}}></div>
+                    <div className="absolute bottom-4 left-4 w-[calc(100%-2rem)] h-1 bg-gradient-to-r from-amber-400/60 via-breachfix-gold/60 to-amber-400/60 opacity-50 animate-pulse" style={{animationDelay: '1.3s'}}></div>
+                    <div className="absolute top-4 left-4 w-1 h-[calc(100%-2rem)] bg-gradient-to-b from-amber-400/60 via-breachfix-gold/60 to-amber-400/60 opacity-40 animate-pulse" style={{animationDelay: '0.8s'}}></div>
+                    <div className="absolute top-4 right-4 w-1 h-[calc(100%-2rem)] bg-gradient-to-b from-amber-400/60 via-breachfix-gold/60 to-amber-400/60 opacity-40 animate-pulse" style={{animationDelay: '1.8s'}}></div>
+                    
+                    {/* Corner Fire Effects */}
+                    <div className="absolute -top-1 -left-1 w-3 h-3 bg-amber-400 rounded-full animate-ping opacity-70"></div>
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-breachfix-gold rounded-full animate-ping opacity-70" style={{animationDelay: '0.5s'}}></div>
+                    <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-amber-400 rounded-full animate-ping opacity-70" style={{animationDelay: '1s'}}></div>
+                    <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-breachfix-gold rounded-full animate-ping opacity-70" style={{animationDelay: '1.5s'}}></div>
+                    
+                    {/* Inner Corner Fire Effects */}
+                    <div className="absolute top-2 left-2 w-2 h-2 bg-amber-400 rounded-full animate-ping opacity-50" style={{animationDelay: '0.2s'}}></div>
+                    <div className="absolute top-2 right-2 w-2 h-2 bg-breachfix-gold rounded-full animate-ping opacity-50" style={{animationDelay: '0.7s'}}></div>
+                    <div className="absolute bottom-2 left-2 w-2 h-2 bg-amber-400 rounded-full animate-ping opacity-50" style={{animationDelay: '1.2s'}}></div>
+                    <div className="absolute bottom-2 right-2 w-2 h-2 bg-breachfix-gold rounded-full animate-ping opacity-50" style={{animationDelay: '1.7s'}}></div>
+                    <div className="prose prose-invert max-w-none relative z-10">
                       {chapterTexts.map((verse: AllBibleText) => (
                         <motion.div
                           key={verse.verse}
@@ -1352,7 +1385,7 @@ const BibleRead: React.FC = () => {
                                 {getBookByNumber(result.bookNumber)?.name} {result.chapter}:{result.verse}
                               </h4>
                                 <div className="text-right">
-                                  <span className="text-breachfix-emerald text-sm font-medium">
+                                  <span className="text-amber-400 text-sm font-medium">
                                     {result.source?.code?.toUpperCase()}
                                   </span>
                                   <span className="text-breachfix-gray text-sm block">
@@ -1568,7 +1601,7 @@ const BibleRead: React.FC = () => {
                       <p className="text-breachfix-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Evidence}</p>
                     </div>
                     <div className="bg-breachfix-gray p-4 rounded">
-                      <h5 className="text-green-400 font-semibold mb-2">Explanation</h5>
+                      <h5 className="text-amber-400 font-semibold mb-2">Explanation</h5>
                       <p className="text-breachfix-white text-sm">{selectedVerseAnalysis.changedVerse.batchData.Explanation}</p>
                     </div>
                   </div>

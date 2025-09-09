@@ -58,10 +58,10 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
     <motion.div
       key={verse.verse}
       onClick={() => onVerseClick(verse.verse)}
-      className={`cursor-pointer transition-all duration-300 p-3 rounded-lg ${
+      className={`cursor-pointer transition-all duration-300 p-3 rounded-lg relative ${
         isHighlighted 
-          ? 'bg-gradient-to-r from-breachfix-gold/20 to-breachfix-gold/10 border-l-4 border-breachfix-gold shadow-lg backdrop-blur-sm' 
-          : 'hover:bg-breachfix-emerald/10 hover:shadow-md hover:backdrop-blur-sm'
+          ? 'bg-gradient-to-r from-amber-500/15 to-breachfix-gold/8 border-l-4 border-amber-400 shadow-lg backdrop-blur-sm' 
+          : 'hover:bg-amber-500/8 hover:shadow-md hover:backdrop-blur-sm'
       }`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
@@ -69,7 +69,7 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
       <div className="flex items-start gap-3">
         {/* Verse Number */}
         <span className={`bible-verse-number text-body-sm min-w-[2rem] ${
-          isHighlighted ? 'text-breachfix-gold' : 'text-breachfix-emerald'
+          isHighlighted ? 'text-amber-400' : 'text-amber-300'
         }`}>
           {verse.verse}
         </span>
@@ -108,7 +108,7 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
                 e.stopPropagation();
                 onAsteriskClick(selectedBookNumber, selectedChapter, verse.verse);
               }}
-              className="text-breachfix-gold hover:text-yellow-500 font-bold text-body-sm"
+              className="text-amber-400 hover:text-amber-300 font-bold text-body-sm"
               title="This verse has translation changes"
             >
               *
@@ -121,7 +121,7 @@ const VerseDisplay: React.FC<VerseDisplayProps> = ({
                 e.stopPropagation();
                 handleDonationClick();
               }}
-              className="px-2 py-1 text-caption bg-breachfix-emerald text-breachfix-white rounded hover:bg-teal-600 transition-colors"
+              className="px-2 py-1 text-caption bg-amber-500 text-breachfix-navy rounded hover:bg-amber-400 transition-colors"
               title="Support this verse"
             >
               💝
