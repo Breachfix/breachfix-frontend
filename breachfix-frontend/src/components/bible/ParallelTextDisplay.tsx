@@ -6,6 +6,7 @@ interface ParallelTextDisplayProps {
   selectedBookNumber: number;
   selectedChapter: number;
   selectedLanguage: string;
+  selectedSource: string;
   highlightedVerse: number | null;
   onClearSelection: () => void;
 }
@@ -14,6 +15,7 @@ export const ParallelTextDisplay: React.FC<ParallelTextDisplayProps> = ({
   selectedBookNumber,
   selectedChapter,
   selectedLanguage,
+  selectedSource,
   highlightedVerse,
   onClearSelection,
 }) => {
@@ -38,8 +40,10 @@ export const ParallelTextDisplay: React.FC<ParallelTextDisplayProps> = ({
     selectedBookNumber,
     selectedChapter,
     selectedLanguage,
+    selectedSource,
     highlightedVerse,
   });
+
 
   if (languagesLoading) {
     return (
@@ -71,26 +75,34 @@ export const ParallelTextDisplay: React.FC<ParallelTextDisplayProps> = ({
       {/* Parallel Language Selector */}
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-breachfix-white mb-3">Select Languages to Compare</h3>
+        
+        
         <div className="flex flex-wrap gap-2">
-          {Array.isArray(languages) && languages.map((lang: any) => (
-            <motion.button
-              key={lang.code3}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => handleParallelLanguageToggle(lang.code3)}
-              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
-                parallelLanguages.includes(lang.code3)
-                  ? 'bg-breachfix-gold text-breachfix-navy'
-                  : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gold hover:bg-opacity-20 hover:text-breachfix-navy'
-              }`}
-              disabled={lang.code3 === selectedLanguage}
-            >
-              {getFullLanguageName(lang.code3) || lang.name}
-              {lang.code3 === selectedLanguage && (
-                <span className="ml-2 text-xs text-breachfix-navy font-semibold">(Base)</span>
-              )}
-            </motion.button>
-          ))}
+          {Array.isArray(languages) && languages.length > 0 ? (
+            languages.map((lang: any) => (
+              <motion.button
+                key={lang.code3}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleParallelLanguageToggle(lang.code3)}
+                className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
+                  parallelLanguages.includes(lang.code3)
+                    ? 'bg-breachfix-gold text-breachfix-navy'
+                    : 'bg-breachfix-gray text-breachfix-white hover:bg-breachfix-gold hover:bg-opacity-20 hover:text-breachfix-navy'
+                }`}
+                disabled={lang.code3 === selectedLanguage}
+              >
+                {getFullLanguageName(lang.code3) || lang.name}
+                {lang.code3 === selectedLanguage && (
+                  <span className="ml-2 text-xs text-breachfix-navy font-semibold">(Base)</span>
+                )}
+              </motion.button>
+            ))
+          ) : (
+            <div className="text-breachfix-gray text-sm">
+              No languages available. Loading... or API error.
+            </div>
+          )}
         </div>
         <p className="text-breachfix-gray text-sm mt-2">
           Selected languages: {parallelLanguages.length} | 
@@ -191,6 +203,19 @@ export const ParallelTextDisplay: React.FC<ParallelTextDisplayProps> = ({
                 </button>
               </div>
             </div>
+          </div>
+          
+          {/* Compare First Verse Button */}
+          <div className="mt-6">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setVerseForComparison(1)}
+              className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-white px-6 py-3 rounded-lg transition-colors duration-200 flex items-center gap-2 mx-auto"
+            >
+              <span>📖</span>
+              Compare First Verse
+            </motion.button>
           </div>
         </div>
       ) : parallelLoading ? (

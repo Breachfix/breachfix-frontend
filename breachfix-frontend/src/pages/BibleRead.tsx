@@ -1263,6 +1263,28 @@ const BibleRead: React.FC = () => {
                             userId={undefined} // TODO: Get from auth context
                           />
                           
+                          {/* Compare in Parallel Button - appears when verse is highlighted */}
+                          {highlightedVerse === verse.verse && (
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.2 }}
+                              className="mt-3 flex justify-center"
+                            >
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setActiveTab('parallel');
+                                }}
+                                className="bg-breachfix-gold hover:bg-yellow-500 text-breachfix-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center gap-2 text-sm font-medium shadow-lg"
+                              >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                                </svg>
+                                Compare in Parallel
+                              </button>
+                            </motion.div>
+                          )}
                         </motion.div>
                       ))}
                     </div>
@@ -1422,6 +1444,7 @@ const BibleRead: React.FC = () => {
                 selectedBookNumber={selectedBookNumber}
                 selectedChapter={selectedChapter}
                 selectedLanguage={selectedLanguage}
+                selectedSource={selectedSource}
                 highlightedVerse={highlightedVerse}
                 onClearSelection={() => setHighlightedVerse(null)}
               />
